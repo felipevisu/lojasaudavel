@@ -1,65 +1,87 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 
-export default function Home() {
+import getAllProducts from '../framework/products'
+import { ProductCard } from '../components/product'
+
+export default function Home({ products, granel }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Loja Saudável</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <div className="container mx-auto">
+        <div className="grid grid-cols-5 gap-6">
+          {products.map((product, key) => 
+            <ProductCard key={key} {...product} />
+          )}
         </div>
-      </main>
+      </div>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <div className="container mx-auto">
+        <div className="grid grid-cols-5 gap-6">
+          {granel.map((product, key) => 
+            <ProductCard key={key} {...product} />
+          )}
+        </div>
+      </div>
+      
     </div>
   )
+}
+
+export async function getStaticProps(context) {
+  const { products: recentes } = await getAllProducts({
+    first: 10,
+    channel: "casa-nature",
+    sort: {
+      field: "DATE",
+      direction: "DESC"
+    },
+    filter: {
+      isPublished: true,
+      channel: "casa-nature"
+    }
+  })
+
+  const { products: granel } = await getAllProducts({
+    first: 10,
+    channel: "casa-nature",
+    sort: {
+      field: "DATE",
+      direction: "DESC"
+    },
+    filter: {
+      isPublished: true,
+      channel:"casa-nature",
+      attributes: [
+        {
+          slug: "formato",
+          values: ["granel"]
+        }
+      ]
+    }
+  })
+
+  const { products: destaque } = await getAllProducts({
+    first: 10,
+    channel: "casa-nature",
+    sort: {
+      field: "DATE",
+      direction: "DESC"
+    },
+    filter: {
+      isPublished: true,
+      channel: "casa-nature"
+    }
+  })
+
+  return {
+    props: {
+      products: recentes,
+      granel: granel
+    },
+    revalidate: 10000
+  }
 }
