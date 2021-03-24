@@ -39,22 +39,27 @@ export const queryMenu = gql`
   }
 `;
 
+export async function getMenu(slug){
+  const apolloClient = initializeApollo();
+  
+  const response = await apolloClient.query(
+    { 
+      query: queryMenu, 
+      variables: {slug: slug}
+    }
+  );
+  return response
+}
+
 function useTopMenu(){
   const [menu, setMenu] = useState(null)
-  
-  const apolloClient = initializeApollo();
 
   useEffect(() => {
-    async function fetchMenu(){
-      const response = await apolloClient.query(
-        { 
-          query: queryMenu, 
-          variables: {slug: "navbar"}
-        }
-      );
-      setMenu(response.data.menu)
+    async function fetchMenu(slug){
+      const response = await getMenu(slug)
+      return response
     }
-    fetchMenu();
+    fetchMenu("navbar");
   }, [])
 
   return {
