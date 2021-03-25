@@ -1,0 +1,15 @@
+.arrow{
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #A8CF45;
+    font-size: 30px !important;
+    transform: translateY(-25%);
+    outline: none;
+    cursor: pointer;
+}
+
+.arrow:last-child{
+    left: inherit;
+    right: 10px;
+}

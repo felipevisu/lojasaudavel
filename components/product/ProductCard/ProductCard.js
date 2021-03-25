@@ -2,6 +2,7 @@ import { useState } from "react"
 import { formatMoney } from '../../utils'
 import { FiShoppingCart, FiEye } from 'react-icons/fi'
 import { Listbox, Transition } from '@headlessui/react'
+import Image from 'next/image'
 
 function ProductOptions({selected, onChange, variants}) {
 
@@ -110,8 +111,16 @@ export function ProductCard(props){
 
   return(
     <div className="mb-2">
-      <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
-        <img src={props.thumbnail.url} alt={props.name} className="w-full transition-all duration-300 transform hover:scale-110" />
+      <div className="relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
+        <div className="absolute w-full transition-all duration-300 transform hover:scale-110" >
+          <Image 
+            src={props.thumbnail.url} 
+            alt={props.name}
+            width={300}
+            height={300}
+          />
+        </div>
+        
       </div>
       <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
       <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>
@@ -127,12 +136,12 @@ export function ProductCard(props){
         />
       }
 
-      <div className="flex">
+      <div className="flex flex-wrap">
         <button className="mr-1 flex items-center transition-all font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
         <button className="flex border items-center transition-all font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">
-          <FiEye className="mr-2" /> Detalhes
+          <FiEye className="md:mr-2" /> <span className="hidden md:block">Detalhes</span>
         </button> 
       </div>
       

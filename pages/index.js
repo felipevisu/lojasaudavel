@@ -3,33 +3,49 @@ import Head from 'next/head'
 import getAllProducts from '../framework/products'
 import getSlideshow from "../framework/slideshow"
 import { ProductCard } from '../components/product'
+import { Slideshow } from '../components/common/'
+
+import Image from 'next/image'
+
+import 'keen-slider/keen-slider.min.css';
 
 export default function Home({ slideshow, banners, products, granel }) {
-  console.log(slideshow)
 
   return (
     <div>
       <Head>
-        <title>Loja Saudável</title>
+        <title>Loja Saudável - Início</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="container mx-auto">
-        {slideshow.slides.map((slide, key) => 
-          <img src={slide.image} key={key} wid />
-        )}
+      <div className="container mx-auto py-6 -mb-2 px-4">
+        <Slideshow slides={slideshow.slides} />
       </div>
 
-      <div className="container mx-auto">
-        <div className="grid grid-cols-5 gap-6">
+      <div className="container mx-auto px-4">
+        <div className="flex mb-4">
+          <h3 className="text-xl font-light">Produtos em destaque</h3>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
           {products.map((product, key) => 
             <ProductCard key={key} {...product} />
           )}
         </div>
       </div>
 
-      <div className="container mx-auto">
-        <div className="grid grid-cols-5 gap-6">
+      <div className="container mx-auto py-6 px-4">
+        <div className="grid grid-cols-3 gap-4 xl:gap-6">
+          {banners.slides.map((banner, key) => 
+            <Image src={banner.image} key={key} width={640} height={320} className="rounded" />
+          )}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4">
+        <div className="flex mb-4">
+          <h3 className="text-xl font-light">Produtos a granel</h3>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
           {granel.map((product, key) => 
             <ProductCard key={key} {...product} />
           )}
