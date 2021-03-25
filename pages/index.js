@@ -1,5 +1,5 @@
 import Head from 'next/head'
-
+import Link from 'next/link'
 import getAllProducts from '../framework/products'
 import getSlideshow from "../framework/slideshow"
 import { ProductCard } from '../components/product'
@@ -17,6 +17,10 @@ export default function Home({ slideshow, banners, products, granel }) {
         <title>Loja Saudável - Início</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Link href="/produtos">
+        <a>Produtos</a>
+      </Link>
 
       <div className="container mx-auto py-6 -mb-2 px-4">
         <Slideshow slides={slideshow.slides} />
@@ -61,7 +65,7 @@ export async function getStaticProps(context) {
   const slideshow = await getSlideshow("Slideshow Principal")
   const banners = await getSlideshow("Banners")
 
-  const { products: recentes } = await getAllProducts({
+  const recentes = await getAllProducts({
     first: 10,
     channel: "casa-nature",
     sort: {
@@ -74,7 +78,7 @@ export async function getStaticProps(context) {
     }
   })
 
-  const { products: granel } = await getAllProducts({
+  const granel = await getAllProducts({
     first: 10,
     channel: "casa-nature",
     sort: {
@@ -93,12 +97,14 @@ export async function getStaticProps(context) {
     }
   })
 
+  console.log(recentes)
+
   return {
     props: {
       slideshow,
       banners,
-      products: recentes,
-      granel: granel
+      products: recentes.data.products.edges.map(({node}) => node),
+      granel: granel.data.products.edges.map(({node}) => node)
     },
     revalidate: 10000
   }

@@ -8,8 +8,9 @@ const ProductFragment = gql`
     category{
       name
     }
-    thumbnail{
-      url
+    images{
+      id
+      url(size: 300)
     }
     productType{
       hasVariants
@@ -35,6 +36,9 @@ const ProductFragment = gql`
       id
       name
       quantityAvailable
+      images{
+        id
+      }
       pricing{
         price{
           gross{
@@ -91,10 +95,7 @@ async function getAllProducts(variables={}){
       variables: variables
     }
   );
-  return {
-    products: response.data.products.edges.map(({node}) => node),
-    pageInfo: response.data.products.pageInfo
-  }
+  return response
 } 
 
 export default getAllProducts
