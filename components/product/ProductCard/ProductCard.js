@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { formatMoney } from '../../utils'
 import { FiShoppingCart, FiEye } from 'react-icons/fi'
 import { Listbox, Transition } from '@headlessui/react'
@@ -104,31 +104,30 @@ function ProductOptions({selected, onChange, variants}) {
 
 export function ProductCard(props){
   const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0])
-  const [image, setImage] = useState(
-    props.images.find(image => image.id === props.variants.filter(variant => variant.quantityAvailable > 0)[0].images[0]?.id) || props.images[0]
-  )
 
   const handleChange = (value) => {
-    const variant = props.variants.find(variant => variant.id == value)
-    setSelected(variant)
-    setImage(props.images.find(image => image.id === variant.images[0]?.id) || props.images[0])
+    setSelected(props.variants.find(variant => variant.id == value))
   }
+
+  const currentImage = useMemo(() => props.images.find(image => image.id === selected.images[0]?.id) || props.images[0], [selected])
 
   return(
     <div className="mb-2">
-      {image &&
+
       <div className="relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
-        <div className="absolute w-full transition-all duration-300 transform hover:scale-110" >
-          <Image 
-            key={image.id}
-            src={image.url} 
-            alt={props.name}
-            width={300}
-            height={300}
-          />
-        </div>
+        {props.images.map(image => 
+          <div className={`absolute w-full transition-all duration-300 transform hover:scale-110 ${image.id === currentImage.id ? 'opacity-100' : 'opacity-0'}`}>
+            <Image 
+              key={image.id}
+              src={image.url} 
+              alt={props.name}
+              width={300}
+              height={300}
+            />
+          </div>
+        )}
       </div>
-      }
+      
       
       <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
       <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>

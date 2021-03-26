@@ -22,9 +22,12 @@ export default function Home({ slideshow, banners, products, granel }) {
         <a>Produtos</a>
       </Link>
 
-      <div className="container mx-auto py-6 -mb-2 px-4">
-        <Slideshow slides={slideshow.slides} />
-      </div>
+      {
+        slideshow &&
+        <div className="container mx-auto py-6 -mb-2 px-4">
+          <Slideshow slides={slideshow.slides} />
+        </div>
+      }
 
       <div className="container mx-auto px-4">
         <div className="flex mb-4">
@@ -37,14 +40,17 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       </div>
 
-      <div className="container mx-auto py-6 px-4">
-        <div className="grid grid-cols-3 gap-4 xl:gap-6">
-          {banners.slides.map((banner, key) => 
-            <Image src={banner.image} key={key} width={640} height={320} className="rounded" />
-          )}
+      {
+        banners &&
+        <div className="container mx-auto py-6 px-4">
+          <div className="grid grid-cols-3 gap-4 xl:gap-6">
+            {banners.slides.map((banner, key) => 
+              <Image src={banner.image} key={key} width={640} height={320} className="rounded" />
+            )}
+          </div>
         </div>
-      </div>
-
+      }
+      
       <div className="container mx-auto px-4">
         <div className="flex mb-4">
           <h3 className="text-xl font-light">Produtos a granel</h3>

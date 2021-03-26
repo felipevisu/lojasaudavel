@@ -17,7 +17,8 @@ export default function Home({ response }) {
     },
     filter: {
       isPublished: true,
-      channel: "casa-nature"
+      channel: "casa-nature",
+      categories: ["Q2F0ZWdvcnk6MQ=="]
     }
   }
 
@@ -58,7 +59,8 @@ export async function getStaticProps(context) {
     },
     filter: {
       isPublished: true,
-      channel: "casa-nature"
+      channel: "casa-nature",
+      categories: ["Q2F0ZWdvcnk6MQ=="]
     }
   })
 
