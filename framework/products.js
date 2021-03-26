@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { initializeApollo } from '../../lib/apolloClient'
+import { gql } from 'graphql-request'
+import { graphqlClient } from '../lib/graphqlClient'
 
 const ProductFragment = gql`
   fragment ProductFragment on Product{
@@ -53,19 +53,19 @@ const ProductFragment = gql`
 export const queryProducts = gql`
   ${ProductFragment}
   query ProductList(
-    $first: Int = 30,
-    $after: String
+    $first: Int
     $last: Int
+    $after: String
     $before: String
     $filter: ProductFilterInput
     $sort: ProductOrder
     $channel: String = "casa-nature"
   ){
     products(
-      before: $before
-      after: $after
       first: $first
       last: $last
+      before: $before
+      after: $after
       filter: $filter
       sortBy: $sort
       channel: $channel
@@ -87,14 +87,8 @@ export const queryProducts = gql`
   }
 `;
 
-async function getAllProducts(variables={}){
-  const apolloClient = initializeApollo();
-  const response = await apolloClient.query(
-    { 
-      query: queryProducts, 
-      variables: variables
-    }
-  );
+export async function getAllProducts(variables={}){
+  const response = await graphqlClient.request(queryProducts, variables);
   return response
 } 
 

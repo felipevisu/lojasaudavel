@@ -1,5 +1,5 @@
 import React, { createContext, useContext} from 'react';
-import useTopMenu from "./config/useTopMenu"
+import { useTopMenu } from "./menu"
 
 const CommerceContext = createContext({});
 

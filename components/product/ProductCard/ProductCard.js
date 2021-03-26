@@ -115,17 +115,20 @@ export function ProductCard(props){
     <div className="mb-2">
 
       <div className="relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
-        {props.images.map(image => 
-          <div className={`absolute w-full transition-all duration-300 transform hover:scale-110 ${image.id === currentImage.id ? 'opacity-100' : 'opacity-0'}`}>
-            <Image 
-              key={image.id}
-              src={image.url} 
-              alt={props.name}
-              width={300}
-              height={300}
-            />
-          </div>
-        )}
+        <div className="w-full h-full transition-all duration-300 transform hover:scale-110">
+          {props.images.map(image => 
+            <div key={image.id} className={`absolute w-full transition-all duration-300 ${image.id === currentImage.id ? 'opacity-100' : 'opacity-0'}`}>
+              <Image 
+                key={image.id}
+                src={image.url} 
+                alt={props.name}
+                width={300}
+                height={300}
+              />
+            </div>
+          )}
+        </div>
+        
       </div>
       
       

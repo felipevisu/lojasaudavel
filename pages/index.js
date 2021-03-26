@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import getAllProducts from '../framework/products'
-import getSlideshow from "../framework/slideshow"
+import { getAllProducts } from '../framework/products'
+import { getSlideshow } from '../framework/slideshow'
 import { ProductCard } from '../components/product'
 import { Slideshow } from '../components/common/'
 
@@ -103,14 +103,12 @@ export async function getStaticProps(context) {
     }
   })
 
-  console.log(recentes)
-
   return {
     props: {
       slideshow,
       banners,
-      products: recentes.data.products.edges.map(({node}) => node),
-      granel: granel.data.products.edges.map(({node}) => node)
+      products: recentes.products.edges.map(({node}) => node),
+      granel: granel.products.edges.map(({node}) => node)
     },
     revalidate: 10000
   }

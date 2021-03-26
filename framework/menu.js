@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { initializeApollo } from '../../lib/apolloClient'
+import { gql } from "graphql-request";
+import { graphqlClient } from '../lib/graphqlClient'
 import { useState, useEffect } from "react"
 
 const MenuItemFragment = gql`
@@ -39,25 +39,18 @@ export const queryMenu = gql`
   }
 `;
 
-export async function getMenu(slug){
-  const apolloClient = initializeApollo();
-  
-  const response = await apolloClient.query(
-    { 
-      query: queryMenu, 
-      variables: {slug: slug}
-    }
-  );
+export async function getMenu(slug){  
+  const response = await graphqlClient.request(queryMenu, {slug: slug});
   return response
 }
 
-function useTopMenu(){
+export function useTopMenu(){
   const [menu, setMenu] = useState(null)
 
   useEffect(() => {
     async function fetchMenu(slug){
       const response = await getMenu(slug)
-      return response
+      setMenu(response)
     }
     fetchMenu("navbar");
   }, [])
