@@ -1,15 +1,21 @@
-import ProductPage from '../../components/product/ProductPage/ProductPage'
+import Head from 'next/head'
+import { ProductList } from '../../components/product'
+import getAttributes from '../../framework/attributes'
 import { getCategory, getAllCategories } from '../../framework/categories'
 import { getAllProducts } from '../../framework/products'
 
-export default function Category({category, products}){
+export default function Category({category, attributes, products}){
 
   return(
     <>
+      <Head>
+        <title>Loja Saudável - {category.name}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="container mx-auto px-4 mb-4">
         <h3 className="text-xl font-light">{category.name}</h3>
       </div>
-      <ProductPage category={category} products={products} />
+      <ProductList category={category} attributes={attributes} products={products} />
     </>
   )
 }
@@ -26,8 +32,16 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const category = await getCategory(context.params.slug)
+  const attributes = await getAttributes({
+    first: 30,
+    filter: {
+      visibleInStorefront: true,
+      inCategory: category.category.id,
+      channel: "casa-nature"
+    }
+  })
   const products = await getAllProducts({
-    first: 40,
+    first: 30,
     channel: "casa-nature",
     sort: {
       field: "DATE",
@@ -42,9 +56,10 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      products: products,
-      category: category.category
+      category: category.category,
+      attributes: attributes.attributes.edges.map(({node}) => node),
+      products: products
     },
-    revalidate: 200,
+    revalidate: 1000,
   }
 }

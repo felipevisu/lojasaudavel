@@ -2,9 +2,10 @@ import Head from 'next/head'
 import { getAllProducts } from '../framework/products'
 
 import 'keen-slider/keen-slider.min.css';
-import ProductPage from '../components/product/ProductPage/ProductPage';
+import { ProductList}  from '../components/product';
+import getAttributes from '../framework/attributes';
 
-export default function Home({ products }) {
+export default function Home({ attributes, products }) {
 
   return (
     <div>
@@ -16,7 +17,7 @@ export default function Home({ products }) {
       <div className="container mx-auto px-4 mb-4">
         <h3 className="text-xl font-light">Produtos</h3>
       </div>
-      <ProductPage products={products} />
+      <ProductList attributes={attributes} products={products} />
     </div>
   )
   
@@ -24,7 +25,7 @@ export default function Home({ products }) {
 
 export async function getStaticProps(context) {
   const products = await getAllProducts({
-    first: 40,
+    first: 30,
     channel: "casa-nature",
     sort: {
       field: "DATE",
@@ -36,8 +37,17 @@ export async function getStaticProps(context) {
     }
   })
 
+  const attributes = await getAttributes({
+    first: 30,
+    filter: {
+      visibleInStorefront: true,
+      channel: "casa-nature"
+    }
+  })
+
   return {
     props: {
+      attributes: attributes.attributes.edges.map(({node}) => node),
       products: products,
     },
     revalidate: 10000

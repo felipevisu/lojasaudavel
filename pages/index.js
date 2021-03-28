@@ -110,6 +110,6 @@ export async function getStaticProps(context) {
       products: recentes.products.edges.map(({node}) => node),
       granel: granel.products.edges.map(({node}) => node)
     },
-    revalidate: 10000
+    revalidate: 1000
   }
 }
