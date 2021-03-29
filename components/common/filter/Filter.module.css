@@ -1,0 +1,7 @@
+.open{
+    transform: translateX(0px)
+}
+
+.close{
+    transform: translateX(-350px)
+}

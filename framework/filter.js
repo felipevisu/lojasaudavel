@@ -1,15 +1,19 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+const SORT_DICT = {
+  "price": {field: "PRICE", direction: "ASC"},
+  "-price": {field: "PRICE", direction: "DESC"},
+  "name": {field: "NAME", direction: "ASC"},
+  "-name": {field: "NAME", direction: "DESC"},
+  "date": {field: "DATE", direction: "ASC"},
+  "-date": {field: "DATE", direction: "DESC"}
+}
+
 function arraysEqual(a, b) {
   if (a === b) return true;
   if (a == null || b == null) return false;
   if (a.length !== b.length) return false;
-
-  // If you don't care about the order of the elements inside
-  // the array, you should sort both arrays here.
-  // Please note that calling sort on an array will modify that array.
-  // you might want to clone your array first.
 
   for (var i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;
@@ -19,13 +23,16 @@ function arraysEqual(a, b) {
 
 export function useFilter(initial){
   const router = useRouter()
-
   const [categories, setCategories] = useState(() => {
     if(initial?.category){
       return [initial.category.id]
     }else{
       return []
     }
+  })
+  const [sort, setSort] = useState({
+    field: "DATE",
+    direction: "DESC"
   })
   const [attributes, setAttributes] = useState([])
   const [navigator, setNavigator] = useState({ first: 30 })
@@ -43,10 +50,22 @@ export function useFilter(initial){
       })
     }
 
+    if(router.query.sort){
+      const new_sort = SORT_DICT[router.query.sort]
+      if(new_sort !== sort){
+        setSort(new_sort)
+      }
+    }
+
+    if(!arraysEqual([initial?.category?.id], categories)){
+      setCategories([initial?.category?.id])
+    }
+
     var query = {...router.query}
     delete query["slug"]
     delete query["after"]
     delete query["before"]
+    delete query["sort"]
     
     var attrs = []
 
@@ -68,7 +87,7 @@ export function useFilter(initial){
       setAttributes(attrs)
     }
     
-  }, [router.query])
+  }, [router.query, initial])
 
   function setFilter(key, value, replace=false){
     const params = new URLSearchParams(window.location.search)
@@ -110,9 +129,9 @@ export function useFilter(initial){
   const variables = useMemo(() => ({
     ...navigator,
     channel: "casa-nature",
-    sort: {
-      field: "DATE",
-      direction: "DESC"
+    sortBy: {
+      ...sort,
+      channel: "casa-nature",
     },
     filter: {
       isPublished: true,
@@ -120,10 +139,10 @@ export function useFilter(initial){
       categories: categories,
       attributes: attributes
     }
-  }), [categories, navigator, attributes])
+  }), [categories, sort, navigator, attributes])
 
   return {
     setFilter,
-    variables
+    variables,
   }  
 }

@@ -58,7 +58,7 @@ export const queryProducts = gql`
     $after: String
     $before: String
     $filter: ProductFilterInput
-    $sort: ProductOrder
+    $sortBy: ProductOrder
     $channel: String = "casa-nature"
   ){
     products(
@@ -67,7 +67,7 @@ export const queryProducts = gql`
       before: $before
       after: $after
       filter: $filter
-      sortBy: $sort
+      sortBy: $sortBy
       channel: $channel
       stockAvailability: IN_STOCK
     ){

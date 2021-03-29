@@ -1,4 +1,5 @@
 import 'tailwindcss/tailwind.css'
+import 'react-perfect-scrollbar/dist/css/styles.css'
 import '../assets/fonts.css'
 import '../assets/global.css'
 

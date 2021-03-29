@@ -55,9 +55,7 @@ export function useTopMenu(){
     fetchMenu("navbar");
   }, [])
 
-  return {
-    menu
-  }
+  return menu?.menu
 } 
 
 export default useTopMenu

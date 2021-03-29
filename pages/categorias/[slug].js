@@ -12,9 +12,6 @@ export default function Category({category, attributes, products}){
         <title>Loja Saudável - {category.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto px-4 mb-4">
-        <h3 className="text-xl font-light">{category.name}</h3>
-      </div>
       <ProductList category={category} attributes={attributes} products={products} />
     </>
   )
@@ -40,12 +37,14 @@ export async function getStaticProps(context) {
       channel: "casa-nature"
     }
   })
+  
   const products = await getAllProducts({
     first: 30,
     channel: "casa-nature",
     sort: {
       field: "DATE",
-      direction: "DESC"
+      direction: "DESC",
+      channel: "casa-nature"
     },
     filter: {
       isPublished: true,

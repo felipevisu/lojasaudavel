@@ -112,7 +112,7 @@ export function ProductCard(props){
   const currentImage = useMemo(() => props.images.find(image => image.id === selected.images[0]?.id) || props.images[0], [selected])
 
   return(
-    <div className="mb-2">
+    <div className="">
 
       <div className="bg-gray-100 relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
         <div className="w-full h-full transition-all duration-300 transform hover:scale-110">

@@ -4,12 +4,14 @@ import { graphqlClient } from '../../../lib/graphqlClient'
 import { queryProducts } from '../../../framework/products'
 import { ProductCard } from '../ProductCard'
 import { Paginator } from '../../common'
+import { Header } from '../Header'
+import { Filter } from '../../common'
 
 export function ProductList({attributes, category, products}){
   const filter = useFilter({category: category})
   const fetch = (variables) => graphqlClient.request(queryProducts, variables)
 
-  const { data: data, isValidating, mutate } = useSWR(
+  const { data: data, isValidating } = useSWR(
     [filter.variables], 
     fetch, 
     { 
@@ -21,7 +23,12 @@ export function ProductList({attributes, category, products}){
 
   return(
     <>
+      <Filter attributes={attributes} />
+
       <div className="container mx-auto px-4">
+        
+        <Header category={category} total={data.products.totalCount} />
+
         {isValidating &&
           <div>
             Carregando...

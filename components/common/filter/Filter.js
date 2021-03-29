@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import { useCommerce } from '../../../framework'
 import { useFilter } from "../../../framework/filter"
-import { Scrollbars } from 'react-custom-scrollbars-2';
+import { IoMdClose } from 'react-icons/io'
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import styled from './Filter.module.css'
 
 function Value({attribute, name, slug}){
   const router = useRouter()
@@ -35,26 +39,48 @@ function Value({attribute, name, slug}){
 
 function Attribute(props){
   return(
-    <div className="mb-6">
+    <div className="py-3">
       <h4 className="font-semibold mb-2">{props.name}</h4>
-      <Scrollbars autoHeight autoHeightMax={200} className='border rounded'>
-        <div className="p-4">
-          {props.values.map((value) =>
-            <Value key={value.id} attribute={props.slug} name={value.name} slug={value.slug} />
-          )}
-        </div>
-      </Scrollbars>
+      <PerfectScrollbar style={{maxHeight: 300}} className="border p-4">
+        {props.values.map((value) =>
+          <Value key={value.id} attribute={props.slug} name={value.name} slug={value.slug} />
+        )}
+      </PerfectScrollbar>
+      
     </div>
   )
 }
 
 export function Filter({attributes}){
+  const { filterOpen, setFilterOpen } = useCommerce()
+
+  useEffect(() => {
+    const body = document.body;
+    if(filterOpen){
+      body.style.position = 'fixed';
+      body.style.width = '100vw';
+    } else {
+      body.style.position = '';
+      body.style.width = '100vw';
+    }
+  }, [filterOpen])
+
   return(
-    <div className="fixed h-screen z-50 bg-white top-0 left-0 w-72 p-6 overflow-auto">
-      {attributes.map((attribute) => 
-        <Attribute {...attribute} key={attribute.id} />
-      )}
-    </div>
+    <>
+      <div onClick={() => setFilterOpen(false)} className={` ${filterOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
+      <div className={` ${filterOpen ? styled.open : styled.close} transition fixed h-screen z-50 bg-white top-0 w-80`}>
+        <div className="flex items-center bg-green-500 text-white px-6 h-12">
+          <span className="font-semibold">Filtro</span>
+          <button onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
+        </div>
+        <div className="px-6 py-3 absolute bottom-0 top-12 overflow-auto w-full">
+          {attributes.map((attribute) => 
+            <Attribute {...attribute} key={attribute.id} />
+          )} 
+        </div>
+        
+      </div>
+    </>
   )
 }
 

@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { getAllProducts } from '../framework/products'
 import { getSlideshow } from '../framework/slideshow'
 import { ProductCard } from '../components/product'
@@ -17,10 +16,6 @@ export default function Home({ slideshow, banners, products, granel }) {
         <title>Loja Saudável - Início</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Link href="/produtos">
-        <a>Produtos</a>
-      </Link>
 
       {
         slideshow &&
@@ -76,7 +71,8 @@ export async function getStaticProps(context) {
     channel: "casa-nature",
     sort: {
       field: "DATE",
-      direction: "DESC"
+      direction: "DESC",
+      channel: "casa-nature"
     },
     filter: {
       isPublished: true,
@@ -89,7 +85,8 @@ export async function getStaticProps(context) {
     channel: "casa-nature",
     sort: {
       field: "DATE",
-      direction: "DESC"
+      direction: "DESC",
+      channel: "casa-nature"
     },
     filter: {
       isPublished: true,

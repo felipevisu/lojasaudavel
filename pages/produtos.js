@@ -13,10 +13,6 @@ export default function Home({ attributes, products }) {
         <title>Loja Saudável - Produtos</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div className="container mx-auto px-4 mb-4">
-        <h3 className="text-xl font-light">Produtos</h3>
-      </div>
       <ProductList attributes={attributes} products={products} />
     </div>
   )
@@ -29,7 +25,8 @@ export async function getStaticProps(context) {
     channel: "casa-nature",
     sort: {
       field: "DATE",
-      direction: "DESC"
+      direction: "DESC",
+      channel: "casa-nature"
     },
     filter: {
       isPublished: true,
