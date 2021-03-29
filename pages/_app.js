@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css'
 import '../assets/fonts.css'
+import '../assets/global.css'
 
 import { CommerceProvider } from '../framework';
 import { Layout } from '../components/common'

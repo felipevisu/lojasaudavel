@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { useFilter } from "../../../framework/filter"
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 function Value({attribute, name, slug}){
   const router = useRouter()
@@ -37,7 +37,7 @@ function Attribute(props){
   return(
     <div className="mb-6">
       <h4 className="font-semibold mb-2">{props.name}</h4>
-      <Scrollbars autoHeight autoHeightMax={200} className="border rounded">
+      <Scrollbars autoHeight autoHeightMax={200} className='border rounded'>
         <div className="p-4">
           {props.values.map((value) =>
             <Value key={value.id} attribute={props.slug} name={value.name} slug={value.slug} />
@@ -50,7 +50,7 @@ function Attribute(props){
 
 export function Filter({attributes}){
   return(
-    <div className="">
+    <div className="fixed h-screen z-50 bg-white top-0 left-0 w-72 p-6 overflow-auto">
       {attributes.map((attribute) => 
         <Attribute {...attribute} key={attribute.id} />
       )}

@@ -1,6 +1,22 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length !== b.length) return false;
+
+  // If you don't care about the order of the elements inside
+  // the array, you should sort both arrays here.
+  // Please note that calling sort on an array will modify that array.
+  // you might want to clone your array first.
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
 export function useFilter(initial){
   const router = useRouter()
 
@@ -15,46 +31,42 @@ export function useFilter(initial){
   const [navigator, setNavigator] = useState({ first: 30 })
 
   useEffect(() => {
-    setNavigator(() => {
-      if(router.query.after){
-        return {
-          first: 30,
-          after: router.query.after
-        }
-      } else if(router.query.before){
-        return {
-          last: 30,
-          before: router.query.before
-        }
-      } else {
-        return {
-          first: 30
-        }
-      }
-    })
+    if(router.query.after){
+      setNavigator({
+        first: 30,
+        after: router.query.after
+      })
+    } else if(router.query.before){
+      setNavigator({
+        last: 30,
+        before: router.query.before
+      })
+    }
 
     var query = {...router.query}
     delete query["slug"]
     delete query["after"]
     delete query["before"]
     
-    var attributes = []
+    var attrs = []
 
     Object.keys(query).forEach(function(key) {
       if(Array.isArray(query[key])){
-        attributes.push({
+        attrs.push({
           slug: key,
           values: query[key]
         })
       } else {
-        attributes.push({
+        attrs.push({
           slug: key,
           value: query[key]
         })
       }
     });
 
-    setAttributes(attributes)
+    if(!arraysEqual(attrs, attributes)){
+      setAttributes(attrs)
+    }
     
   }, [router.query])
 
