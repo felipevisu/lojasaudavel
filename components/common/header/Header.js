@@ -7,7 +7,7 @@ export function Header(){
 
   return (
     <>
-      <div className="z-40 bg-white sticky top-0 border-b py-3 lg:py-5">
+      <div className="z-40 bg-white sticky top-0 py-3 lg:py-5">
         <div className="container mx-auto px-4">
           <div className="flex items-center">
             <div className="w-1/4 lg:hidden">
@@ -40,7 +40,7 @@ export function Header(){
           </div>
         </div>
       </div>
-      <div className="block lg:hidden border-b">
+      <div className="block lg:hidden border-b border-t">
         <div className="container mx-auto px-4" style={{marginTop: -1, marginBlock: -1}}>
           <Search />
         </div>

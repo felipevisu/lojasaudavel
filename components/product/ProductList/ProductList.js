@@ -15,8 +15,6 @@ export function ProductList({attributes, category, products}){
     [filter.variables], 
     fetch, 
     { 
-      initialData: products, 
-      revalidateOnMount: false,
       revalidateOnFocus: false 
     }
   )
@@ -26,23 +24,25 @@ export function ProductList({attributes, category, products}){
       <Filter attributes={attributes} />
 
       <div className="container mx-auto px-4">
-        
-        <Header category={category} total={data.products.totalCount} />
-
+        <Header category={category} total={data?.products?.totalCount || 0} />
         {isValidating &&
           <div>
             Carregando...
           </div>
         }
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 mb-6">
-          {!isValidating && data.products.edges.map(({node}) =>
-            <ProductCard key={node.id} {...node} />
-          )}
-        </div>
-        <hr/>
-        <div>
-          <Paginator pageInfo={data.products.pageInfo} paginator={filter.setFilter} />
-        </div>
+        {data &&
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 mb-6">
+              {data.products.edges.map(({node}) =>
+                <ProductCard key={node.id} {...node} />
+              )}
+            </div>
+            <hr/>
+            <div>
+              <Paginator pageInfo={data.products.pageInfo} paginator={filter.setFilter} />
+            </div>
+          </>
+        }
       </div>
     </>
   )

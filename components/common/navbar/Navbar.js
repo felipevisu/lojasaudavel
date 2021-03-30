@@ -46,7 +46,7 @@ export function Navbar(){
   }
 
   return(
-    <div className="border-b hidden lg:block">
+    <div className="border-b border-t hidden lg:block">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-wrap justify-center">
           {menu.items.map((item) => <MenuItem key={item.id} {...item} />)}

@@ -2,9 +2,8 @@ import Head from 'next/head'
 import { ProductList } from '../../components/product'
 import getAttributes from '../../framework/attributes'
 import { getCategory, getAllCategories } from '../../framework/categories'
-import { getAllProducts } from '../../framework/products'
 
-export default function Category({category, attributes, products}){
+export default function Category({category, attributes}){
 
   return(
     <>
@@ -12,7 +11,7 @@ export default function Category({category, attributes, products}){
         <title>Loja Saudável - {category.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ProductList category={category} attributes={attributes} products={products} />
+      <ProductList category={category} attributes={attributes} />
     </>
   )
 }
@@ -37,27 +36,11 @@ export async function getStaticProps(context) {
       channel: "casa-nature"
     }
   })
-  
-  const products = await getAllProducts({
-    first: 30,
-    channel: "casa-nature",
-    sort: {
-      field: "DATE",
-      direction: "DESC",
-      channel: "casa-nature"
-    },
-    filter: {
-      isPublished: true,
-      channel: "casa-nature",
-      categories: [category.category.id]
-    }
-  })
 
   return {
     props: {
       category: category.category,
       attributes: attributes.attributes.edges.map(({node}) => node),
-      products: products
     },
     revalidate: 1000,
   }
