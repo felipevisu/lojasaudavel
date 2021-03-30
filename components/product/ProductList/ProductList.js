@@ -11,7 +11,7 @@ export function ProductList({attributes, category, products}){
   const filter = useFilter({category: category})
   const fetch = (variables) => graphqlClient.request(queryProducts, variables)
 
-  const { data: data, isValidating } = useSWR(
+  const { data: data, isValidating, error } = useSWR(
     [filter.variables], 
     fetch, 
     { 

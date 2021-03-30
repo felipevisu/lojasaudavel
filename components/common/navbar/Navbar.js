@@ -17,21 +17,19 @@ function MenuItem(props){
 
   const slug = useMemo(() => {
     if(props.category){
-      return '/categorias/' + props.category.slug 
+      return '/categorias/' + props.category.slug
     }
     if(props.collection){
-      return '/colecoes/' + props.collection.slug 
+      return '/colecoes/' + props.collection.slug
     }
     if(props.page){
-      return '/institucional/' + props.page.slug 
+      return '/institucional/' + props.page.slug
     }
   }, [props])
 
   return(
     <div className="px-3">
-      <Link 
-        href={`${pathname}`} as={`${slug}`}
-      >
+      <Link href={`${pathname}`} as={`${slug}`}>
         <a className="font-semibold">
           {props.name}
         </a>
@@ -39,7 +37,6 @@ function MenuItem(props){
     </div>
   )
 }
-
 
 export function Navbar(){
   const { menu } = useCommerce()
@@ -49,7 +46,7 @@ export function Navbar(){
   }
 
   return(
-    <div className="border-b">
+    <div className="border-b hidden lg:block">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-wrap justify-center">
           {menu.items.map((item) => <MenuItem key={item.id} {...item} />)}

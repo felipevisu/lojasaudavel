@@ -103,7 +103,7 @@ function ProductOptions({selected, onChange, variants}) {
 }
 
 export function ProductCard(props){
-  const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0])
+  const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0] || props.variants[0])
 
   const handleChange = (value) => {
     setSelected(props.variants.find(variant => variant.id == value))

@@ -21,10 +21,11 @@ function arraysEqual(a, b) {
   return true;
 }
 
-export function useFilter(initial){
+export function useFilter(initial=null){
   const router = useRouter()
+
   const [categories, setCategories] = useState(() => {
-    if(initial?.category){
+    if(initial && initial.category){
       return [initial.category.id]
     }else{
       return []
@@ -34,6 +35,7 @@ export function useFilter(initial){
     field: "DATE",
     direction: "DESC"
   })
+  const [search, setSearch] = useState("")
   const [attributes, setAttributes] = useState([])
   const [navigator, setNavigator] = useState({ first: 30 })
 
@@ -57,8 +59,13 @@ export function useFilter(initial){
       }
     }
 
-    if(!arraysEqual([initial?.category?.id], categories)){
+    if(router.query.search && router.query.search !== search){
+      setSearch(router.query.search)
+    }
+
+    if(router.query.slug && !arraysEqual([initial?.category?.id], categories)){
       setCategories([initial?.category?.id])
+      setNavigator({ first: 30 })
     }
 
     var query = {...router.query}
@@ -66,6 +73,7 @@ export function useFilter(initial){
     delete query["after"]
     delete query["before"]
     delete query["sort"]
+    delete query["search"]
     
     var attrs = []
 
@@ -87,7 +95,7 @@ export function useFilter(initial){
       setAttributes(attrs)
     }
     
-  }, [router.query, initial])
+  }, [router.query])
 
   function setFilter(key, value, replace=false){
     const params = new URLSearchParams(window.location.search)
@@ -129,20 +137,21 @@ export function useFilter(initial){
   const variables = useMemo(() => ({
     ...navigator,
     channel: "casa-nature",
-    sortBy: {
+    sort: {
       ...sort,
-      channel: "casa-nature",
+      channel: "casa-nature"
     },
     filter: {
       isPublished: true,
       channel: "casa-nature",
       categories: categories,
-      attributes: attributes
+      attributes: attributes,
+      search: search,
     }
-  }), [categories, sort, navigator, attributes])
+  }), [categories, navigator, attributes, sort, search])
 
   return {
     setFilter,
-    variables,
+    variables
   }  
 }

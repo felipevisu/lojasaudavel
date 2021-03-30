@@ -24,7 +24,7 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       }
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex mb-4">
           <h3 className="text-xl font-light">Produtos em destaque</h3>
         </div>
@@ -46,7 +46,7 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       }
       
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex mb-4">
           <h3 className="text-xl font-light">Produtos a granel</h3>
         </div>
