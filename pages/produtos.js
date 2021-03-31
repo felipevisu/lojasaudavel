@@ -4,7 +4,7 @@ import 'keen-slider/keen-slider.min.css';
 import { ProductList}  from '../components/product';
 import getAttributes from '../framework/attributes';
 
-export default function Home({ attributes, products }) {
+export default function Home({ attributes }) {
 
   return (
     <div>
@@ -29,8 +29,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      attributes: attributes.attributes.edges.map(({node}) => node)
+      attributes: attributes.edges.map(({node}) => node)
     },
-    revalidate: 10000
+    revalidate: 1000
   }
 }

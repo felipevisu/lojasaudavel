@@ -1,5 +1,5 @@
-import { gql } from 'graphql-request'
-import { graphqlClient } from '../lib/graphqlClient'
+import { gql } from "@apollo/client";
+import { initializeApollo } from "../lib/apolloClient"
 
 const SlideFragment = gql`
   fragment SlideFragment on Slide{
@@ -31,9 +31,10 @@ export const querySlideshow = gql`
   }
 `;
 
-export async function getSlideshow(name){ 
-  const slideshow = await graphqlClient.request(querySlideshow,  {name: name});
-  return slideshow.slideshow
+export async function getSlideshow(name){
+  const apolloClient = initializeApollo();
+  const response = await apolloClient.query({query: querySlideshow, variables: {name: name}});
+  return response.data.slideshow
 }
 
 export default getSlideshow

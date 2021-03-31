@@ -153,5 +153,5 @@ export function useFilter(initial=null){
   return {
     setFilter,
     variables
-  }  
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { gql } from 'graphql-request'
-import { graphqlClient } from "../lib/graphqlClient"
+import { gql } from "@apollo/client";
+import { initializeApollo } from "../lib/apolloClient"
 import Cookies from 'js-cookie'
 
 const loginMutation = gql`
@@ -56,9 +56,14 @@ export function useAuth(){
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
 
+  const apolloClient = initializeApollo();
+
   const login = async (email, password) => {
-    const response = await graphqlClient.rawRequest(loginMutation, {email, password})
-    if(response.status === 200 && response.data.tokenCreate.token){
+    const response = await apolloClient.mutate({
+      mutation: loginMutation, 
+      variables: {email: email, password: password}
+    })
+    if(response.data.tokenCreate.token){
       setUser(response.data.tokenCreate.user)
       Cookies.set('token', response.data.tokenCreate.token, { expires: 7 })
       Cookies.set('refreshToken', response.data.tokenCreate.refreshToken, { expires: 7 })
@@ -74,7 +79,7 @@ export function useAuth(){
   };
 
   const register = async (params) => {
-    const response = await graphqlClient.rawRequest(registerMutation, {input: params})
+    const response = await apolloClient.query({query: registerMutation, variables: {input: params}})
     const errors = response.data.accountRegister.accountErrors
     const user = response.data.accountRegister.user
     if(errors.length === 0 && user){
@@ -83,10 +88,9 @@ export function useAuth(){
     return { errors: errors }
   };
 
-  const getUser = async (token) => {
-    graphqlClient.setHeader("Authorization", `JWT ${token}`)
-    const response = await graphqlClient.rawRequest(meQuery)
-    if(response.status === 200){
+  const getUser = async () => {
+    const response = await apolloClient.query({query: meQuery})
+    if(response.data.me){
       setUser(response.data.me)
     }
   }
@@ -94,7 +98,7 @@ export function useAuth(){
   useEffect(() => {
     const token = Cookies.get('token')
     if(token){
-      getUser(token)
+      getUser()
     }
   }, [])
 

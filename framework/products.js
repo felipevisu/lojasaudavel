@@ -1,5 +1,5 @@
-import { gql } from 'graphql-request'
-import { graphqlClient } from '../lib/graphqlClient'
+import { gql } from "@apollo/client";
+import { initializeApollo } from "../lib/apolloClient"
 
 const ProductFragment = gql`
   fragment ProductFragment on Product{
@@ -88,8 +88,9 @@ export const queryProducts = gql`
 `;
 
 export async function getAllProducts(variables={}){
-  const response = await graphqlClient.request(queryProducts, variables);
-  return response
+  const apolloClient = initializeApollo();
+  const response = await apolloClient.query({query: queryProducts, variables: variables});
+  return response.data.products
 } 
 
 export default getAllProducts

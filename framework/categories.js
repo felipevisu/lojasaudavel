@@ -1,5 +1,5 @@
-import { gql } from 'graphql-request'
-import { graphqlClient } from '../lib/graphqlClient'
+import { gql } from "@apollo/client";
+import { initializeApollo } from "../lib/apolloClient"
 
 const CategoryFragment = gql`
   fragment CategoryFragment on Category{
@@ -55,11 +55,13 @@ export const queryCategory = gql`
 `;
 
 export async function getCategory(slug){
-  const response = await graphqlClient.request(queryCategory, {slug: slug});
-  return response
+  const apolloClient = initializeApollo();
+  const response = await apolloClient.query({query: queryCategory, variables: {slug: slug}});
+  return response.data.category
 } 
 
 export async function getAllCategories(variables={}){
-  const response = await graphqlClient.request(queryCategories, variables);
-  return response
+  const apolloClient = initializeApollo();
+  const response = await apolloClient.query({query: queryCategories, variables: variables});
+  return response.data.categories
 } 

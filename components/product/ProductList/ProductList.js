@@ -1,45 +1,39 @@
-import useSWR from 'swr'
 import { useFilter } from '../../../framework/filter'
-import { graphqlClient } from '../../../lib/graphqlClient'
 import { queryProducts } from '../../../framework/products'
 import { ProductCard } from '../ProductCard'
 import { Paginator } from '../../common'
 import { Header } from '../Header'
 import { Filter } from '../../common'
+import { useQuery } from '@apollo/client';
 
-export function ProductList({attributes, category, products}){
+export function ProductList({attributes, category}){
   const filter = useFilter({category: category})
-  const fetch = (variables) => graphqlClient.request(queryProducts, variables)
 
-  const { data: data, isValidating, error } = useSWR(
-    [filter.variables], 
-    fetch, 
-    { 
-      revalidateOnFocus: false 
-    }
-  )
+  const { loading, error, data: products } = useQuery(queryProducts, {
+    variables: filter.variables
+  });
 
   return(
     <>
       <Filter attributes={attributes} />
 
       <div className="container mx-auto px-4">
-        <Header category={category} total={data?.products?.totalCount || 0} />
-        {isValidating &&
+        <Header category={category} total={products?.products?.totalCount || 0} />
+        {loading &&
           <div>
             Carregando...
           </div>
         }
-        {data &&
+        {products &&
           <>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 mb-6">
-              {data.products.edges.map(({node}) =>
+              {products.products.edges.map(({node}) =>
                 <ProductCard key={node.id} {...node} />
               )}
             </div>
             <hr/>
             <div>
-              <Paginator pageInfo={data.products.pageInfo} paginator={filter.setFilter} />
+              <Paginator pageInfo={products.products.pageInfo} paginator={filter.setFilter} />
             </div>
           </>
         }

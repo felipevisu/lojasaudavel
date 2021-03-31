@@ -1,5 +1,5 @@
-import { gql } from 'graphql-request'
-import { graphqlClient } from '../lib/graphqlClient'
+import { gql } from "@apollo/client";
+import { initializeApollo } from "../lib/apolloClient"
 
 export const queryAttributes = gql`
   query AttributeList(
@@ -34,8 +34,9 @@ export const queryAttributes = gql`
 `;
 
 export async function getAttributes(variables={}){
-  const response = await graphqlClient.request(queryAttributes, variables);
-  return response
+  const apolloClient = initializeApollo();
+  const response = await apolloClient.query({query: queryAttributes, variables: variables});
+  return response.data.attributes
 }
 
 export default getAttributes

@@ -1,25 +1,34 @@
 import Head from 'next/head'
 import { ProductList } from '../../components/product'
-import getAttributes from '../../framework/attributes'
-import { getCategory, getAllCategories } from '../../framework/categories'
+import { queryAttributes } from '../../framework/attributes'
+import { queryCategory, queryCategories } from '../../framework/categories'
+import { queryProducts } from '../../framework/products'
+import { initializeApollo } from "../../lib/apolloClient"
 
-export default function Category({category, attributes}){
+
+export default function Category(props){
 
   return(
     <>
       <Head>
-        <title>Loja Saudável - {category.name}</title>
+        <title>Loja Saudável - {props.category.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ProductList category={category} attributes={attributes} />
+      <ProductList category={props.category} attributes={props.attributes} />
     </>
   )
 }
 
 export async function getStaticPaths() {
-  const response = await getAllCategories()
+  const apolloClient = initializeApollo();
+  const categories = await apolloClient.query({
+    query: queryCategories,
+    variables: {
+      first: 100
+    }
+  })
 
-  const paths = response.categories.edges.map(({node}) => ({
+  const paths = categories.data.categories.edges.map(({node}) => ({
     params: { slug: node.slug },
   }))
 
@@ -27,20 +36,52 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const category = await getCategory(context.params.slug)
-  const attributes = await getAttributes({
-    first: 30,
-    filter: {
-      visibleInStorefront: true,
-      inCategory: category.category.id,
-      channel: "casa-nature"
+  const apolloClient = initializeApollo();
+
+  const category = await apolloClient.query({
+    query: queryCategory,
+    variables: {
+      slug: context.params.slug
+    }
+  });
+
+  const attributes = await apolloClient.query({
+    query: queryAttributes,
+    variables: {
+      first: 30,
+      filter: {
+        visibleInStorefront: true,
+        inCategory: category.data.category.id,
+        channel: "casa-nature"
+      }
     }
   })
 
+  await apolloClient.query({
+    query: queryProducts,
+    variables: {
+      first: 30,
+      channel: "casa-nature",
+      sort: {
+        field: "DATE",
+        direction: "DESC",
+        channel: "casa-nature"
+      },
+      filter: {
+        isPublished: true,
+        channel: "casa-nature",
+        categories: [category.data.category.id],
+        attributes: [],
+        search: ""
+      }
+    }
+  });
+
   return {
     props: {
-      category: category.category,
-      attributes: attributes.attributes.edges.map(({node}) => node),
+      initialApolloState: apolloClient.cache.extract(),
+      category: category.data.category,
+      attributes: attributes.data.attributes.edges.map(({node}) => node),
     },
     revalidate: 1000,
   }

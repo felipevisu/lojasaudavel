@@ -104,8 +104,8 @@ export async function getStaticProps(context) {
     props: {
       slideshow,
       banners,
-      products: recentes.products.edges.map(({node}) => node),
-      granel: granel.products.edges.map(({node}) => node)
+      products: recentes.edges.map(({node}) => node),
+      granel: granel.edges.map(({node}) => node)
     },
     revalidate: 1000
   }
