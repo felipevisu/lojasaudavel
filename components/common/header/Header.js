@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiShoppingCart, FiUser, FiMenu } from "react-icons/fi"
+import { FiShoppingCart, FiUser, FiMenu, FiLogOut } from "react-icons/fi"
+import { useCommerce } from '../../../framework'
 import { Search } from "./Search"
 
 export function Header(){
+
+  const { auth } = useCommerce()
 
   return (
     <>
@@ -24,13 +27,23 @@ export function Header(){
               <Search />
             </div>
             <div className="w-1/4 lg:w-1/3 flex justify-end">
-              <div className="hidden lg:flex items-center">
-                <FiUser className="mr-2 text-2xl text-green-500"/>
-                <span className="font-semibold">
-                  Login
-                </span>
-              </div>
-              <div className="flex items-center ml-6">
+              {auth.user === null ?
+                <div className="hidden lg:flex items-center cursor-pointer hover:text-green-500" onClick={() => auth.setOpen(true)}>
+                  <FiUser className="mr-2 text-2xl text-green-500"/>
+                  <span className="font-semibold">
+                    Login
+                  </span>
+                </div>
+                :
+                <div className="hidden lg:flex items-center cursor-pointer hover:text-green-500" onClick={() => auth.logout()}>
+                  <FiLogOut className="mr-2 text-2xl text-green-500"/>
+                  <span className="font-semibold">
+                    Sair
+                  </span>
+                </div>
+              }
+              
+              <div className="flex items-center ml-6 cursor-pointer hover:text-green-500">
                 <FiShoppingCart className="mr-2 text-2xl text-green-500"/>
                 <span className="font-semibold">
                   <span className="hidden lg:inline-block">Carrinho</span> (0)
