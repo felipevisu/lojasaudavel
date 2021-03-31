@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
 import Cookies from 'js-cookie'
 
+
 const loginMutation = gql`
   mutation Login($email: String!, $password: String!) {
     tokenCreate(email: $email, password: $password ){
@@ -26,6 +27,38 @@ const loginMutation = gql`
 const registerMutation = gql`
   mutation Register($input: AccountRegisterInput!) {
     accountRegister(input: $input){
+      accountErrors{
+        field
+        message
+        code
+      }
+      user{
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`
+
+const requestPasswordResetMutation = gql`
+  mutation RequestPasswordReset($email: String!, $redirectUrl: String!) {
+    requestPasswordReset(email: $email, redirectUrl: $redirectUrl){
+      accountErrors{
+        field
+        message
+        code
+      }
+    }
+  }
+`
+
+const setPasswordMutation = gql`
+  mutation SetPassword($email: String!, $password: String!, $token: String!) {
+    setPassword(email: $email, password: $password, token: $token){
+      token
+      refreshToken
       accountErrors{
         field
         message
@@ -88,6 +121,37 @@ export function useAuth(){
     return { errors: errors }
   };
 
+  const requestPasswordReset = async (email) => {
+    const response = await apolloClient.mutate({
+      mutation: requestPasswordResetMutation, 
+      variables: {
+        email: email,
+        redirectUrl: "http://localhost:8000/conta/recuperar"
+      }
+    })
+    const errors = response.data.requestPasswordReset.accountErrors
+    return { errors: errors }
+  }
+
+  const setPassword = async (email, password, token) => {
+    const response = await apolloClient.mutate({
+      mutation: setPasswordMutation, 
+      variables: {
+        email: email,
+        password: password,
+        token: token
+      }
+    })
+    const user = response.data.setPassword.user
+    const errors = response.data.setPassword.accountErrors
+    if(user){
+      setUser(user)
+      Cookies.set('token', response.data.setPassword.token, { expires: 7 })
+      Cookies.set('refreshToken', response.data.setPassword.refreshToken, { expires: 7 })
+    }
+    return { user: user, errors: errors }
+  }
+
   const getUser = async () => {
     const response = await apolloClient.query({query: meQuery})
     if(response.data.me){
@@ -108,6 +172,8 @@ export function useAuth(){
     login,
     logout,
     register,
+    requestPasswordReset,
+    setPassword,
     setOpen
   }
 }
