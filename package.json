@@ -20,8 +20,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
-    "react-perfect-scrollbar": "^1.5.8",
-    "swr": "^0.5.4"
+    "react-perfect-scrollbar": "^1.5.8"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",

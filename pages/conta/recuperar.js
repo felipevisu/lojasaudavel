@@ -10,25 +10,40 @@ export function Recuperar(){
   const [loading, setLoading] = useState(false)
   const [success, setSucess] = useState(false)
   const [errors, setErrors] = useState([])
-  const [password, setPassword] = useState('')
+  const [fields, setFields] = useState({
+    password: '',
+    password_2: ''
+  })
 
   const handleChange = (e) => {
-    setPassword(e.target.value)
+    setFields({
+      ...fields,
+      [e.target.name]: e.target.value
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const email = router.query.email
     const token = router.query.token
-    if(email && token && password){
+    if(email && token){
       setLoading(true)
-      const response = await auth.setPassword(email, password, token)
-      if(response.user){
-        console.log(response)
-        setSucess(true)
-        setErrors([])
+      if(fields.password === fields.password_2){
+        const response = await auth.setPassword(email, fields.password, token)
+        if(response.user){
+          console.log(response)
+          setSucess(true)
+          setErrors([])
+        } else {
+          setErrors(response.errors)
+        }
       } else {
-        setErrors(response.errors)
+        setErrors([
+          {
+            field: 'password',
+            message: 'As senhas não correspondem'
+          }
+        ])
       }
       setLoading(false)
     }
@@ -78,7 +93,7 @@ export function Recuperar(){
             <div className="py-2">
               <label htmlFor="password" className="sr-only">Nova senha</label>
               <input 
-                value={password}
+                value={fields.password}
                 onChange={handleChange}
                 id="password" 
                 name="password" 
@@ -89,6 +104,21 @@ export function Recuperar(){
                 placeholder="Digite sua nova senha" 
               />
               <span className="text-sm text-red-500">{errors_dict.password}</span>
+            </div>
+            <div className="py-2">
+              <label htmlFor="password" className="sr-only">Nova senha</label>
+              <input 
+                value={fields.password_2}
+                onChange={handleChange}
+                id="password_2" 
+                name="password_2" 
+                type="password" 
+                autoComplete="password_2" 
+                required 
+                className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500" 
+                placeholder="Confirme sua nova senha" 
+              />
+              <span className="text-sm text-red-500">{errors_dict.password_2}</span>
             </div>
             <div className="py-2">
               <button className="appearance-none focus:outline-none hover:bg-green-600 text-white font-semibold rounded py-2 bg-green-500 w-full">

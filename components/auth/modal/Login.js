@@ -63,7 +63,7 @@ export function Login(){
         />
       </div>
       <div className="py-2">
-        <button className="appearance-none focus:outline-none hover:bg-green-600 text-white font-semibold rounded py-2 bg-green-500 w-full">
+        <button className="appearance-none transition transition-all focus:outline-none hover:bg-green-600 text-white font-semibold rounded py-2 bg-green-500 w-full">
           {loading ? 'Carregando...' : 'Entrar'}
         </button>
       </div>

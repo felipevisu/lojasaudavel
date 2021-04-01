@@ -28,14 +28,14 @@ export function Header(){
             </div>
             <div className="w-1/4 lg:w-1/3 flex justify-end">
               {auth.user === null ?
-                <div className="hidden lg:flex items-center cursor-pointer hover:text-green-500" onClick={() => auth.setOpen(true)}>
+                <div className="hidden lg:flex items-center cursor-pointer transition transition-all hover:text-green-500" onClick={() => auth.setOpen(true)}>
                   <FiUser className="mr-2 text-2xl text-green-500"/>
                   <span className="font-semibold">
                     Login
                   </span>
                 </div>
                 :
-                <div className="hidden lg:flex items-center cursor-pointer hover:text-green-500" onClick={() => auth.logout()}>
+                <div className="hidden lg:flex items-center cursor-pointer transition transition-all hover:text-green-500" onClick={() => auth.logout()}>
                   <FiLogOut className="mr-2 text-2xl text-green-500"/>
                   <span className="font-semibold">
                     Sair
@@ -43,7 +43,7 @@ export function Header(){
                 </div>
               }
               
-              <div className="flex items-center ml-6 cursor-pointer hover:text-green-500">
+              <div className="flex items-center ml-6 cursor-pointer transition transition-all hover:text-green-500">
                 <FiShoppingCart className="mr-2 text-2xl text-green-500"/>
                 <span className="font-semibold">
                   <span className="hidden lg:inline-block">Carrinho</span> (0)

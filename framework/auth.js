@@ -112,7 +112,7 @@ export function useAuth(){
   };
 
   const register = async (params) => {
-    const response = await apolloClient.query({query: registerMutation, variables: {input: params}})
+    const response = await apolloClient.mutate({mutation: registerMutation, variables: {input: params}})
     const errors = response.data.accountRegister.accountErrors
     const user = response.data.accountRegister.user
     if(errors.length === 0 && user){

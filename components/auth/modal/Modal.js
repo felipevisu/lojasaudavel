@@ -25,11 +25,11 @@ export function Modal(props){
               <Login />
               <div className="text-center text-sm text-gray-500 mb-2">
                 Esqueceu sua senha? 
-                <span onClick={() => setActive('request')}  className="ml-1 font-bold cursor-pointer hover:text-green-500">Clique aqui.</span>
+                <span onClick={() => setActive('request')}  className="transition transition-all ml-1 font-bold cursor-pointer hover:text-green-500">Clique aqui.</span>
               </div>
               <div className="text-center text-gray-500 pt-3">
                 Ainda não tem uma conta?<br/>
-                <span onClick={() => setActive('register')} className="font-bold cursor-pointer hover:text-green-500">Faça seu cadastro</span>.
+                <span onClick={() => setActive('register')} className="transition transition-all font-bold cursor-pointer hover:text-green-500">Faça seu cadastro</span>.
               </div>
             </div>
           }
@@ -38,7 +38,7 @@ export function Modal(props){
             <div>
               <Register />
               <div className="text-center text-gray-500 pt-3">
-                <span onClick={() => setActive('login')} className="font-bold cursor-pointer hover:text-green-500">Retornar ao login</span>
+                <span onClick={() => setActive('login')} className="transition transition-all font-bold cursor-pointer hover:text-green-500">Retornar ao login</span>
               </div>
             </div>
           }
@@ -46,6 +46,9 @@ export function Modal(props){
             active === 'request' &&
             <div>
               <Request />
+              <div className="text-center text-gray-500 pt-3">
+                <span onClick={() => setActive('login')} className="transition transition-all font-bold cursor-pointer hover:text-green-500">Retornar ao login</span>
+              </div>
             </div>
           }
         </div>
