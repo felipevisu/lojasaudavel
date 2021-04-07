@@ -101,6 +101,25 @@ const meQuery = gql`
   }
 `
 
+const accountAddressCreateMutation = gql`
+  ${accountErrorsFragment}
+  ${addressFragment}
+  ${userFragment}
+  mutation AccountAddressCreate($input: AddressInput!) {
+    accountAddressCreate(input: $input){
+      accountErrors{
+        ...AccountErrorsFragment
+      }
+      address {
+        ...AddressFragment
+      }
+      user{
+        ...UserFragment
+      }
+    }
+  }
+`
+
 export function useAuth(){
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
@@ -163,6 +182,17 @@ export function useAuth(){
     return { user: user, errors: errors }
   }
 
+  const accountAddressCreate = async (input) => {
+    const response = await apolloClient.mutate({
+      mutation: accountAddressCreateMutation, 
+      variables: {input: input}
+    })
+    if(response.data.accountAddressCreate.address){
+      setUser(response.data.accountAddressCreate.user)
+    }
+    return response
+  }
+
   const getUser = async () => {
     const response = await apolloClient.query({query: meQuery})
     if(response.data.me){
@@ -190,6 +220,8 @@ export function useAuth(){
     login,
     register,
     requestPasswordReset,
+    accountAddressCreate,
+    getUser,
     setUser,
     setPassword,
     setOpen

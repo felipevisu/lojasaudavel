@@ -1,0 +1,169 @@
+import { useState } from 'react'
+import { useCommerce } from '../../../framework'
+
+const initialAddress = {
+  streetAddress1: '',
+  streetAddress2: '',
+  cityArea: '',
+  city: '',
+  countryArea: '',
+  postalCode: '',
+  country: 'BR'
+}
+
+function getErrors(errors){
+  var errorDict = {}
+  errors.forEach(error => {
+    errorDict[error.field] = error.message
+  });
+  return errorDict
+}
+
+export function AddressForm(props){
+  const { auth, cart } = useCommerce()
+  const [fields, setFields] = useState(initialAddress)
+  const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [save, setSave] = useState(true)
+
+  const handleChange = (e) => {
+    setFields({
+      ...fields,
+      [e.target.name]: e.target.value
+    })
+    let temp_errors = {...errors}
+    delete temp_errors[e.target.name]
+    setErrors(temp_errors)
+  }
+
+  const handleSubmit = async (e) => {
+    setLoading(true)
+    e.preventDefault()
+
+    const response_1 = await cart.checkoutShippingAddressUpdate(fields)
+    const response_2 = await cart.checkoutBillingAddressUpdate(fields)
+    const response_3 = await auth.accountAddressCreate(fields)
+    const errors_1 = response_1.data.checkoutShippingAddressUpdate.checkoutErrors
+    const errors_2 = response_2.data.checkoutBillingAddressUpdate.checkoutErrors
+    const errors_3 = response_3.data.accountAddressCreate.accountErrors
+    if(errors_1.length > 0){
+      setErrors(getErrors(errors_1))
+    }
+    if(errors_2.length > 0){
+      setErrors(getErrors(errors_2))
+    }
+    if(errors_3.length > 0){
+      setErrors(getErrors(errors_3))
+    }
+    setLoading(false)
+  }
+
+  return(
+    <form onSubmit={handleSubmit} noValidate>
+      <div className="flex items-center  mb-4 justify-between">
+        <h3 className="font-bold text-md">Adicionar novo endereço</h3>
+        {
+          auth.user.addresses.length > 0 && <button className="bg-green-500 text-sm font-semibold text-white px-3 py-1 rounded hover:bg-green-600" onClick={() => props.setActive('list')}>Voltar para lista</button>
+        }
+      </div>
+      
+      <div className="grid grid-cols-4 gap-4 border-b pb-4 mb-4">
+        <div className="col-span-3">
+          <label htmlFor="streetAddress1" className="sr-only">Endereço</label>
+          <input 
+            value={fields.streetAddress1}
+            onChange={handleChange}
+            id="streetAddress1" 
+            name="streetAddress1" 
+            type="text" 
+            autoComplete="streetAddress1" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.streetAddress1 && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Endereço" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.streetAddress1}</span>
+        </div>
+        <div className="col-span-1">
+          <label htmlFor="streetAddress2" className="sr-only">Número</label>
+          <input 
+            value={fields.streetAddress2}
+            onChange={handleChange}
+            id="streetAddress2" 
+            name="streetAddress2" 
+            type="text" 
+            autoComplete="streetAddress2" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.streetAddress2 && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Número" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.streetAddress2}</span>
+        </div>
+        <div className="col-span-2">
+          <label htmlFor="cityArea" className="sr-only">Bairro</label>
+          <input 
+            value={fields.cityArea}
+            onChange={handleChange}
+            id="cityArea" 
+            name="cityArea" 
+            type="text" 
+            autoComplete="cityArea" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.cityArea && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Bairro" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.cityArea}</span>
+        </div>
+        <div className="col-span-2">
+          <label htmlFor="city" className="sr-only">Cidade</label>
+          <input 
+            value={fields.city}
+            onChange={handleChange}
+            id="city" 
+            name="city" 
+            type="text" 
+            autoComplete="city" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.city && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Cidade" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.city}</span>
+        </div>
+        <div className="col-span-2">
+          <label htmlFor="countryArea" className="sr-only">Estado</label>
+          <input 
+            value={fields.countryArea}
+            onChange={handleChange}
+            id="countryArea" 
+            name="countryArea" 
+            type="text" 
+            autoComplete="countryArea" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.countryArea && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Estado" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.countryArea}</span>
+        </div>
+        <div className="col-span-2">
+          <label htmlFor="postalCode" className="sr-only">Código postal (CEP)</label>
+          <input 
+            value={fields.postalCode}
+            onChange={handleChange}
+            id="postalCode" 
+            name="postalCode" 
+            type="text" 
+            autoComplete="postalCode" 
+            className={`appearance-none w-full rounded border-gray-300 ${errors.postalCode && 'border-red-300'} focus:ring-0 focus:border-green-500`}
+            placeholder="Código postal (CEP)" 
+          />
+          <span className="font-semibold text-red-500 text-xs">{errors.postalCode}</span>
+        </div>
+        <div className="col-span-4">
+          <label className="inline-flex items-center">
+            <input checked={save} type="checkbox" name="save" value={save} onChange={() => setSave(!save)} className="h-4 w-4 rounded text-green-500 border-gray-400"/>
+            <span className="ml-2 text-gray-700">Salvar para próxima compra</span>
+          </label>
+        </div>
+      </div>
+      <button type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
+        {loading ? 'Carregando...' : 'Prosseguir com o frete' }
+      </button>
+    </form>
+  )
+}
+
+export default AddressForm

@@ -28,7 +28,7 @@ export function Sumary(props){
   const { cart } = useCommerce()
 
   return(
-    <div className="bg-gray-100 p-6">
+    <div className="bg-gray-100 p-6 rounded border">
       <h4 className="font-semibold text-xl border-b pb-3">Resumo</h4>
       <div>
         {cart.cart.lines.map((line, key) => 

@@ -9,5 +9,8 @@ fragment AddressFragment on Address {
   city
   countryArea
   postalCode
+  country{
+    code
+  }
 }
 `

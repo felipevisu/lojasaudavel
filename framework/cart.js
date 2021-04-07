@@ -184,6 +184,22 @@ const checkoutShippingAddressUpdateMutation = gql`
   }
 `
 
+const checkoutBillingAddressUpdateMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
+    checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $billingAddress){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
 const checkout = gql`
   ${checkoutFragment}
   query Checkout($token: UUID!) {
@@ -294,10 +310,25 @@ export function useCart(){
   };
 
   const checkoutShippingAddressUpdate = async (shippingAddress) => {
-    return await apolloClient.mutate({
+    const response = await apolloClient.mutate({
       mutation: checkoutShippingAddressUpdateMutation, 
       variables: {checkoutId: cart.id, shippingAddress: shippingAddress}
     })
+    if(response.data.checkoutShippingAddressUpdate.checkout){
+      setCart(response.data.checkoutShippingAddressUpdate.checkout)
+    }
+    return response
+  };
+
+  const checkoutBillingAddressUpdate = async (billingAddress) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutBillingAddressUpdateMutation, 
+      variables: {checkoutId: cart.id, billingAddress: billingAddress}
+    })
+    if(response.data.checkoutBillingAddressUpdate.checkout){
+      setCart(response.data.checkoutBillingAddressUpdate.checkout)
+    }
+    return response
   };
 
   const getCheckout = async (token) => {
@@ -331,7 +362,8 @@ export function useCart(){
     checkoutLinesUpdate,
     checkoutLineDelete,
     checkoutCustomerAttach,
-    checkoutShippingAddressUpdate
+    checkoutShippingAddressUpdate,
+    checkoutBillingAddressUpdate
   }
 
 }
