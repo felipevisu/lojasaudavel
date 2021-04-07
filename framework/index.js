@@ -1,21 +1,46 @@
 import React, { createContext, useContext} from 'react'
 import { useTopMenu } from "./menu"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useAuth from './auth'
+import useCart from './cart'
+import Cookies from 'js-cookie'
 
 const CommerceContext = createContext({});
 
 export const CommerceProvider = ({ children }) => {
   const auth = useAuth()
+  const cart = useCart()
   const menu = useTopMenu()
   const [filterOpen, setFilterOpen] = useState(false)
+
+  const logout = () => {
+    auth.setUser(null)
+    cart.setCart(null)
+    Cookies.remove('token')
+    Cookies.remove('refreshToken')
+    Cookies.remove('checkoutId')
+    Cookies.remove('checkoutToken')
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    if(filterOpen || cart.open){
+      body.style.position = 'fixed';
+      body.style.width = '100vw';
+    } else {
+      body.style.position = '';
+      body.style.width = '100vw';
+    }
+  }, [filterOpen, cart.open])
 
   return (
     <CommerceContext.Provider value={{
       auth,
+      cart,
       menu,
       filterOpen,
-      setFilterOpen
+      setFilterOpen,
+      logout
     }}>
       {children}
     </CommerceContext.Provider>

@@ -54,22 +54,11 @@ function Attribute(props){
 export function Filter({attributes}){
   const { filterOpen, setFilterOpen } = useCommerce()
 
-  useEffect(() => {
-    const body = document.body;
-    if(filterOpen){
-      body.style.position = 'fixed';
-      body.style.width = '100vw';
-    } else {
-      body.style.position = '';
-      body.style.width = '100vw';
-    }
-  }, [filterOpen])
-
   return(
     <>
       <div onClick={() => setFilterOpen(false)} className={` ${filterOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
       <div className={` ${filterOpen ? styled.open : styled.close} transition fixed h-screen z-50 bg-white top-0 w-80`}>
-        <div className="flex items-center bg-green-500 text-white px-6 h-12">
+        <div className="flex items-center bg-gray-200 pl-6 pr-4 h-12">
           <span className="font-semibold">Filtro</span>
           <button onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
@@ -78,7 +67,6 @@ export function Filter({attributes}){
             <Attribute {...attribute} key={attribute.id} />
           )} 
         </div>
-        
       </div>
     </>
   )

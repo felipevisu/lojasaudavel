@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { useCommerce } from "../../../framework"
+import { RiArrowDropDownLine } from 'react-icons/ri'
 
 function LinkItem(props){
   const pathname = useMemo(() => {
@@ -30,8 +31,9 @@ function LinkItem(props){
   return(
     <>
       <Link href={`${pathname}`} as={`${slug}`}>
-        <a className="font-semibold transition transition-all hover:text-green-500">
+        <a className="font-semibold transition transition-all hover:text-green-500 flex items-center">
           {props.name}
+          {props.children.length > 0 && <RiArrowDropDownLine className="text-xl" />}
         </a>
       </Link>
     </>

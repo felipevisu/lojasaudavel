@@ -3,6 +3,7 @@ import { formatMoney } from '../../utils'
 import { FiShoppingCart, FiEye } from 'react-icons/fi'
 import { Listbox, Transition } from '@headlessui/react'
 import Image from 'next/image'
+import { useCommerce } from "../../../framework"
 
 function ProductOptions({selected, onChange, variants}) {
 
@@ -103,24 +104,33 @@ function ProductOptions({selected, onChange, variants}) {
 }
 
 export function ProductCard(props){
+  const { cart } = useCommerce()
   const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0] || props.variants[0])
 
   const handleChange = (value) => {
     setSelected(props.variants.find(variant => variant.id == value))
   }
 
-  const currentImage = useMemo(() => props.images.find(image => image.id === selected.images[0]?.id) || props.images[0], [selected])
+  const currentMedia = useMemo(() => props.media.find(media => media.id === selected.media[0]?.id) || props.media[0], [selected])
+
+  const handleClick = (e) => {
+    const line = {
+      variantId: selected.id,
+      quantity: 1
+    }
+    cart.checkoutLinesAdd([line])
+  }
 
   return(
-    <div className="">
+    <div className="mb-2">
 
       <div className="bg-gray-100 relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
         <div className="w-full h-full transition-all duration-300 transform hover:scale-110">
-          {props.images.map(image => 
-            <div key={image.id} className={`absolute w-full transition-all duration-300 ${image.id === currentImage.id ? 'opacity-100' : 'opacity-0'}`}>
+          {props.media.map(media => 
+            <div key={media.id} className={`absolute w-full transition-all duration-300 ${media.id === currentMedia.id ? 'opacity-100' : 'opacity-0'}`}>
               <Image 
-                key={image.id}
-                src={image.url} 
+                key={media.id}
+                src={media.url} 
                 alt={props.name}
                 width={300}
                 height={300}
@@ -147,7 +157,7 @@ export function ProductCard(props){
       }
 
       <div className="flex flex-wrap">
-        <button className="mr-1 flex items-center transition-all font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
+        <button onClick={handleClick} className="mr-1 flex items-center transition-all font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
         <button className="flex border items-center transition-all font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">

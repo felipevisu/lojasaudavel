@@ -8,7 +8,7 @@ const ProductFragment = gql`
     category{
       name
     }
-    images{
+    media{
       id
       url(size: 300)
     }
@@ -36,7 +36,7 @@ const ProductFragment = gql`
       id
       name
       quantityAvailable
-      images{
+      media{
         id
       }
       pricing{

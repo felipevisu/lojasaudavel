@@ -1,6 +1,4 @@
 import { Footer } from '../footer'
-import { Navbar } from '../navbar'
-import { Header } from '../header'
 import { Top } from '../top'
 import dynamic from 'next/dynamic'
 import { useCommerce } from '../../../framework'
@@ -13,8 +11,6 @@ export function Layout(props){
   return(
     <>
       <Top />
-      <Header />
-      <Navbar />
       {auth.open && <Modal />}
       {props.children}
       <Footer />

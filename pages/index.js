@@ -3,6 +3,7 @@ import { getAllProducts } from '../framework/products'
 import { getSlideshow } from '../framework/slideshow'
 import { ProductCard } from '../components/product'
 import { Slideshow } from '../components/common/'
+import Container from '../components/common/container'
 
 import Image from 'next/image'
 
@@ -11,7 +12,7 @@ import 'keen-slider/keen-slider.min.css';
 export default function Home({ slideshow, banners, products, granel }) {
 
   return (
-    <div>
+    <Container>
       <Head>
         <title>Loja Saudável - Início</title>
         <link rel="icon" href="/favicon.ico" />
@@ -57,7 +58,7 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       </div>
       
-    </div>
+    </Container>
   )
 }
 

@@ -3,84 +3,89 @@ import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
 import Cookies from 'js-cookie'
 
+export const userFragment = gql`
+  fragment UserFragment on User {
+    id
+    firstName
+    lastName
+    email
+  }
+`;
+
+export const accountErrorsFragment = gql`
+  fragment AccountErrorsFragment on AccountError{
+    field
+    message
+    code
+  }
+`
+
 
 const loginMutation = gql`
+  ${userFragment}
+  ${accountErrorsFragment}
   mutation Login($email: String!, $password: String!) {
     tokenCreate(email: $email, password: $password ){
       token
       refreshToken
       accountErrors{
-        field
-        message
-        code
+        ...AccountErrorsFragment
       }
       user{
-        id
-        firstName
-        lastName
-        email
+        ...UserFragment
       }
     }
   }
 `
 
 const registerMutation = gql`
+  ${userFragment}
+  ${accountErrorsFragment}
   mutation Register($input: AccountRegisterInput!) {
     accountRegister(input: $input){
       accountErrors{
-        field
-        message
-        code
+        ...AccountErrorsFragment
       }
       user{
-        id
-        firstName
-        lastName
-        email
+        ...UserFragment
       }
     }
   }
 `
 
 const requestPasswordResetMutation = gql`
+  ${accountErrorsFragment}
   mutation RequestPasswordReset($email: String!, $redirectUrl: String!) {
     requestPasswordReset(email: $email, redirectUrl: $redirectUrl){
       accountErrors{
-        field
-        message
-        code
+        ...AccountErrorsFragment
       }
     }
   }
 `
 
 const setPasswordMutation = gql`
+  ${userFragment}
+  ${accountErrorsFragment}
   mutation SetPassword($email: String!, $password: String!, $token: String!) {
     setPassword(email: $email, password: $password, token: $token){
       token
       refreshToken
       accountErrors{
-        field
-        message
-        code
+        ...AccountErrorsFragment
       }
       user{
-        id
-        firstName
-        lastName
-        email
+        ...UserFragment
       }
     }
   }
 `
 
 const meQuery = gql`
+  ${userFragment}
   query User{
     me{
-      id
-      firstName
-      lastName
-      email
+      ...UserFragment
     }
   }
 `
@@ -103,12 +108,6 @@ export function useAuth(){
       setOpen(false)
     }
     return response
-  };
-
-  const logout = () => {
-    setUser(null)
-    Cookies.remove('token')
-    Cookies.remove('refreshToken')
   };
 
   const register = async (params) => {
@@ -170,9 +169,9 @@ export function useAuth(){
     user,
     open,
     login,
-    logout,
     register,
     requestPasswordReset,
+    setUser,
     setPassword,
     setOpen
   }

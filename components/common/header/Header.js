@@ -6,7 +6,7 @@ import { Search } from "./Search"
 
 export function Header(){
 
-  const { auth } = useCommerce()
+  const { auth, cart, logout } = useCommerce()
 
   return (
     <>
@@ -35,7 +35,7 @@ export function Header(){
                   </span>
                 </div>
                 :
-                <div className="hidden lg:flex items-center cursor-pointer transition transition-all hover:text-green-500" onClick={() => auth.logout()}>
+                <div className="hidden lg:flex items-center cursor-pointer transition transition-all hover:text-green-500" onClick={() => logout()}>
                   <FiLogOut className="mr-2 text-2xl text-green-500"/>
                   <span className="font-semibold">
                     Sair
@@ -43,10 +43,10 @@ export function Header(){
                 </div>
               }
               
-              <div className="flex items-center ml-6 cursor-pointer transition transition-all hover:text-green-500">
+              <div onClick={() => cart.setOpen(true)} className="flex items-center ml-6 cursor-pointer transition transition-all hover:text-green-500">
                 <FiShoppingCart className="mr-2 text-2xl text-green-500"/>
                 <span className="font-semibold">
-                  <span className="hidden lg:inline-block">Carrinho</span> (0)
+                  <span className="hidden lg:inline-block">Carrinho</span> ({cart.cart?.quantity || 0})
                 </span>
               </div>
             </div>

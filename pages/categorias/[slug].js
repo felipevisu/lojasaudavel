@@ -4,18 +4,18 @@ import { queryAttributes } from '../../framework/attributes'
 import { queryCategory, queryCategories } from '../../framework/categories'
 import { queryProducts } from '../../framework/products'
 import { initializeApollo } from "../../lib/apolloClient"
-
+import Container from '../../components/common/container'
 
 export default function Category(props){
 
   return(
-    <>
+    <Container>
       <Head>
         <title>Loja Saudável - {props.category.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ProductList category={props.category} attributes={props.attributes} />
-    </>
+    </Container>
   )
 }
 
