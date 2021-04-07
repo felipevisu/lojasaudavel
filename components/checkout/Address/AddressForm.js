@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react'
 import { useCommerce } from '../../../framework'
 
@@ -20,6 +21,7 @@ function getErrors(errors){
 }
 
 export function AddressForm(props){
+  const router = useRouter()
   const { auth, cart } = useCommerce()
   const [fields, setFields] = useState(initialAddress)
   const [errors, setErrors] = useState({})
@@ -38,23 +40,32 @@ export function AddressForm(props){
 
   const handleSubmit = async (e) => {
     setLoading(true)
-    e.preventDefault()
+    e.preventDefault()  
 
     const response_1 = await cart.checkoutShippingAddressUpdate(fields)
     const response_2 = await cart.checkoutBillingAddressUpdate(fields)
-    const response_3 = await auth.accountAddressCreate(fields)
     const errors_1 = response_1.data.checkoutShippingAddressUpdate.checkoutErrors
     const errors_2 = response_2.data.checkoutBillingAddressUpdate.checkoutErrors
-    const errors_3 = response_3.data.accountAddressCreate.accountErrors
+
     if(errors_1.length > 0){
       setErrors(getErrors(errors_1))
     }
     if(errors_2.length > 0){
       setErrors(getErrors(errors_2))
     }
-    if(errors_3.length > 0){
-      setErrors(getErrors(errors_3))
+
+    if(save){
+      const response_3 = await auth.accountAddressCreate(fields)
+      const errors_3 = response_3.data.accountAddressCreate.accountErrors
+      if(errors_3.length > 0){
+        setErrors(getErrors(errors_3))
+      }
     }
+
+    if(errors_1.length === 0 && errors_2.length === 0){
+      router.push('/checkout/entrega')
+    }
+
     setLoading(false)
   }
 

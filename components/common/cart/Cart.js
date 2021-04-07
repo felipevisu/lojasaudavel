@@ -3,6 +3,7 @@ import { useCommerce } from '../../../framework'
 import styled from './CartBox.module.css'
 import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi'
+import { useRouter } from 'next/router'
 
 function Line(props){
   const { cart } = useCommerce()
@@ -70,6 +71,18 @@ function Line(props){
 
 export function Cart(){
   const { cart } = useCommerce()
+  const router = useRouter()
+
+  const handleClick = (e) => {
+    if(!cart.cart.shippingAddress){
+      router.push('/checkout/endereco')
+    }
+    if(!cart.cart.shippingMethod){
+      router.push('/checkout/entrega')
+    }
+    router.push('/checkout/pagamento')
+    cart.setOpen(false)
+  }
 
   return(
     <>
@@ -88,7 +101,7 @@ export function Cart(){
             <div className="mb-2 text-xl text-gray-600">
               Total: <span className="font-bold">{formatMoney(cart.cart?.totalPrice.gross.amount)}</span>
             </div>
-            <button className="focus:outline-none bg-green-500 hover:bg-green-600 px-6 py-2 w-full text-white font-semibold rounded uppercase">Finalizar Compra</button>
+            <button onClick={handleClick} className="focus:outline-none bg-green-500 hover:bg-green-600 px-6 py-2 w-full text-white font-semibold rounded uppercase">Finalizar Compra</button>
         </div>
       </div>
     </>

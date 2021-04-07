@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useCommerce } from '../../../framework'
 import { FiPlus } from 'react-icons/fi'
+import { useRouter } from 'next/router'
 
 function AddressItem(props){
   return(
@@ -24,6 +25,7 @@ function AddressItem(props){
 }
 
 export function AddressList(props){
+  const router = useRouter()
   const { auth, cart } = useCommerce()
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -41,6 +43,9 @@ export function AddressList(props){
     delete address['__typename']
     address['country'] = "BR"
     const response = await cart.checkoutShippingAddressUpdate(address)
+    if(response.data.checkoutShippingAddressUpdate.checkoutErrors.length === 0){
+      router.push('/checkout/entrega')
+    }
     setLoading(false)
   }
 
