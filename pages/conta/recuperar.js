@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useCommerce } from '../../framework'
-import Container from '../../components/common/container'
 
 export function Recuperar(){
   const { auth } = useCommerce()
@@ -60,7 +59,7 @@ export function Recuperar(){
 
   if(success){
     return (
-      <Container className="px-4">
+      <div className="px-4">
         <div className="border p-6 mt-6 max-w-lg mx-auto">
           <h4 className="text-lg font-semibold mb-3">Bem vindo {auth.user?.firstName}</h4>
           <p className="mb-3 text-gray-700">Sua senha foi redefinida com sucesso!<br/>Continue navegando em nossa loja.</p>
@@ -70,7 +69,7 @@ export function Recuperar(){
             </a>
           </Link>
         </div>
-      </Container>
+      </div>
     )
     
   }

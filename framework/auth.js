@@ -3,12 +3,24 @@ import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
 import Cookies from 'js-cookie'
 
+import { addressFragment } from './fragments'
+
 export const userFragment = gql`
+  ${addressFragment}
   fragment UserFragment on User {
     id
     firstName
     lastName
     email
+    addresses{
+      ...AddressFragment
+    }
+    defaultShippingAddress{
+      ...AddressFragment
+    }
+    defaultBillingAddress{
+      ...AddressFragment
+    }
   }
 `;
 
@@ -19,7 +31,6 @@ export const accountErrorsFragment = gql`
     code
   }
 `
-
 
 const loginMutation = gql`
   ${userFragment}
@@ -93,6 +104,7 @@ const meQuery = gql`
 export function useAuth(){
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
+  const [authLoading, setAuthLoading] = useState(true)
 
   const apolloClient = initializeApollo();
 
@@ -155,19 +167,26 @@ export function useAuth(){
     const response = await apolloClient.query({query: meQuery})
     if(response.data.me){
       setUser(response.data.me)
+    } else {
+      Cookies.remove('token')
+      Cookies.remove('refreshToken')
     }
+    setAuthLoading(false)
   }
 
   useEffect(() => {
     const token = Cookies.get('token')
     if(token){
       getUser()
+    } else {
+      setAuthLoading(false)
     }
   }, [])
 
   return {
     user,
     open,
+    authLoading,
     login,
     register,
     requestPasswordReset,

@@ -113,12 +113,15 @@ export function ProductCard(props){
 
   const currentMedia = useMemo(() => props.media.find(media => media.id === selected.media[0]?.id) || props.media[0], [selected])
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     const line = {
       variantId: selected.id,
       quantity: 1
     }
-    cart.checkoutLinesAdd([line])
+    const response = await cart.checkoutLinesAdd([line])
+    if(response.data.checkoutLinesAdd?.checkout || response.data.checkoutCreate?.checkout){
+      cart.setOpen(true)
+    }
   }
 
   return(
@@ -157,10 +160,10 @@ export function ProductCard(props){
       }
 
       <div className="flex flex-wrap">
-        <button onClick={handleClick} className="mr-1 flex items-center transition-all font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
+        <button onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
-        <button className="flex border items-center transition-all font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">
+        <button className="appearance-none focus:outline-none flex border items-center font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">
           <FiEye className="md:mr-2" /> <span className="hidden md:block">Detalhes</span>
         </button> 
       </div>

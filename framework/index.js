@@ -23,6 +23,14 @@ export const CommerceProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if(auth.user && cart.cart){
+      if(cart.cart.email !== auth.user.email){
+        cart.checkoutCustomerAttach(auth.user.id)
+      }
+    }
+  }, [auth.user, cart.cart])
+
+  useEffect(() => {
     const body = document.body;
     if(filterOpen || cart.open){
       body.style.position = 'fixed';

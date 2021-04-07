@@ -88,7 +88,7 @@ export function Cart(){
             <div className="mb-2 text-xl text-gray-600">
               Total: <span className="font-bold">{formatMoney(cart.cart?.totalPrice.gross.amount)}</span>
             </div>
-            <button className="bg-green-500 px-6 py-2 w-full text-white font-semibold rounded uppercase">Finalizar Compra</button>
+            <button className="focus:outline-none bg-green-500 hover:bg-green-600 px-6 py-2 w-full text-white font-semibold rounded uppercase">Finalizar Compra</button>
         </div>
       </div>
     </>

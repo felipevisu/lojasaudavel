@@ -13,6 +13,7 @@ const checkoutFragment = gql`
     id
     token
     quantity
+    email
     subtotalPrice{
       gross{
         amount
@@ -151,6 +152,38 @@ const checkoutLineDeleteMutation = gql`
   }
 `
 
+const checkoutCustomerAttachMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutCustomerAttachMutation($checkoutId: ID!, $customerId: ID!) {
+    checkoutCustomerAttach(checkoutId: $checkoutId, customerId: $customerId){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
+const checkoutShippingAddressUpdateMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
+    checkoutShippingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
 const checkout = gql`
   ${checkoutFragment}
   query Checkout($token: UUID!) {
@@ -163,6 +196,7 @@ const checkout = gql`
 export function useCart(){
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
+  const [cartLoading, setCartLoading] = useState(true)
 
   const apolloClient = initializeApollo();
 
@@ -177,6 +211,13 @@ export function useCart(){
       setCart(checkout)
       Cookies.set('checkoutId', checkout.id, { expires: 7 })
       Cookies.set('checkoutToken', checkout.token, { expires: 7 })
+    } else {
+      const errors = response.data.checkoutCreate.checkoutErrors
+      errors.forEach(element => {
+        toast.error(element.message, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      });
     }
     return response
   };
@@ -190,6 +231,13 @@ export function useCart(){
       const checkout = response.data.checkoutLinesAdd.checkout
       if(checkout){
         setCart(checkout)
+      } else {
+        const errors = response.data.checkoutLinesAdd.checkoutErrors
+        errors.forEach(element => {
+          toast.error(element.message, {
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+        });
       }
       return response
     } else {
@@ -205,6 +253,13 @@ export function useCart(){
     const checkout = response.data.checkoutLinesUpdate.checkout
     if(checkout){
       setCart(checkout)
+    } else {
+      const errors = response.data.checkoutLinesUpdate.checkoutErrors
+      errors.forEach(element => {
+        toast.error(element.message, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      });
     }
     return response
   };
@@ -217,32 +272,66 @@ export function useCart(){
     const checkout = response.data.checkoutLineDelete.checkout
     if(checkout){
       setCart(checkout)
+    } else {
+      const errors = response.data.checkoutLineDelete.checkoutErrors
+      errors.forEach(element => {
+        toast.error(element.message, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      });
     }
+  };
+
+  const checkoutCustomerAttach = async (customerId) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutCustomerAttachMutation, 
+      variables: {checkoutId: cart.id, customerId: customerId}
+    })
+    const checkout = response.data.checkoutCustomerAttach.checkout
+    if(checkout){
+      setCart(checkout)
+    }
+  };
+
+  const checkoutShippingAddressUpdate = async (shippingAddress) => {
+    return await apolloClient.mutate({
+      mutation: checkoutShippingAddressUpdateMutation, 
+      variables: {checkoutId: cart.id, shippingAddress: shippingAddress}
+    })
   };
 
   const getCheckout = async (token) => {
     const response = await apolloClient.query({query: checkout, variables: {token: token}})
     if(response.data.checkout){
       setCart(response.data.checkout)
+    } else {
+      Cookies.remove('checkoutId')
+      Cookies.remove('checkoutToken')
     }
+    setCartLoading(false)
   }
 
   useEffect(() => {
     const token = Cookies.get('checkoutToken')
     if(token){
       getCheckout(token)
+    } else {
+      setCartLoading(false)
     }
   }, [])
 
   return {
     cart,
     open,
+    cartLoading,
     setOpen,
     setCart,
     checkoutCreate,
     checkoutLinesAdd,
     checkoutLinesUpdate,
-    checkoutLineDelete
+    checkoutLineDelete,
+    checkoutCustomerAttach,
+    checkoutShippingAddressUpdate
   }
 
 }
