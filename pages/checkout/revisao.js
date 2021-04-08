@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { CheckoutContainer } from '../../components/checkout'
+import { CheckoutContainer, Review } from '../../components/checkout'
 
 export default function CheckoutShipping() {
   return (
@@ -10,7 +10,7 @@ export default function CheckoutShipping() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CheckoutContainer>
-        Revisão
+        <Review />
       </CheckoutContainer>
     </>
   )

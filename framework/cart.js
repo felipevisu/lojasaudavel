@@ -217,6 +217,46 @@ const checkoutShippingMethodUpdateMutation = gql`
   }
 `
 
+const checkoutPaymentCreateMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutPaymentCreate($checkoutId: ID!, $input: PaymentInput!) {
+    checkoutPaymentCreate(checkoutId: $checkoutId, input: $input){
+      paymentErrors{
+        code
+        message
+        field
+      }
+      payment{
+        id
+        token
+        gateway
+        installments
+        paymentMethodType
+        total{
+          amount
+        }
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+const checkoutCompleteMutation = gql`
+  mutation CheckoutComplete($checkoutId: ID!, $paymentData: JSONString) {
+    checkoutComplete(checkoutId: $checkoutId, paymentData: $paymentData){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      order{
+        id
+      }
+    }
+  }
+`
+
 const checkout = gql`
   ${checkoutFragment}
   query Checkout($token: UUID!) {
@@ -252,6 +292,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -272,6 +313,7 @@ export function useCart(){
           });
         });
       }
+      localStorage.removeItem('data_payment')
       return response
     } else {
       return checkoutCreate(lines)
@@ -294,6 +336,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -313,6 +356,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
   };
 
   const checkoutCustomerAttach = async (customerId) => {
@@ -345,6 +389,28 @@ export function useCart(){
     if(response.data.checkoutBillingAddressUpdate.checkout){
       setCart(response.data.checkoutBillingAddressUpdate.checkout)
     }
+    return response
+  };
+
+  const checkoutPaymentCreate = async (input) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutPaymentCreateMutation, 
+      variables: {checkoutId: cart.id, input: input}
+    })
+    if(response.data.checkoutPaymentCreate.checkout){
+      setCart(response.data.checkoutPaymentCreate.checkout)
+    }
+    if(response.data.checkoutPaymentCreate.payment){
+      localStorage.setItem("data_payment", JSON.stringify(response.data.checkoutPaymentCreate.payment));
+    }
+    return response
+  };
+
+  const checkoutComplete = async (paymentData) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutCompleteMutation, 
+      variables: {checkoutId: cart.id, paymentData: paymentData}
+    })
     return response
   };
 
@@ -392,7 +458,9 @@ export function useCart(){
     checkoutCustomerAttach,
     checkoutShippingAddressUpdate,
     checkoutBillingAddressUpdate,
-    checkoutShippingMethodUpdate
+    checkoutShippingMethodUpdate,
+    checkoutPaymentCreate,
+    checkoutComplete
   }
 
 }
