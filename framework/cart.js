@@ -292,6 +292,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -312,6 +313,7 @@ export function useCart(){
           });
         });
       }
+      localStorage.removeItem('data_payment')
       return response
     } else {
       return checkoutCreate(lines)
@@ -334,6 +336,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -353,6 +356,7 @@ export function useCart(){
         });
       });
     }
+    localStorage.removeItem('data_payment')
   };
 
   const checkoutCustomerAttach = async (customerId) => {
