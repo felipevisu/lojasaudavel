@@ -14,6 +14,6 @@ export async function validatePagarme(data){
 
 	var cardValidations = pagarme.validate({ card: cardData })
 	cardValidations.card.document = validateCPF(document) || validateCNPJ(document) 
-
+	
 	return cardValidations.card
 }
