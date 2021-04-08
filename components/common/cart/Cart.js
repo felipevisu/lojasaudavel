@@ -76,15 +76,21 @@ export function Cart(){
   const handleClick = (e) => {
     const shippingAddress = cart.cart.shippingAddress
     const shippingMethod = cart.cart.shippingMethod
-    if(shippingAddress && shippingMethod){
-      router.push('/checkout/pagamento')
+    const payment = localStorage.getItem("data_payment")
+    if(payment && shippingAddress && shippingMethod){
+      router.push('/checkout/revisao')
     } else {
-      if (shippingAddress){
-        router.push('/checkout/entrega')
+      if(shippingAddress && shippingMethod){
+        router.push('/checkout/pagamento')
       } else {
-        router.push('/checkout/endereco')
+        if (shippingAddress){
+          router.push('/checkout/entrega')
+        } else {
+          router.push('/checkout/endereco')
+        }
       }
     }
+    
     cart.setOpen(false)
   }
 
