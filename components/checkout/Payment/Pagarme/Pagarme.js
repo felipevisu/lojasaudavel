@@ -1,22 +1,35 @@
 import { useState } from 'react'
 import { Field } from '../../../ui'
+import { validatePagarme } from './utils'
+
+function isValid(data){
+  if(
+    !data.card_cvv || !data.card_expiration_date || !data.card_holder_name || !data.card_number || !data.document
+  ){
+    return false
+  } else {
+    return true
+  }
+  
+}
 
 export function Pagarme(props){
   const [loading, setLoading] = useState(false)
+
   const [fields, setFields] = useState({
     document: '',
-    name: '',
-    cardNumber: '',
-    expirationDate: '',
-    cvv: ''
+    card_holder_name: '',
+    card_number: '',
+    card_expiration_date: '',
+    card_cvv: ''
   })
 
   const [errors, setErrors] = useState({
     document: '',
-    name: '',
-    cardNumber: '',
-    expirationDate: '',
-    cvv: ''
+    card_holder_name: '',
+    card_number: '',
+    card_expiration_date: '',
+    card_cvv: ''
   })
 
   const handleChange = (e) => {
@@ -33,6 +46,21 @@ export function Pagarme(props){
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    const card = await validatePagarme(fields)
+    if(isValid(card)){
+      console.log('vai dar bom')
+    } else {
+      delete card["brand"]
+      var new_errors = {}
+      Object.keys(card).forEach(function(key) {
+        if(!card[key]){
+          new_errors[key] = "Valor inválido"
+        } else {
+          new_errors[key] = ""
+        }
+      });
+      setErrors(new_errors)
+    }
     setLoading(false)
   }
 
@@ -53,10 +81,10 @@ export function Pagarme(props){
         <div className="col-span-2">
           <Field
             label="Nome (como aparece no cartão)"
-            id="name"
-            name="name"
-            value={fields.name}
-            error={errors.name}
+            id="card_holder_name"
+            name="card_holder_name"
+            value={fields.card_holder_name}
+            error={errors.card_holder_name}
             onChange={handleChange}
             placeholder="José da Silva"
           />
@@ -64,10 +92,10 @@ export function Pagarme(props){
         <div className="col-span-2">
           <Field
             label="Número do cartão"
-            id="cardNumber"
-            name="cardNumber"
-            value={fields.cardNumber}
-            error={errors.cardNumber}
+            id="card_number"
+            name="card_number"
+            value={fields.card_number}
+            error={errors.card_number}
             onChange={handleChange}
             placeholder="4111-1111-1111-1111"
           />
@@ -75,10 +103,10 @@ export function Pagarme(props){
         <div className="col-span-1">
           <Field
             label="Validade"
-            id="expirationDate"
-            name="expirationDate"
-            value={fields.expirationDate}
-            error={errors.expirationDate}
+            id="card_expiration_date"
+            name="card_expiration_date"
+            value={fields.card_expiration_date}
+            error={errors.card_expiration_date}
             onChange={handleChange}
             placeholder="05/24"
           />
@@ -86,10 +114,10 @@ export function Pagarme(props){
         <div className="col-span-1">
           <Field
             label="Código"
-            id="cvv"
-            name="cvv"
-            value={fields.cvv}
-            error={errors.cvv}
+            id="card_cvv"
+            name="card_cvv"
+            value={fields.card_cvv}
+            error={errors.card_cvv}
             onChange={handleChange}
             placeholder="123"
           />

@@ -1,7 +1,7 @@
 export function Field({id, label, name, value, error, onChange, type="text", placeholder=""}){
   return(
     <div>
-      <label class="block text-gray-500 text-sm font-semibold mb-1" htmlFor={id}>
+      <label className="block text-gray-500 text-sm font-semibold mb-1" htmlFor={id}>
         {label}
       </label>
       <input 
