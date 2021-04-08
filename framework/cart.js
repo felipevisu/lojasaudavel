@@ -49,6 +49,7 @@ const checkoutFragment = gql`
     availableShippingMethods{
       id
       name
+      minimumDeliveryDays
       price{
         amount
       }
@@ -200,6 +201,22 @@ const checkoutBillingAddressUpdateMutation = gql`
   }
 `
 
+const checkoutShippingMethodUpdateMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutShippingMethodUpdate($checkoutId: ID!, $shippingMethodId: ID!) {
+    checkoutShippingMethodUpdate(checkoutId: $checkoutId, shippingMethodId: $shippingMethodId){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
 const checkout = gql`
   ${checkoutFragment}
   query Checkout($token: UUID!) {
@@ -331,6 +348,17 @@ export function useCart(){
     return response
   };
 
+  const checkoutShippingMethodUpdate = async (shippingMethodId) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutShippingMethodUpdateMutation, 
+      variables: {checkoutId: cart.id, shippingMethodId: shippingMethodId}
+    })
+    if(response.data.checkoutShippingMethodUpdate.checkout){
+      setCart(response.data.checkoutShippingMethodUpdate.checkout)
+    }
+    return response
+  };
+
   const getCheckout = async (token) => {
     const response = await apolloClient.query({query: checkout, variables: {token: token}})
     if(response.data.checkout){
@@ -363,7 +391,8 @@ export function useCart(){
     checkoutLineDelete,
     checkoutCustomerAttach,
     checkoutShippingAddressUpdate,
-    checkoutBillingAddressUpdate
+    checkoutBillingAddressUpdate,
+    checkoutShippingMethodUpdate
   }
 
 }

@@ -74,13 +74,17 @@ export function Cart(){
   const router = useRouter()
 
   const handleClick = (e) => {
-    if(!cart.cart.shippingAddress){
-      router.push('/checkout/endereco')
+    const shippingAddress = cart.cart.shippingAddress
+    const shippingMethod = cart.cart.shippingMethod
+    if(shippingAddress && shippingMethod){
+      router.push('/checkout/pagamento')
+    } else {
+      if (shippingAddress){
+        router.push('/checkout/entrega')
+      } else {
+        router.push('/checkout/endereco')
+      }
     }
-    if(!cart.cart.shippingMethod){
-      router.push('/checkout/entrega')
-    }
-    router.push('/checkout/pagamento')
     cart.setOpen(false)
   }
 
