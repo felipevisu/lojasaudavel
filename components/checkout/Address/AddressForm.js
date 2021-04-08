@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react'
 import { useCommerce } from '../../../framework'
+import { Field } from '../../ui'
 
 const initialAddress = {
   streetAddress1: '',
@@ -80,88 +81,70 @@ export function AddressForm(props){
       
       <div className="grid grid-cols-4 gap-4 border-b pb-4 mb-4">
         <div className="col-span-3">
-          <label htmlFor="streetAddress1" className="sr-only">Endereço</label>
-          <input 
-            value={fields.streetAddress1}
-            onChange={handleChange}
-            id="streetAddress1" 
+          <Field 
+            label="Endereço"
+            id="streetAddress1"
             name="streetAddress1" 
             type="text" 
-            autoComplete="streetAddress1" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.streetAddress1 && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Endereço" 
+            onChange={handleChange}
+            value={fields.streetAddress1}
+            error={errors.streetAddress1}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.streetAddress1}</span>
         </div>
         <div className="col-span-1">
-          <label htmlFor="streetAddress2" className="sr-only">Número</label>
-          <input 
-            value={fields.streetAddress2}
-            onChange={handleChange}
-            id="streetAddress2" 
+          <Field 
+            label="Número"
+            id="streetAddress2"
             name="streetAddress2" 
             type="text" 
-            autoComplete="streetAddress2" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.streetAddress2 && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Número" 
+            onChange={handleChange}
+            value={fields.streetAddress2}
+            error={errors.streetAddress2}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.streetAddress2}</span>
         </div>
         <div className="col-span-2">
-          <label htmlFor="cityArea" className="sr-only">Bairro</label>
-          <input 
-            value={fields.cityArea}
-            onChange={handleChange}
-            id="cityArea" 
+          <Field 
+            label="Bairro"
+            id="cityArea"
             name="cityArea" 
             type="text" 
-            autoComplete="cityArea" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.cityArea && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Bairro" 
+            onChange={handleChange}
+            value={fields.cityArea}
+            error={errors.cityArea}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.cityArea}</span>
         </div>
         <div className="col-span-2">
-          <label htmlFor="city" className="sr-only">Cidade</label>
-          <input 
-            value={fields.city}
-            onChange={handleChange}
-            id="city" 
+          <Field 
+            label="Cidade"
+            id="city"
             name="city" 
             type="text" 
-            autoComplete="city" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.city && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Cidade" 
+            onChange={handleChange}
+            value={fields.city}
+            error={errors.city}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.city}</span>
         </div>
         <div className="col-span-2">
-          <label htmlFor="countryArea" className="sr-only">Estado</label>
-          <input 
-            value={fields.countryArea}
-            onChange={handleChange}
-            id="countryArea" 
+          <Field 
+            label="Estado"
+            id="countryArea"
             name="countryArea" 
             type="text" 
-            autoComplete="countryArea" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.countryArea && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Estado" 
+            onChange={handleChange}
+            value={fields.countryArea}
+            error={errors.countryArea}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.countryArea}</span>
         </div>
         <div className="col-span-2">
-          <label htmlFor="postalCode" className="sr-only">Código postal (CEP)</label>
-          <input 
-            value={fields.postalCode}
-            onChange={handleChange}
-            id="postalCode" 
+          <Field 
+            label="CEP"
+            id="postalCode"
             name="postalCode" 
             type="text" 
-            autoComplete="postalCode" 
-            className={`appearance-none w-full rounded border-gray-300 ${errors.postalCode && 'border-red-300'} focus:ring-0 focus:border-green-500`}
-            placeholder="Código postal (CEP)" 
+            onChange={handleChange}
+            value={fields.postalCode}
+            error={errors.postalCode}
           />
-          <span className="font-semibold text-red-500 text-xs">{errors.postalCode}</span>
         </div>
         <div className="col-span-4">
           <label className="inline-flex items-center">
