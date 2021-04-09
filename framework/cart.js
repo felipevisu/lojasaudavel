@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react'
 
 import { addressFragment } from './fragments'
-import { useRouter } from "next/router";
 
 const checkoutFragment = gql`
   ${addressFragment}
@@ -268,7 +267,6 @@ const checkout = gql`
 `
 
 export function useCart(){
-  const router = useRouter()
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
   const [order, setOrder] = useState(null)

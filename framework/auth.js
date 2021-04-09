@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify';
 
 import { addressFragment } from './fragments'
 
@@ -12,6 +13,7 @@ export const userFragment = gql`
     firstName
     lastName
     email
+    phone,
     addresses{
       ...AddressFragment
     }
@@ -49,10 +51,10 @@ const loginMutation = gql`
   }
 `
 
-const registerMutation = gql`
+const accountRegisterMutation = gql`
   ${userFragment}
   ${accountErrorsFragment}
-  mutation Register($input: AccountRegisterInput!) {
+  mutation AccountRegister($input: AccountRegisterInput!) {
     accountRegister(input: $input){
       accountErrors{
         ...AccountErrorsFragment
@@ -92,6 +94,36 @@ const setPasswordMutation = gql`
   }
 `
 
+const passwordChangeMutation = gql`
+  ${userFragment}
+  ${accountErrorsFragment}
+  mutation PasswordChange($newPassword: String!, $oldPassword: String!) {
+    passwordChange(newPassword: $newPassword, oldPassword: $oldPassword){
+      accountErrors{
+        ...AccountErrorsFragment
+      }
+      user{
+        ...UserFragment
+      }
+    }
+  }
+`
+
+const accountUpdateMutation = gql`
+  ${userFragment}
+  ${accountErrorsFragment}
+  mutation AccountUpdate($input: AccountInput!) {
+    accountUpdate(input: $input){
+      accountErrors{
+        ...AccountErrorsFragment
+      }
+      user{
+        ...UserFragment
+      }
+    }
+  }
+`
+
 const meQuery = gql`
   ${userFragment}
   query User{
@@ -107,6 +139,25 @@ const accountAddressCreateMutation = gql`
   ${userFragment}
   mutation AccountAddressCreate($input: AddressInput!) {
     accountAddressCreate(input: $input){
+      accountErrors{
+        ...AccountErrorsFragment
+      }
+      address {
+        ...AddressFragment
+      }
+      user{
+        ...UserFragment
+      }
+    }
+  }
+`
+
+const accountAddressUpdateMutation = gql`
+  ${accountErrorsFragment}
+  ${addressFragment}
+  ${userFragment}
+  mutation AccountAddressUpdate($id: ID!, $input: AddressInput!) {
+    accountAddressUpdate(id: $id, input: $input){
       accountErrors{
         ...AccountErrorsFragment
       }
@@ -141,14 +192,16 @@ export function useAuth(){
     return response
   };
 
-  const register = async (params) => {
-    const response = await apolloClient.mutate({mutation: registerMutation, variables: {input: params}})
-    const errors = response.data.accountRegister.accountErrors
+  const accountRegister = async (input) => {
+    const response = await apolloClient.mutate({
+      mutation: accountRegisterMutation, 
+      variables: {input: input}
+    })
     const user = response.data.accountRegister.user
-    if(errors.length === 0 && user){
-      await login(params.email, params.password)
+    if(user){
+      await login(input.email, input.password)
     }
-    return { errors: errors }
+    return response
   };
 
   const requestPasswordReset = async (email) => {
@@ -156,11 +209,27 @@ export function useAuth(){
       mutation: requestPasswordResetMutation, 
       variables: {
         email: email,
-        redirectUrl: "http://localhost:8000/conta/recuperar"
+        redirectUrl: "http://localhost:8000/recuperar"
       }
     })
-    const errors = response.data.requestPasswordReset.accountErrors
-    return { errors: errors }
+    return response
+  }
+
+  const passwordChange = async (newPassword, oldPassword) => {
+    const response = await apolloClient.mutate({
+      mutation:  passwordChangeMutation, 
+      variables: {
+        newPassword: newPassword,
+        oldPassword: oldPassword,
+      }
+    })
+    if(response.data.passwordChange.user){
+      setUser(response.data.passwordChange.user)
+      toast.success("Senha alterada com sucesso.", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }
+    return response
   }
 
   const setPassword = async (email, password, token) => {
@@ -173,13 +242,12 @@ export function useAuth(){
       }
     })
     const user = response.data.setPassword.user
-    const errors = response.data.setPassword.accountErrors
     if(user){
       setUser(user)
       Cookies.set('token', response.data.setPassword.token, { expires: 7 })
       Cookies.set('refreshToken', response.data.setPassword.refreshToken, { expires: 7 })
     }
-    return { user: user, errors: errors }
+    return response
   }
 
   const accountAddressCreate = async (input) => {
@@ -189,6 +257,31 @@ export function useAuth(){
     })
     if(response.data.accountAddressCreate.address){
       setUser(response.data.accountAddressCreate.user)
+    }
+    return response
+  }
+
+  const accountAddressUpdate = async (id, input) => {
+    const response = await apolloClient.mutate({
+      mutation: accountAddressUpdateMutation, 
+      variables: {id: id, input: input}
+    })
+    if(response.data.accountAddressUpdate.address){
+      setUser(response.data.accountAddressUpdate.user)
+    }
+    return response
+  }
+
+  const accountUpdate = async (input) => {
+    const response = await apolloClient.mutate({
+      mutation: accountUpdateMutation, 
+      variables: {input: input}
+    })
+    if(response.data.accountUpdate.user){
+      setUser(response.data.accountUpdate.user)
+      toast.success("Informações salvas com sucesso.", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
     }
     return response
   }
@@ -218,9 +311,12 @@ export function useAuth(){
     open,
     authLoading,
     login,
-    register,
+    accountRegister,
+    accountUpdate,
     requestPasswordReset,
     accountAddressCreate,
+    accountAddressUpdate,
+    passwordChange,
     getUser,
     setUser,
     setPassword,

@@ -11,12 +11,12 @@ export function Top(props){
           </div>
           <div className="flex justify-self-end -mr-2">
             <span className="px-2">
-              <Link href="/minha-conta">
+              <Link href="/conta">
                 <a className="transition hover:text-green-500">Minha conta</a>
               </Link>
             </span>
             <span className="px-2">
-              <Link href="/minha-conta">
+              <Link href="/pedidos">
                 <a className="transition hover:text-green-500">Meus pedidos</a>
               </Link>
             </span>

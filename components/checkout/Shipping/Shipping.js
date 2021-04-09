@@ -1,8 +1,8 @@
 import { useCommerce } from '../../../framework'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
-
+import { Button } from '../../ui'
 
 export function Shipping(props){
   const router = useRouter()
@@ -31,17 +31,24 @@ export function Shipping(props){
     }
   }
 
+  const address = useMemo(() => cart.cart.shippingAddress, [cart.cart.shippingAddress])
+
+  if(address === null){
+    router.push('/checkout/endereco')
+    return null
+  }
+
   return (
     <form method="post" onSubmit={handleSubmit} noValidate>
+      <div className="mb-4">
+        <h3 className="font-bold text-xl">Métodos de entrega</h3>
+        <span className="text-sm">Clique no método de entrega desejado para selecioná-lo.</span>
+      </div>
       { errors &&
         errors.map((error, key) =>
           <div className="bg-red-100 border border-red-200 text-red-800 rounded px-4 py-2 mb-2">{error.message}</div>
         )
       }
-      <div className="mb-4">
-        <h3 className="font-bold text-xl">Métodos de entrega</h3>
-        <span className="text-sm">Clique no método de entrega desejado para selecioná-lo.</span>
-      </div>
       <div className="mt-4">
         <div className="grid grid-cols-2 gap-4 mb-4 border-b pb-4">
           {cart.cart.availableShippingMethods.map((method, key) => 
@@ -66,9 +73,7 @@ export function Shipping(props){
             </label>
           )}  
         </div>
-        <button disabled={selected === null} type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-          {loading ? 'Carregando...' : 'Prosseguir com o pagamento' }
-        </button>
+        <Button type="submit" value={loading ? 'Carregando...' : 'Prosseguir com o pagamento'} />
       </div>
     </form>
   )

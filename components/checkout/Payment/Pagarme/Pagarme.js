@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Field } from '../../../ui'
+import { Field, Button } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
 import { useCommerce } from '../../../../framework'
 import { useRouter } from 'next/router'
@@ -163,9 +163,7 @@ export function Pagarme(props){
             />
           </div>
         </div>
-        <button type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-          {loading ? 'Carregando...' : 'Concluir pedido' }
-        </button>
+        <Button type="submit" onClick={() => setActive('payment')} value={loading ? 'Carregando...' : 'Concluir pedido'} />
       </form>
     )
   }
@@ -189,8 +187,8 @@ export function Pagarme(props){
           </p>
         </div>
         <div className="mt-3">
-          <button onClick={() => setActive('payment')} className="my-1 appearance-none focus:outline-none hover:bg-green-600 bg-green-500 rounded px-3 py-1 text-white font-semibold">Tentar novamente</button>
-          <button onClick={() => props.changeMethod('lojista')} className="my-1 appearance-none focus:outline-none hover:bg-green-500 hover:text-white ml-2 border border-green-500 rounded px-3 py-1 text-green-500 font-semibold">Pagar na entrega/retirada</button>
+          <Button onClick={() => setActive('payment')} value="Tentar novamente" />
+          <Button onClick={() => props.changeMethod('lojista')} value="Pagar na entrega/retirada" />
         </div>
       </div>
     )

@@ -3,13 +3,19 @@ import Link from 'next/link'
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useCommerce } from '../framework'
+import { Field, Button } from '../components/ui'
+
 
 export function Recuperar(){
   const { auth } = useCommerce()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [success, setSucess] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({
+    password: '',
+    password_2: ''
+  })
+  const [nonFieldError, setNonFieldError] = useState('')
   const [fields, setFields] = useState({
     password: '',
     password_2: ''
@@ -20,47 +26,46 @@ export function Recuperar(){
       ...fields,
       [e.target.name]: e.target.value
     })
+    setErrors({
+      ...errors,
+      [e.target.name]: ''
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const email = router.query.email
     const token = router.query.token
+
     if(email && token){
       setLoading(true)
       if(fields.password === fields.password_2){
         const response = await auth.setPassword(email, fields.password, token)
-        if(response.user){
-          console.log(response)
+        const errors = response.data.setPassword.accountErrors
+        if(errors.lenght === 0){
           setSucess(true)
-          setErrors([])
         } else {
-          setErrors(response.errors)
+          var new_errors = {}
+          errors.forEach(error => new_errors[error.field] = error.message)
+          setErrors(new_errors)
         }
       } else {
-        setErrors([
-          {
-            field: 'password',
-            message: 'As senhas não correspondem'
-          }
-        ])
+        setErrors({
+          ...errors,
+          password: 'As senhas não correspondem'
+        })
       }
       setLoading(false)
+    } else {
+      setNonFieldError("Não é possível redefinir sua senha, solicite um novo link.")
     }
-  }
 
-  const errors_dict = useMemo(() => {
-    var errs = {}
-    errors.map((error) => {
-      errs[error.field] = error.message
-    })
-    return errs
-  }, [errors])
+  }
 
   if(success){
     return (
-      <div className="px-4">
-        <div className="border p-6 mt-6 max-w-lg mx-auto">
+      <div className="px-4 py-10">
+        <div className="border p-6 max-w-lg mx-auto rounded">
           <h4 className="text-lg font-semibold mb-3">Bem vindo {auth.user?.firstName}</h4>
           <p className="mb-3 text-gray-700">Sua senha foi redefinida com sucesso!<br/>Continue navegando em nossa loja.</p>
           <Link href="/">
@@ -71,7 +76,6 @@ export function Recuperar(){
         </div>
       </div>
     )
-    
   }
 
   return(
@@ -81,49 +85,38 @@ export function Recuperar(){
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="px-4">
-        <div className="border p-6 mt-6 max-w-lg mx-auto">
-          <form onSubmit={handleSubmit} method="post">
+      <div className="px-4 py-10">
+        <div className="border rounded p-6 max-w-lg mx-auto">
+          <form onSubmit={handleSubmit} noValidate>
             <h4 className="text-lg font-semibold">Redefinição de senha</h4>
-            {errors.length > 0 &&
-              <div className="mt-2 bg-red-200 roundex px-2 py-1 text-center text-red-700 rounded mb-2">
-                Dados inválidos
+            {
+              nonFieldError &&
+              <div className="my-2 text-sm border border-red-200 bg-red-100 px-3 py-2 text-red-800 rounded">
+                {nonFieldError}
               </div>
             }
-            <div className="py-2">
-              <label htmlFor="password" className="sr-only">Nova senha</label>
-              <input 
+            <div className="py-1">
+              <Field 
                 value={fields.password}
                 onChange={handleChange}
                 id="password" 
                 name="password" 
                 type="password" 
-                autoComplete="password" 
-                required 
-                className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500" 
-                placeholder="Digite sua nova senha" 
+                placeholder="Nova senha" 
               />
-              <span className="text-sm text-red-500">{errors_dict.password}</span>
             </div>
-            <div className="py-2">
-              <label htmlFor="password" className="sr-only">Nova senha</label>
-              <input 
+            <div className="py-1">
+              <Field
                 value={fields.password_2}
                 onChange={handleChange}
                 id="password_2" 
-                name="password_2" 
+                name="password_2"
                 type="password" 
-                autoComplete="password_2" 
-                required 
-                className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500" 
-                placeholder="Confirme sua nova senha" 
+                placeholder="Confimação de senha"
               />
-              <span className="text-sm text-red-500">{errors_dict.password_2}</span>
             </div>
             <div className="py-2">
-              <button className="appearance-none focus:outline-none hover:bg-green-600 text-white font-semibold rounded py-2 bg-green-500 w-full">
-                {loading ? 'Carregando...' : 'Enviar'}
-              </button>
+              <Button type="submit" full value={loading ? 'Carregando...' : 'Enviar'} />
             </div>
           </form>
         </div>

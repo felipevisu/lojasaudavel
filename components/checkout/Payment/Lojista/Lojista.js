@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useCommerce } from '../../../../framework'
 import { useRouter } from 'next/router'
-import { Field } from '../../../ui'
+import { Field, Button } from '../../../ui'
+
+const OPTIONS = [
+  {value: "CREDITCARD", name: "Cartão de crédito/débito"},
+  {value: "MONEY", name: "Dinheiro"}
+]
 
 export function Lojista(props){
   const { cart } = useCommerce()
@@ -77,9 +82,7 @@ export function Lojista(props){
             />
           </div>
         </div>
-        <button type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-          {loading ? 'Carregando...' : 'Concluir pedido' }
-        </button>
+        <Button type="submit" value={loading ? 'Carregando...' : 'Concluir pedido' } />
       </form>
     )
   }
@@ -95,7 +98,7 @@ export function Lojista(props){
           </div>
         )}
         <div className="mt-3">
-          <button onClick={() => setActive('payment')} className="my-1 appearance-none focus:outline-none hover:bg-green-600 bg-green-500 rounded px-3 py-1 text-white font-semibold">Tentar novamente</button>
+          <Button onClick={() => setActive('payment')} value="Tentar novamente" />
         </div>
       </div>
     )

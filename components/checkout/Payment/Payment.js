@@ -3,8 +3,10 @@ import { Pagarme } from './Pagarme'
 import { Lojista } from './Lojista'
 import { useMemo, useState } from 'react'
 import { formatMoney } from '../../utils'
+import { useRouter } from 'next/router'
 
 export function Payment(props){
+  const router = useRouter()
   const { cart } = useCommerce()
   const [selected, setSelected] = useState('pagarme')
 
@@ -18,6 +20,16 @@ export function Payment(props){
 
   const address = useMemo(() => cart.cart?.shippingAddress, [cart.cart?.shippingAddress])
   const method = useMemo(() => cart.cart?.shippingMethod, [cart.cart?.shippingMethod])
+
+  if(address === null){
+    router.push('/checkout/endereco')
+    return null
+  }
+
+  if(method === null){
+    router.push('/checkout/entrega')
+    return null
+  }
 
   return(
     <div>
@@ -39,20 +51,6 @@ export function Payment(props){
       
       {selected === 'pagarme' &&  <Pagarme changeMethod={changeMethod} />}
       {selected === 'lojista' &&  <Lojista />}
-
-      <div className="grid grid-cols-2 border-t mt-4 pt-8">
-        <div>
-          <h5 className="font-semibold">Endereço de entrega</h5>
-          {address.streetAddress1}, {address.streetAddress2 && address.streetAddress2}<br/>
-          {address.cityArea && `${address.cityArea} - ` }{address.city} / {address.countryArea}<br/>
-          Cep: {address.postalCode}
-        </div>
-        <div>
-          <h5 className="font-semibold">Método de entrega</h5>
-          Serviço: {method.name}<br/>
-          Preço: {formatMoney(method.price.amount)}
-        </div>
-      </div>
     </div>
   )
 }

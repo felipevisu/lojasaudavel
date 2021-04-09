@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useCommerce } from '../../../framework'
 import { FiPlus } from 'react-icons/fi'
 import { useRouter } from 'next/router'
+import { Button } from '../../ui'
 
 function AddressItem(props){
   return(
@@ -37,8 +38,6 @@ export function AddressList(props){
   const handleChange = (e) => {
     setSelected(e.target.value)
   }
-
-  console.log(cart)
 
   const handleSubmit = async (e) => {
     setLoading(true)
@@ -79,9 +78,7 @@ export function AddressList(props){
           <AddressItem key={key} handleChange={handleChange} selected={selected} {...address} />
         )}
       </div>
-      <button disabled={!selected && !cart.cart.shippingAddress && !cart.cart.billingAddress} type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-        {loading ? 'Carregando...' : 'Prosseguir com o frete' }
-      </button>
+      <Button type="submit" value={loading ? 'Carregando...' : 'Prosseguir com o frete'} />
     </form>
   )
 }

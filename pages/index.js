@@ -11,7 +11,7 @@ import 'keen-slider/keen-slider.min.css';
 export default function Home({ slideshow, banners, products, granel }) {
 
   return (
-    <>
+    <div className="py-6">
       <Head>
         <title>Loja Saudável - Início</title>
         <link rel="icon" href="/favicon.ico" />
@@ -19,12 +19,12 @@ export default function Home({ slideshow, banners, products, granel }) {
 
       {
         slideshow &&
-        <div className="container mx-auto py-6 -mb-2 px-4">
+        <div className="container mx-auto px-4 mb-6">
           <Slideshow slides={slideshow.slides} />
         </div>
       }
 
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 mb-6">
         <div className="flex mb-4">
           <h3 className="text-xl font-light">Produtos em destaque</h3>
         </div>
@@ -37,7 +37,7 @@ export default function Home({ slideshow, banners, products, granel }) {
 
       {
         banners &&
-        <div className="container mx-auto py-6 px-4">
+        <div className="container mx-auto px-4 mb-6">
           <div className="grid grid-cols-3 gap-4 xl:gap-6">
             {banners.slides.map((banner, key) => 
               <Image src={banner.image} key={key} width={640} height={320} className="rounded" />
@@ -46,7 +46,7 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       }
       
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4">
         <div className="flex mb-4">
           <h3 className="text-xl font-light">Produtos a granel</h3>
         </div>
@@ -57,7 +57,7 @@ export default function Home({ slideshow, banners, products, granel }) {
         </div>
       </div>
       
-    </>
+    </div>
   )
 }
 
