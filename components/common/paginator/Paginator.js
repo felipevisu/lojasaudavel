@@ -5,7 +5,7 @@ export default function Paginator({pageInfo, paginator}){
   const nextDisabled = useMemo(() => !pageInfo.hasNextPage, [pageInfo])
 
   return(
-    <div className="text-center pt-6">
+    <div className="text-center py-6">
       <button 
         className={`${prevDisabled ? "bg-gray-200" : "bg-green-500 text-white hover:bg-green-600"} mx-1 px-4 py-1 rounded`}
         onClick={() => paginator("before", pageInfo.startCursor, true)}

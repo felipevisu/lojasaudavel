@@ -65,9 +65,10 @@ export function AddressForm(props){
 
     if(errors_1.length === 0 && errors_2.length === 0){
       router.push('/checkout/entrega')
+    } else {
+      setLoading(false)
     }
-
-    setLoading(false)
+    
   }
 
   return(

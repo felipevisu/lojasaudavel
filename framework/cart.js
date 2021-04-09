@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react'
 
 import { addressFragment } from './fragments'
+import { useRouter } from "next/router";
 
 const checkoutFragment = gql`
   ${addressFragment}
@@ -267,8 +268,10 @@ const checkout = gql`
 `
 
 export function useCart(){
+  const router = useRouter()
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
+  const [order, setOrder] = useState(null)
   const [cartLoading, setCartLoading] = useState(true)
 
   const apolloClient = initializeApollo();
@@ -411,8 +414,20 @@ export function useCart(){
       mutation: checkoutCompleteMutation, 
       variables: {checkoutId: cart.id, paymentData: paymentData}
     })
+    const order = response.data.checkoutComplete.order
+    if(order){
+      setOrder(order)
+    }
     return response
   };
+
+  const clearCart = () => {
+    setCart(false)
+    localStorage.removeItem("extra_data")
+    localStorage.removeItem("data_payment")
+    Cookies.remove("checkoutId")
+    Cookies.remove("checkoutToken")
+  }
 
   const checkoutShippingMethodUpdate = async (shippingMethodId) => {
     const response = await apolloClient.mutate({
@@ -447,6 +462,7 @@ export function useCart(){
 
   return {
     cart,
+    order,
     open,
     cartLoading,
     setOpen,
@@ -460,7 +476,8 @@ export function useCart(){
     checkoutBillingAddressUpdate,
     checkoutShippingMethodUpdate,
     checkoutPaymentCreate,
-    checkoutComplete
+    checkoutComplete,
+    clearCart
   }
 
 }

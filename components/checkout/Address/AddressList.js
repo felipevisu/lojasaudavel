@@ -38,18 +38,28 @@ export function AddressList(props){
     setSelected(e.target.value)
   }
 
+  console.log(cart)
+
   const handleSubmit = async (e) => {
     setLoading(true)
     e.preventDefault()
-    var address = {...addresses.find(addr => addr.id === selected)}
-    delete address['id']
-    delete address['__typename']
-    address['country'] = "BR"
-    const response = await cart.checkoutShippingAddressUpdate(address)
-    if(response.data.checkoutShippingAddressUpdate.checkoutErrors.length === 0){
+    if(!selected && cart.cart.shippingAddress && cart.cart.billingAddress){
       router.push('/checkout/entrega')
+    } else {
+      var address = {...addresses.find(addr => addr.id === selected)}
+      delete address['id']
+      delete address['__typename']
+      address['country'] = "BR"
+      const response_1 = await cart.checkoutBillingAddressUpdate(address)
+      const errors_1 = response_1.data.checkoutBillingAddressUpdate.checkoutErrors
+      const response_2 = await cart.checkoutShippingAddressUpdate(address)
+      const errors_2 = response_2.data.checkoutShippingAddressUpdate.checkoutErrors
+      if(errors_1.length === 0 && errors_2.length === 0){
+        router.push('/checkout/entrega')
+      } else {
+        setLoading(false)
+      }
     }
-    setLoading(false)
   }
 
   return(
@@ -69,7 +79,7 @@ export function AddressList(props){
           <AddressItem key={key} handleChange={handleChange} selected={selected} {...address} />
         )}
       </div>
-      <button disabled={selected === null} type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
+      <button disabled={!selected && !cart.cart.shippingAddress && !cart.cart.billingAddress} type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
         {loading ? 'Carregando...' : 'Prosseguir com o frete' }
       </button>
     </form>

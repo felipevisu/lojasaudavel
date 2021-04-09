@@ -9,23 +9,35 @@ export function Shipping(props){
   const { cart } = useCommerce()
   const [selected, setSelected] = useState(cart.cart.shippingMethod?.id)
   const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState([])
 
   const handleChange = (e) => {
     setSelected(e.target.value)
+    setErrors([])
   }
 
   const handleSubmit = async (e) => {
-    setLoading(true)
     e.preventDefault()
-    const response = await cart.checkoutShippingMethodUpdate(selected)
-    if(response.data.checkoutShippingMethodUpdate.checkout){
-      router.push('/checkout/pagamento')
+    if(selected){
+      setLoading(true)
+      const response = await cart.checkoutShippingMethodUpdate(selected)
+      if(response.data.checkoutShippingMethodUpdate.checkout){
+        router.push('/checkout/pagamento')
+      } else {
+        setLoading(false)
+      } 
+    } else {
+      setErrors([{field: "", message: "Selecione uma das opções"}])
     }
-    setLoading(false)
   }
 
   return (
     <form method="post" onSubmit={handleSubmit} noValidate>
+      { errors &&
+        errors.map((error, key) =>
+          <div className="bg-red-100 border border-red-200 text-red-800 rounded px-4 py-2 mb-2">{error.message}</div>
+        )
+      }
       <div className="mb-4">
         <h3 className="font-bold text-xl">Métodos de entrega</h3>
         <span className="text-sm">Clique no método de entrega desejado para selecioná-lo.</span>

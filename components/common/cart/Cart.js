@@ -74,20 +74,16 @@ export function Cart(){
   const router = useRouter()
 
   const handleClick = (e) => {
-    const shippingAddress = cart.cart.shippingAddress
-    const shippingMethod = cart.cart.shippingMethod
-    const payment = localStorage.getItem("data_payment")
-    if(payment && shippingAddress && shippingMethod){
-      router.push('/checkout/revisao')
+    const shippingAddress = cart.cart?.shippingAddress
+    const shippingMethod = cart.cart?.shippingMethod
+    
+    if(shippingAddress && shippingMethod){
+      router.push('/checkout/pagamento')
     } else {
-      if(shippingAddress && shippingMethod){
-        router.push('/checkout/pagamento')
+      if (shippingAddress){
+        router.push('/checkout/entrega')
       } else {
-        if (shippingAddress){
-          router.push('/checkout/entrega')
-        } else {
-          router.push('/checkout/endereco')
-        }
+        router.push('/checkout/endereco')
       }
     }
     
@@ -103,13 +99,21 @@ export function Cart(){
           <button onClick={() => cart.setOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
         <div className="px-6 absolute bottom-32 top-12 pb-3 overflow-auto w-full">
-          {cart.cart?.lines.map((line, key) =>
-            <Line key={key} {...line} />
-          )}
+          {cart.cart &&
+            cart.cart?.lines.map((line, key) =>
+              <Line key={key} {...line} />
+            )
+          }
         </div>
         <div className=" bg-gray-200 p-6 absolute bottom-0 w-full h-32">
             <div className="mb-2 text-xl text-gray-600">
-              Total: <span className="font-bold">{formatMoney(cart.cart?.totalPrice.gross.amount)}</span>
+              Total: <span className="font-bold">
+                {
+                  cart.cart 
+                  ? formatMoney(cart.cart?.totalPrice.gross.amount)
+                  : formatMoney(0)
+                }
+              </span>
             </div>
             <button onClick={handleClick} className="focus:outline-none bg-green-500 hover:bg-green-600 px-6 py-2 w-full text-white font-semibold rounded uppercase">Finalizar Compra</button>
         </div>

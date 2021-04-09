@@ -1,6 +1,6 @@
 export function Footer(props){
   return(
-    <div className="bg-gray-100 border-t mt-6">
+    <div className="bg-gray-100 border-t">
       <div className="container mx-auto py-6 px-4">
         <div className="grid grid-cols-10 gap-4 xl:gap-6">
           <div className="col-span-2">

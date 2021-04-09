@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
-import { useCommerce } from '../../framework'
+import { useCommerce } from '../framework'
 
 export function Recuperar(){
   const { auth } = useCommerce()
