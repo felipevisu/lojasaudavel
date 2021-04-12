@@ -1,57 +1,9 @@
-import { useRouter } from 'next/router';
-import { useState } from 'react'
-import { useCommerce } from '../../../framework'
-import { Field } from '../../ui'
+import { Field, Button } from '../../ui'
 
-const initialAddress = {
-  streetAddress1: '',
-  streetAddress2: '',
-  cityArea: '',
-  city: '',
-  countryArea: '',
-  postalCode: '',
-  country: 'BR'
-}
-
-function getErrors(errors){
-  var errorDict = {}
-  errors.forEach(error => {
-    errorDict[error.field] = error.message
-  });
-  return errorDict
-}
-
-export function AddressForm({instance}){
-  const { auth } = useCommerce()
-  const [fields, setFields] = useState(instance)
-  const [errors, setErrors] = useState(initialAddress)
-  const [loading, setLoading] = useState(false)
-
-  const handleChange = (e) => {
-    setFields({
-      ...fields,
-      [e.target.name]: e.target.value
-    })
-    setErrors({
-      ...errors,
-      [e.target.name]: ''
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setLoading(false)
-  }
+export function AddressForm({loading, instance, errors, handleChange, handleSubmit}){
 
   return(
     <form onSubmit={handleSubmit} noValidate>
-      <div className="flex items-center  mb-4 justify-between">
-        <h3 className="font-bold text-md">Adicionar novo endereço</h3>
-        {
-          auth.user.addresses.length > 0 && <button className="bg-green-500 text-sm font-semibold text-white px-3 py-1 rounded hover:bg-green-600" onClick={() => props.setActive('list')}>Voltar para lista</button>
-        }
-      </div>
       
       <div className="grid grid-cols-4 gap-4 border-b pb-4 mb-4">
         <div className="col-span-3">
@@ -61,7 +13,7 @@ export function AddressForm({instance}){
             name="streetAddress1" 
             type="text" 
             onChange={handleChange}
-            value={fields.streetAddress1}
+            value={instance.streetAddress1}
             error={errors.streetAddress1}
           />
         </div>
@@ -72,7 +24,7 @@ export function AddressForm({instance}){
             name="streetAddress2" 
             type="text" 
             onChange={handleChange}
-            value={fields.streetAddress2}
+            value={instance.streetAddress2}
             error={errors.streetAddress2}
           />
         </div>
@@ -83,7 +35,7 @@ export function AddressForm({instance}){
             name="cityArea" 
             type="text" 
             onChange={handleChange}
-            value={fields.cityArea}
+            value={instance.cityArea}
             error={errors.cityArea}
           />
         </div>
@@ -94,7 +46,7 @@ export function AddressForm({instance}){
             name="city" 
             type="text" 
             onChange={handleChange}
-            value={fields.city}
+            value={instance.city}
             error={errors.city}
           />
         </div>
@@ -105,7 +57,7 @@ export function AddressForm({instance}){
             name="countryArea" 
             type="text" 
             onChange={handleChange}
-            value={fields.countryArea}
+            value={instance.countryArea}
             error={errors.countryArea}
           />
         </div>
@@ -116,14 +68,12 @@ export function AddressForm({instance}){
             name="postalCode" 
             type="text" 
             onChange={handleChange}
-            value={fields.postalCode}
+            value={instance.postalCode}
             error={errors.postalCode}
           />
         </div>
       </div>
-      <button type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-        {loading ? 'Carregando...' : 'Prosseguir com o frete' }
-      </button>
+      <Button type="submit" value={loading ? 'Carregando...' : 'Enviar'} />
     </form>
   )
 }

@@ -44,6 +44,12 @@ export function Sumary(props){
           <span>Entrega</span>
           <span className="font-semibold">{formatMoney(cart.cart.shippingPrice.gross.amount)}</span>
         </div>
+        {cart.cart.voucherCode &&
+          <div className="flex justify-between my-1">
+            <span>Desconto</span>
+            <span className="font-semibold">{formatMoney(cart.cart.discount.amount)}</span>
+          </div>
+        }
         <div className="flex justify-between my-1">
           <span>Total</span>
           <span className="font-semibold">{formatMoney(cart.cart.totalPrice.gross.amount)}</span>

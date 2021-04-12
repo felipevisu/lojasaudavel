@@ -22,7 +22,7 @@ export function Progress(){
             <span>
               <FiMapPin />
             </span>
-            <span className="pl-2">
+            <span className="pl-2 hidden md:block">
               Endereço
             </span>
           </a>
@@ -34,7 +34,7 @@ export function Progress(){
             <span>
               <FiTruck />
             </span>
-            <span className="pl-2">
+            <span className="pl-2 hidden md:block">
               Entrega
             </span>
           </a>
@@ -46,7 +46,7 @@ export function Progress(){
             <span>
               <FiCreditCard />
             </span>
-            <span className="pl-2">
+            <span className="pl-2 hidden md:block">
               Pagamento
             </span>
           </a>

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react'
 import { useCommerce } from '../../../framework'
-import { Field } from '../../ui'
+import { Field, Button } from '../../ui'
 
 const initialAddress = {
   streetAddress1: '',
@@ -76,7 +76,8 @@ export function AddressForm(props){
       <div className="flex items-center  mb-4 justify-between">
         <h3 className="font-bold text-md">Adicionar novo endereço</h3>
         {
-          auth.user.addresses.length > 0 && <button className="bg-green-500 text-sm font-semibold text-white px-3 py-1 rounded hover:bg-green-600" onClick={() => props.setActive('list')}>Voltar para lista</button>
+          auth.user.addresses.length > 0 && 
+          <Button size="sm" onClick={() => props.setActive('list')} value="Voltar para lista" />
         }
       </div>
       
@@ -154,9 +155,7 @@ export function AddressForm(props){
           </label>
         </div>
       </div>
-      <button type="submit" className="bg-green-500 hover:bg-green-600 appearance-none focus:outline-none text-white font-semibold px-6 py-2 rounded">
-        {loading ? 'Carregando...' : 'Prosseguir com o frete' }
-      </button>
+      <Button type="submit" value={loading ? 'Carregando...' : 'Prosseguir com o frete' } />
     </form>
   )
 }

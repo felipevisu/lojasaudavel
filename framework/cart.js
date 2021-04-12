@@ -14,6 +14,10 @@ const checkoutFragment = gql`
     token
     quantity
     email
+    voucherCode
+    discount{
+      amount
+    }
     subtotalPrice{
       gross{
         amount
@@ -266,6 +270,38 @@ const checkout = gql`
   }
 `
 
+const checkoutAddPromoCodeMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutAddPromoCode($checkoutId: ID!, $promoCode: String!) {
+    checkoutAddPromoCode(checkoutId: $checkoutId, promoCode: $promoCode){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
+const checkoutRemovePromoCodeMutation = gql`
+  ${checkoutFragment}
+  mutation CheckoutRemovePromoCode($checkoutId: ID!, $promoCode: String!) {
+    checkoutRemovePromoCode(checkoutId: $checkoutId, promoCode: $promoCode){
+      checkoutErrors{
+        code
+        message
+        field
+      }
+      checkout{
+        ...CheckoutFragment
+      }
+    }
+  }
+`
+
 export function useCart(){
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
@@ -438,6 +474,28 @@ export function useCart(){
     return response
   };
 
+  const checkoutAddPromoCode = async (promoCode) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutAddPromoCodeMutation,
+      variables: {checkoutId: cart.id, promoCode: promoCode}
+    })
+    if(response.data.checkoutAddPromoCode.checkout){
+      setCart(response.data.checkoutAddPromoCode.checkout)
+    }
+    return response
+  }
+
+  const checkoutRemovePromoCode = async (promoCode) => {
+    const response = await apolloClient.mutate({
+      mutation: checkoutRemovePromoCodeMutation,
+      variables: {checkoutId: cart.id, promoCode: promoCode}
+    })
+    if(response.data.checkoutRemovePromoCode.checkout){
+      setCart(response.data.checkoutRemovePromoCode.checkout)
+    }
+    return response
+  }
+
   const getCheckout = async (token) => {
     const response = await apolloClient.query({query: checkout, variables: {token: token}})
     if(response.data.checkout){
@@ -470,6 +528,8 @@ export function useCart(){
     checkoutLinesUpdate,
     checkoutLineDelete,
     checkoutCustomerAttach,
+    checkoutAddPromoCode,
+    checkoutRemovePromoCode,
     checkoutShippingAddressUpdate,
     checkoutBillingAddressUpdate,
     checkoutShippingMethodUpdate,

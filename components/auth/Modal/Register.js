@@ -42,10 +42,10 @@ export function Register(){
     setLoading(true)
     if(fields.password === confirmPassword){
       const response = await auth.accountRegister(fields)
-      const errors = response.data.accountRegister.accountErrors
-      if(errors.length > 0){
+      const response_errors = response.data.accountRegister.accountErrors
+      if(response_errors.length > 0){
         var new_errors = {}
-        errors.forEach(error => new_errors[error.field] = error.message)
+        response_errors.forEach(error => new_errors[error.field] = error.message)
         setErrors(new_errors)
       }
     } else {

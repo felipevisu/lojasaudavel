@@ -2,3 +2,17 @@ html {
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
+
+.html-content p{
+    margin-bottom: 16px;
+}
+
+.html-content h3{
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.html-content ul,
+.html-content ol{
+    margin-bottom: 16px;
+}

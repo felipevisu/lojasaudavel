@@ -29,14 +29,14 @@ export function CheckoutContainer(props){
   const method = useMemo(() => cart.cart?.shippingMethod, [cart.cart?.shippingMethod])
   
   return(
-    <div className="container mx-auto px-4 py-10">
-      <div className="grid grid-cols-6 gap-12">
-        <div className="col-span-4">
+    <div className="container mx-auto px-4 py-4 lg:py-10">
+      <div className="grid grid-cols-6 gap-6 xl:gap-12">
+        <div className="col-span-6 xl:col-span-4">
           <Progress />
           {props.children}
           {
-            address && method &&
-            <div className="grid grid-cols-2 border-t mt-4 pt-8">
+            (address || method) &&
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t mt-4 pt-8">
               {
                 address && 
                 <div>
@@ -49,7 +49,7 @@ export function CheckoutContainer(props){
               {
                 method &&
                 <div>
-                  <h5 className="font-semibold">Entrega selecionada</h5>
+                  <h5 className="font-semibold col-span-2">Entrega selecionada</h5>
                   Serviço: {method.name}<br/>
                   Preço: {formatMoney(method.price.amount)}
                 </div> 
@@ -57,7 +57,7 @@ export function CheckoutContainer(props){
             </div>
           }
         </div>
-        <div className="col-span-2">
+        <div className="col-span-6 xl:col-span-2">
           {cart.cart && <Sumary />}
         </div>
       </div>

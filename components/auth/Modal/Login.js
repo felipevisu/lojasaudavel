@@ -23,10 +23,10 @@ export function Login(){
     e.preventDefault()
     setLoading(true)
     const response = await auth.login(fields.email, fields.password)
-    const errors = response.data.tokenCreate.accountErrors
-    if(errors.length > 0){
+    const response_errors = response.data.tokenCreate.accountErrors
+    if(response_errors.length > 0){
       var new_errors = {}
-      errors.forEach(error => new_errors[error.field] = error.message)
+      response_errors.forEach(error => new_errors[error.field] = error.message)
       setErrors(new_errors)
     }
     setLoading(false)

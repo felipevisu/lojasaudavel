@@ -1,4 +1,4 @@
-export function Button({onClick, value, full=false, type="button", size="md"}){
+export function Button({onClick, value, full=false, outline=false, type="button", size="md", className=""}){
   return(
     <button
       type={type}
@@ -6,15 +6,21 @@ export function Button({onClick, value, full=false, type="button", size="md"}){
       className={`
         appearance-none
         focus:outline-none
-        bg-green-500
-        hover:bg-green-600
         rounded
-        ${size === 'sm' && "px-4 py-1"}
+        font-semibold
+        border
+        ${outline
+          ? 'border-green-500 text-green-500 hover:bg-green-500 hover:text-white'
+          : 'border-green-500 text-white bg-green-500 hover:bg-green-600 hover:border-green-600'
+        }
+        ${size === 'sm' && "px-3 py-1 text-sm"}
         ${size === 'md' && "px-6 py-2"}
         ${size === 'lg' && "px-8 py-3"}
         ${full && "w-full"}
-        text-white
-        font-semibold
+        ${className
+          ? className
+          : ''
+        }
       `}
     >
       {value}

@@ -45,7 +45,7 @@ export default function ChangeAccount(){
   return(
     <form onSubmit={handleSubmit}>
       <h3 className="font-bold text-md mb-3">Informações do usuário</h3>
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
         <div>
           <Field
             id="firstName"

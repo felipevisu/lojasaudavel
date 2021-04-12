@@ -50,7 +50,7 @@ export function Shipping(props){
         )
       }
       <div className="mt-4">
-        <div className="grid grid-cols-2 gap-4 mb-4 border-b pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b pb-4">
           {cart.cart.availableShippingMethods.map((method, key) => 
             <label
               key={key}

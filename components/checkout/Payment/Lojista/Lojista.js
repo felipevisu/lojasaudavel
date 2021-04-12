@@ -54,7 +54,7 @@ export function Lojista(props){
   if(active === 'payment'){
     return(
       <form onSubmit={handleSubmit} noValidate>
-        <div className="grid grid-cols-2 gap-4 mb-4 border-b pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b pb-4">
           <div>
             <label className="block text-gray-500 text-sm font-semibold mb-1" htmlFor="method">
               Forma de pagamento

@@ -12,6 +12,11 @@ export function formatMoney(number, decPlaces=2, decSep=',', thouSep='.') {
     (decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
 }
 
+export function formatDate(date) {
+	let f_date = new Date(date)
+  return ((f_date.getDate() )) + "/" + (f_date.getMonth() + 1) + "/" + f_date.getFullYear() + ', ' + f_date.getHours() + ':' + f_date.getMinutes() + ' hrs';
+}
+
 export function validateCPF(cpf) {
   var add, i, rev
 	cpf = cpf.replace(/[^\d]+/g,'');	

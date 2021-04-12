@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Auth } from '../components/auth/modal/Auth'
+import { Auth } from '../components/auth/Modal/Auth'
 import { useCommerce } from '../framework'
 
 export function Login(props){

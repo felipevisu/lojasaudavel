@@ -22,10 +22,10 @@ export function Request(){
     e.preventDefault()
     setLoading(true)
     const response = await auth.requestPasswordReset(email)
-    const errors = response.data.requestPasswordReset.accountErrors
-    if(errors.length > 0){
+    const response_errors = response.data.requestPasswordReset.accountErrors
+    if(response_errors.length > 0){
       var new_errors = {}
-      errors.forEach(error => new_errors[error.field] = error.message)
+      response_errors.forEach(error => new_errors[error.field] = error.message)
       setErrors(new_errors)
     } else {
       setSucess(true)

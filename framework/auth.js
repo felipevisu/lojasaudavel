@@ -171,6 +171,23 @@ const accountAddressUpdateMutation = gql`
   }
 `
 
+const accountAddressDeleteMutation = gql`
+  ${accountErrorsFragment}
+  ${addressFragment}
+  ${userFragment}
+  mutation AccountAddressDelete($id: ID!) {
+    accountAddressDelete(id: $id){
+      accountErrors{
+        ...AccountErrorsFragment
+      }
+      user{
+        ...UserFragment
+      }
+    }
+  }
+`
+
+
 export function useAuth(){
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
@@ -272,6 +289,20 @@ export function useAuth(){
     return response
   }
 
+  const accountAddressDelete = async (id) => {
+    const response = await apolloClient.mutate({
+      mutation: accountAddressDeleteMutation, 
+      variables: {id: id}
+    })
+    if(response.data.accountAddressDelete.user){
+      setUser(response.data.accountAddressDelete.user)
+      toast.success("Endereço excluído com sucesso.", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }
+    return response
+  }
+
   const accountUpdate = async (input) => {
     const response = await apolloClient.mutate({
       mutation: accountUpdateMutation, 
@@ -316,6 +347,7 @@ export function useAuth(){
     requestPasswordReset,
     accountAddressCreate,
     accountAddressUpdate,
+    accountAddressDelete,
     passwordChange,
     getUser,
     setUser,

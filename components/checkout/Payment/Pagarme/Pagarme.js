@@ -106,7 +106,7 @@ export function Pagarme(props){
   if(active === 'payment'){
     return(
       <form onSubmit={handleSubmit} noValidate>
-        <div className="grid grid-cols-4 gap-4 mb-4 border-b pb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 border-b pb-4">
           <div className="col-span-2">
             <Field
               label="Documento (CPF ou CNPJ)"
@@ -188,7 +188,9 @@ export function Pagarme(props){
         </div>
         <div className="mt-3">
           <Button onClick={() => setActive('payment')} value="Tentar novamente" />
-          <Button onClick={() => props.changeMethod('lojista')} value="Pagar na entrega/retirada" />
+          <span className="pl-2">
+            <Button outline onClick={() => {props.changeMethod('lojista'), setActive('payment')}} value="Pagar na entrega/retirada" />
+          </span>
         </div>
       </div>
     )

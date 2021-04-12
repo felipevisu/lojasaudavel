@@ -67,9 +67,9 @@ export function AddressList(props){
         <h3 className="font-bold text-md">Endereços já utilizados</h3>
         <span className="text-sm">Clique no endereço desejado para selecioná-lo</span>
       </div>
-      <div className="grid grid-cols-2 gap-4 mb-4 border-b pb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b pb-4">
         <div className="border rounded flex items-center hover:bg-gray-50 cursor-pointer" onClick={() => props.setActive('form')}>
-          <div className="text-center w-full text-center">
+          <div className="text-center w-full text-center py-8">
             <FiPlus className="mx-auto text-xl" />
             <span className="font-semibold">Adicionar novo</span>
           </div>
