@@ -1,9 +1,19 @@
 import { queryProductList, queryProduct } from '../../framework/products'
+import { initializeApollo } from '../../lib/apolloClient'
 
-export function Produto(props){
+
+export function Product({product}){
+  console.log(product)
+
   return(
-    <div>
-      Produto
+    <div className="container mx-auto px-4 py-6 lg:py-50">
+      <div className="grid grid-cols-2">
+        <div>
+          {product.media.map((media) =>
+            <img src={media.url} alt={product.name} />
+          )}
+        </div>
+      </div>
     </div>
   )
 }
@@ -30,14 +40,17 @@ export async function getStaticProps(context) {
   const product = await apolloClient.query({
     query: queryProduct,
     variables: {
-      slug: context.params.slug
+      slug: context.params.slug,
+      channel: "casa-nature"
     }
   });
 
   return {
     props: {
-      product: product
+      product: product.data.product
     },
     revalidate: 300,
   }
 }
+
+export default Product

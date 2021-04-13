@@ -4,6 +4,7 @@ import { FiShoppingCart, FiEye } from 'react-icons/fi'
 import { Listbox, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { useCommerce } from "../../../framework"
+import Link from 'next/link'
 
 function ProductOptions({selected, onChange, variants}) {
 
@@ -127,29 +128,34 @@ export function ProductCard(props){
   return(
     <div className="mb-2">
 
-      <div className="bg-gray-100 relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
-        <div className="w-full h-full transition-all duration-300 transform hover:scale-110">
-          {props.media.map(media => 
-            <div key={media.id} className={`absolute w-full transition-all duration-300 ${media.id === currentMedia.id ? 'opacity-100' : 'opacity-0'}`}>
-              <Image 
-                key={media.id}
-                src={media.url} 
-                alt={props.name}
-                width={300}
-                height={300}
-              />
+      <Link href={`/produtos/${props.slug}`}>
+        <a>
+          <div className="bg-gray-100 relative aspect-w-1 aspect-h-1 overflow-hidden rounded-md mb-2">
+            <div className="w-full h-full transition-all duration-300 transform hover:scale-110">
+              {props.media.map(media => 
+                <div key={media.id} className={`absolute w-full transition-all duration-300 ${media.id === currentMedia.id ? 'opacity-100' : 'opacity-0'}`}>
+                  <Image 
+                    key={media.id}
+                    src={media.url} 
+                    alt={props.name}
+                    width={300}
+                    height={300}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        
-      </div>
+            
+          </div>
+          
+          
+          <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
+          <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>
+          <h4 className="font-bold text-green-600 mb-2">
+            {formatMoney(selected.pricing.price.gross.amount)}
+          </h4>
+        </a>
+      </Link>
       
-      
-      <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
-      <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>
-      <h4 className="font-bold text-green-600 mb-2">
-        {formatMoney(selected.pricing.price.gross.amount)}
-      </h4>
       
       {props.productType.hasVariants &&
         <ProductOptions 

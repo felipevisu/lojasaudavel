@@ -1,54 +1,7 @@
 import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
+import { ProductFragment, ProductDetailFragment } from './fragments'
 
-const ProductFragment = gql`
-  fragment ProductFragment on Product{
-    id
-    name
-    category{
-      name
-    }
-    media{
-      id
-      url(size: 300)
-    }
-    productType{
-      hasVariants
-    }
-    defaultVariant{
-      id
-    }
-    pricing{
-      priceRange{
-        start{
-          gross{
-            amount
-          }
-        }
-        stop{
-          gross{
-            amount
-          }
-        }
-      }
-    }
-    variants{
-      id
-      name
-      quantityAvailable
-      media{
-        id
-      }
-      pricing{
-        price{
-          gross{
-            amount
-          }
-        }
-      }
-    }
-  }
-`
 
 export const queryProducts = gql`
   ${ProductFragment}
@@ -124,39 +77,16 @@ export const queryProductList = gql`
 `
 
 export const queryProduct = gql`
-  query ProductList(
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $filter: ProductFilterInput
-    $sort: ProductOrder
-    $channel: String = "casa-nature"
+  ${ProductDetailFragment}
+  query Product(
+    $slug: String!
+    $channel: String!
   ){
-    products(
-      first: $first
-      last: $last
-      before: $before
-      after: $after
-      filter: $filter
-      sortBy: $sort
+    product(
+      slug: $slug
       channel: $channel
-      stockAvailability: IN_STOCK
     ){
-      edges{
-        node{
-          id
-          name
-          slug
-        }
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
-      totalCount
+      ...ProductDetailFragment
     }
   }
 `
