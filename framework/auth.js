@@ -202,8 +202,8 @@ export function useAuth(){
     })
     if(response.data.tokenCreate.token){
       setUser(response.data.tokenCreate.user)
-      Cookies.set('token', response.data.tokenCreate.token, { expires: 7 })
-      Cookies.set('refreshToken', response.data.tokenCreate.refreshToken, { expires: 7 })
+      localStorage.setItem('token', response.data.tokenCreate.token)
+      localStorage.setItem('refreshToken', response.data.tokenCreate.refreshToken)
       setOpen(false)
     }
     return response
@@ -261,8 +261,8 @@ export function useAuth(){
     const user = response.data.setPassword.user
     if(user){
       setUser(user)
-      Cookies.set('token', response.data.setPassword.token, { expires: 7 })
-      Cookies.set('refreshToken', response.data.setPassword.refreshToken, { expires: 7 })
+      localStorage.setItem('token', response.data.setPassword.token)
+      localStorage.setItem('refreshToken', response.data.setPassword.refreshToken)
     }
     return response
   }
@@ -322,8 +322,8 @@ export function useAuth(){
     if(response.data.me){
       setUser(response.data.me)
     } else {
-      Cookies.remove('token')
-      Cookies.remove('refreshToken')
+      localStorage.removeItem('token')
+      localStorage.removeItem('refreshToken')
     }
     setAuthLoading(false)
   }

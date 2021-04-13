@@ -24,9 +24,6 @@ export function CheckoutContainer(props){
   if(!cart.cartLoading && (cart.cart === null || cart.cart?.lines?.length === 0)){
     return <Empty />
   }
-
-  const address = useMemo(() => cart.cart?.shippingAddress, [cart.cart?.shippingAddress])
-  const method = useMemo(() => cart.cart?.shippingMethod, [cart.cart?.shippingMethod])
   
   return(
     <div className="container mx-auto px-4 py-4 lg:py-10">
@@ -35,23 +32,23 @@ export function CheckoutContainer(props){
           <Progress />
           {props.children}
           {
-            (address || method) &&
+            (cart.cart.shippingAddress || cart.cart.shippingMethod) &&
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t mt-4 pt-8">
               {
-                address && 
+                cart.cart.shippingAddress && 
                 <div>
                   <h5 className="font-semibold">Endereço selecionado</h5>
-                  {address.streetAddress1}, {address.streetAddress2 && address.streetAddress2}<br/>
-                  {address.cityArea && `${address.cityArea} - ` }{address.city} / {address.countryArea}<br/>
-                  Cep: {address.postalCode}
+                  {cart.cart.shippingAddress.streetAddress1}, {cart.cart.shippingAddress.streetAddress2 && cart.cart.shippingAddress.streetAddress2}<br/>
+                  {cart.cart.shippingAddress.cityArea && `${cart.cart.shippingAddress.cityArea} - ` }{cart.cart.shippingAddress.city} / {cart.cart.shippingAddress.countryArea}<br/>
+                  Cep: {cart.cart.shippingAddress.postalCode}
                 </div>
               }
               {
-                method &&
+                cart.cart.shippingMethod &&
                 <div>
                   <h5 className="font-semibold col-span-2">Entrega selecionada</h5>
-                  Serviço: {method.name}<br/>
-                  Preço: {formatMoney(method.price.amount)}
+                  Serviço: {cart.cart.shippingMethod.name}<br/>
+                  Preço: {formatMoney(cart.cart.shippingMethod.price.amount)}
                 </div> 
               }
             </div>

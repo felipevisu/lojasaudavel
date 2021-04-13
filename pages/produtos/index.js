@@ -1,8 +1,8 @@
 import Head from 'next/head'
 
 import 'keen-slider/keen-slider.min.css';
-import { ProductList}  from '../components/product';
-import getAttributes from '../framework/attributes';
+import { ProductList}  from '../../components/product';
+import getAttributes from '../../framework/attributes';
 
 export default function Home({ attributes }) {
 

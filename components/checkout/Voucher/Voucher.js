@@ -5,7 +5,7 @@ import { formatMoney } from '../../utils'
 
 export function Voucher(){
   const { cart } = useCommerce()
-  const [code, setCode] = useState(cart.cart.voucherCode)
+  const [code, setCode] = useState(cart.cart.voucherCode || "")
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState([])
 

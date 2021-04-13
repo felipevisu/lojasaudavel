@@ -9,7 +9,6 @@ import Image from 'next/image'
 import 'keen-slider/keen-slider.min.css';
 
 export default function Home({ slideshow, banners, products, granel }) {
-
   return (
     <div className="py-6">
       <Head>
