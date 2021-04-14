@@ -23,7 +23,7 @@ export function Media({media, selected}){
 
   return(
     <div className="relative">
-      <div ref={sliderRef} className="keen-slider rounded-lg bg-gray-100">
+      <div ref={sliderRef} className="keen-slider rounded-lg bg-gray-100 aspect-w-10 aspect0-h-10">
         {media.map((media) =>
           <div key={media.id} className="keen-slider__slide number-slide1">
             <img src={media.url} alt={media.alt} />

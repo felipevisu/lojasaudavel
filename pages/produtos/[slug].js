@@ -15,7 +15,12 @@ export async function getStaticPaths() {
   const products = await apolloClient.query({
     query: queryProductList,
     variables: {
-      first: 100
+      first: 1000,
+      channel: "casa-nature",
+      filter:{
+        channel: "casa-nature",
+        isPublished: true
+      }
     }
   })
 

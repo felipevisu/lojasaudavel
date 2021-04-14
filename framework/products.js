@@ -48,7 +48,7 @@ export const queryProductList = gql`
     $before: String
     $filter: ProductFilterInput
     $sort: ProductOrder
-    $channel: String = "casa-nature"
+    $channel: String
   ){
     products(
       first: $first
