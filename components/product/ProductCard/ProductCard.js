@@ -169,9 +169,11 @@ export function ProductCard(props){
         <button onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
-        <button className="appearance-none focus:outline-none flex border items-center font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">
-          <FiEye className="md:mr-2" /> <span className="hidden md:block">Detalhes</span>
-        </button> 
+        <Link href={`/produtos/${props.slug}`}>
+          <a className="flex border items-center font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">
+            <FiEye className="md:mr-2" /> <span className="hidden md:block">Detalhes</span>
+          </a> 
+        </Link>
       </div>
       
     </div>

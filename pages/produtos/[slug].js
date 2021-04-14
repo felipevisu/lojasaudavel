@@ -1,19 +1,11 @@
 import { queryProductList, queryProduct } from '../../framework/products'
 import { initializeApollo } from '../../lib/apolloClient'
-
+import { ProductPage } from '../../components/product'
 
 export function Product({product}){
-  console.log(product)
-
   return(
-    <div className="container mx-auto px-4 py-6 lg:py-50">
-      <div className="grid grid-cols-2">
-        <div>
-          {product.media.map((media) =>
-            <img src={media.url} alt={product.name} />
-          )}
-        </div>
-      </div>
+    <div className="container mx-auto px-4 py-6 lg:py-10">
+      <ProductPage product={product} />
     </div>
   )
 }
