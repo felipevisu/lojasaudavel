@@ -40,8 +40,9 @@ function Line(props){
           }
         </div>
         <div className="pl-2">
-          <h5 className="font-semibold">
-            {props.variant.product.name} {props.variant.name && <span>({props.variant.name})</span>}
+          <h5 className="font-semibold leading-4">
+            {props.variant.product.name}<br/>
+            <span className="text-sm">({props.variant.name})</span>
           </h5>
           <div className="text-sm font-bold text-gray-600"> 
             Total: <span className="text-green-600">{formatMoney(props.totalPrice.gross.amount)}</span>

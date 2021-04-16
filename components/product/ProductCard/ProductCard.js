@@ -144,9 +144,7 @@ export function ProductCard(props){
                 </div>
               )}
             </div>
-            
           </div>
-          
           
           <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
           <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>

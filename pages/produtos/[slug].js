@@ -1,12 +1,19 @@
 import { queryProductList, queryProduct } from '../../framework/products'
 import { initializeApollo } from '../../lib/apolloClient'
 import { ProductPage } from '../../components/product'
+import Head from 'next/head'
 
 export function Product({product}){
   return(
-    <div className="container mx-auto px-4 py-6 lg:py-10">
-      <ProductPage product={product} />
-    </div>
+    <>
+      <Head>
+        <title>Loja Saudável - {product.name}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="container mx-auto px-4 py-6 lg:py-10 xl:max-w-screen-xl">
+        <ProductPage product={product} />
+      </div>
+    </>
   )
 }
 

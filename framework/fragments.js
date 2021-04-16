@@ -70,6 +70,7 @@ export const ProductDetailFragment = gql`
     name
     slug
     description
+    extraInfos
     category{
       name
       slug
