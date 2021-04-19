@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import { initializeApollo } from "../lib/apolloClient"
-import Cookies from 'js-cookie'
 import { toast } from 'react-toastify';
 
 import { addressFragment } from './fragments'
@@ -329,7 +328,7 @@ export function useAuth(){
   }
 
   useEffect(() => {
-    const token = Cookies.get('token')
+    const token = localStorage.getItem('token')
     if(token){
       getUser()
     } else {

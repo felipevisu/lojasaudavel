@@ -17,8 +17,8 @@ export const CommerceProvider = ({ children }) => {
   const logout = () => {
     auth.setUser(null)
     cart.setCart(null)
-    Cookies.remove('token')
-    Cookies.remove('refreshToken')
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
     Cookies.remove('checkoutId')
     Cookies.remove('checkoutToken')
   };

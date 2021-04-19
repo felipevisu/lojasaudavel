@@ -30,7 +30,6 @@ export default function CheckoutShipping() {
             </Link>  
           </span>
           
-          
         </div>
       </div>
     </>
