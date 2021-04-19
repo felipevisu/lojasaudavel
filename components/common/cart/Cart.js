@@ -1,9 +1,10 @@
 import { IoMdClose } from 'react-icons/io'
 import { useCommerce } from '../../../framework'
-import styled from './CartBox.module.css'
 import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from 'next/router'
+
+import styled from './CartBox.module.css'
 
 function Line(props){
   const { cart } = useCommerce()
@@ -94,7 +95,7 @@ export function Cart(){
   return(
     <>
       <div onClick={() => cart.setOpen(false)} className={` ${cart.open ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={`${styled.sideBar} ${cart.open && styled.open} transition fixed h-screen z-50 bg-white top-0`}>
+      <div className={`${styled.sideBar} ${cart.open && styled.open} transition fixed h-screen z-50 bg-white top-0 right-0`}>
         <div className="flex items-center px-6 h-12">
           <span className="font-semibold">Carrinho</span>
           <button onClick={() => cart.setOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
