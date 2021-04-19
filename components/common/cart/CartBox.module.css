@@ -6,7 +6,6 @@
     height: 100vh;
     background :#fff;
     top: 0;
-    bottom: 0;
     transition: all ease 300ms;
     right: -420px;
 }

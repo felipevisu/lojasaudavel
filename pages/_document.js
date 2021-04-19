@@ -8,7 +8,6 @@ class MyDocument extends Document {
     return (
       <Html lang="pt-br">
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
           <meta
             name="description" content="Loja Saudável - Sua nova loja online de alimentos saudáveis. 
             Suplementos, alimentos diet, light, sem lactose, sem glútem, para diabéticos, atletas e 
