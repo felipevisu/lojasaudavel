@@ -1,7 +1,11 @@
 import { useState } from "react"
 
 export function ProductDetails({product}){
-  const [active, setActive] = useState('description')
+  const [active, setActive] = useState(() => {
+    if(product.description) return 'description'
+    if(product.extraInfos) return 'extraInfos'
+    return 'brand'
+  })
 
   if(!product.description && product.extraInfos && product.brand?.description){
     return null
@@ -20,7 +24,7 @@ export function ProductDetails({product}){
             Informações Nutricionais
           </div>
         }
-        {product.brand.description && 
+        {product.brand?.description && 
           <div className={`tabItem ${active === 'brand' && 'active'}`} onClick={() => setActive('brand')}>
             Sobre a marca
           </div>

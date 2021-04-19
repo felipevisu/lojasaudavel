@@ -32,6 +32,10 @@ html {
     border: 1px solid #e5e7eb;
 }
 
+.htmlContent table p{
+    margin: 0 !important;
+}
+
 .tabMenu{
     border-bottom: 1px solid #ddd;
     display: flex;
@@ -50,3 +54,23 @@ html {
     border-bottom: 3px solid #10b981;
 }
 
+.breadcrumbs{
+    display: flex;
+}
+
+.breadcrumbsItem{
+    margin-right: 8px;
+}
+
+.breadcrumbsItem a:hover{
+    color: #10b981;
+}
+
+.breadcrumbsItem:after{
+    content: '/';
+    padding-left: 12px;
+}
+
+.breadcrumbsItem:last-child::after{
+    display: none;
+}

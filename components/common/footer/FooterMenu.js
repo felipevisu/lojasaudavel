@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 export function FooterMenu(){
   const { loading, error, data } = useQuery(queryMenu, {variables: {slug: 'institucional'}})
+
   return(
     <div className="">
       {data?.menu.items.map((item, key) => 

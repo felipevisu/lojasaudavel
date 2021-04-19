@@ -17,18 +17,23 @@ export function Container(props){
     )
   }
     
-  return(
-    <div className="container mx-auto px-4 py-4 lg:py-10">
-      <div className="grid grid-cols-8 gap-6 xl:gap-12">
-        <div className="col-span-8 lg:col-span-2">
-          <Menu />
-        </div>
-        <div className="col-span-8 lg:col-span-6">
-          {props.children}
+  if(!auth.authLoading && auth.user !== null){
+    return(
+      <div className="container mx-auto px-4 py-4 lg:py-10">
+        <div className="grid grid-cols-8 gap-6 xl:gap-12">
+          <div className="col-span-8 lg:col-span-2">
+            <Menu />
+          </div>
+          <div className="col-span-8 lg:col-span-6">
+            {props.children}
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
+
+  return null
+  
 }
 
 export default Container

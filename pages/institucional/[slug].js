@@ -1,12 +1,9 @@
 import { initializeApollo } from "../../lib/apolloClient"
 import { gql } from '@apollo/client'
-import edjsHTML from 'editorjs-html'
 import Head from 'next/head'
 import { FooterMenu } from '../../components/common/footer/FooterMenu'
 
 export function Page({page}){
-  const edjsParser = edjsHTML();
-  const content = edjsParser.parse(JSON.parse(page.content));
 
   return(
     <div className="container px-4 mx-auto py-10">
@@ -21,9 +18,7 @@ export function Page({page}){
         </div>
         <div className="col-span-3">
           <h3 className="text-3xl pb-3 border-b mb-4">{page.title}</h3>
-          {content.map((item, key) =>
-            <div className="html-content" key={key} dangerouslySetInnerHTML={{ __html: item}} />
-          )}
+          <div className="htmlContent" dangerouslySetInnerHTML={{__html: page.content}} />
         </div>
       </div>
     </div>

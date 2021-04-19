@@ -6,7 +6,7 @@ import { Search } from "./Search"
 
 export function Header(){
 
-  const { auth, cart, logout } = useCommerce()
+  const { auth, cart, logout, setMenuOpen } = useCommerce()
 
   return (
     <>
@@ -14,7 +14,7 @@ export function Header(){
         <div className="container mx-auto px-4">
           <div className="flex items-center">
             <div className="w-1/4 lg:hidden">
-              <FiMenu className="text-2xl text-green-500" />
+              <FiMenu className="text-2xl text-green-500" onClick={() => setMenuOpen(true)} />
             </div>
             <div className="w-1/2 lg:w-1/3 text-center lg:text-left">
               <Link href="/">

@@ -74,6 +74,10 @@ export const ProductDetailFragment = gql`
     category{
       name
       slug
+      parent{
+        name
+        slug
+      }
     }
     brand{
       name

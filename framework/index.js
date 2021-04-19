@@ -12,6 +12,7 @@ export const CommerceProvider = ({ children }) => {
   const cart = useCart()
   const menu = useTopMenu()
   const [filterOpen, setFilterOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(true)
 
   const logout = () => {
     auth.setUser(null)
@@ -46,6 +47,8 @@ export const CommerceProvider = ({ children }) => {
       auth,
       cart,
       menu,
+      menuOpen,
+      setMenuOpen,
       filterOpen,
       setFilterOpen,
       logout

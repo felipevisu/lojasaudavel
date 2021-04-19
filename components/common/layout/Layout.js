@@ -5,6 +5,7 @@ import { Navbar } from '../navbar'
 import { Header } from '../header'
 import { Cart } from '../cart'
 import { useCommerce } from '../../../framework'
+import { Menu } from '../menu'
 
 const Modal = dynamic(() => import('../../auth/Modal'))
 
@@ -17,6 +18,7 @@ export function Layout(props){
       <Header />
       <Navbar />
       <Cart />
+      <Menu />
       {auth.open && <Modal />}
       {props.children}
       <Footer />

@@ -26,6 +26,7 @@ function LinkItem(props){
     if(props.page){
       return '/institucional/' + props.page.slug
     }
+    return '#'
   }, [props])
 
   return(

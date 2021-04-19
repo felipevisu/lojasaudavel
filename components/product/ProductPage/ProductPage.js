@@ -4,6 +4,7 @@ import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi' 
 import { useCommerce } from '../../../framework'
 import ProductDetails from './ProductDetails'
+import Breadcrumbs from './Breadcrumbs'
 
 export function ProductPage({product}){
   const { cart } = useCommerce()
@@ -39,6 +40,7 @@ export function ProductPage({product}){
 
   return(
     <div>
+      <Breadcrumbs product={product} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-12">
         <div>
           <Media media={product.media} selected={selected} />

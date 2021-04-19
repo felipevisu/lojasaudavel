@@ -2,15 +2,16 @@ import { Login } from './Login'
 import { Register } from './Register'
 import { Request } from './Request'
 import { useState } from 'react'
-import { useCommerce } from '../../../framework'
-
+import Head from 'next/head'
 
 export function Auth(props){
-  const { auth } = useCommerce()
   const [active, setActive] = useState('login')
 
   return(
     <>
+      <Head>
+        <title>Loja Saudável - Login</title>
+      </Head>
       <div className="mb-6">
         <img src="/logo.svg" className="w-48 mx-auto" />
       </div>

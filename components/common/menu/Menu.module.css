@@ -1,0 +1,12 @@
+.open{
+    transform: translateX(0px)
+}
+
+.close{
+    transform: translateX(-420px)
+}
+
+.sideBar{
+    width: 90%;
+    max-width: 400px;
+}
