@@ -2,13 +2,11 @@
     transform: translateX(0px)
 }
 
-.close{
-    transform: translateX(420px)
-}
-
 .sideBar{
+    right: 0;
     width: 90%;
     max-width: 400px;
+    transform: translateX(420px)
 }
 
 @media(min-width: 1280px){
@@ -17,6 +15,7 @@
     }
 
     .sideBar{
+        transform: translateX(560px);
         max-width: 540px;
     }
 }

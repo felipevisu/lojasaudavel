@@ -2,11 +2,9 @@
     transform: translateX(0px)
 }
 
-.close{
-    transform: translateX(-420px)
-}
-
 .sideBar{
+    left: 0;
+    transform: translateX(-420px);
     width: 90%;
     max-width: 400px;
 }

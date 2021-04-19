@@ -41,7 +41,7 @@ function MenuItem(props){
     <div className="px-3 py-2">
       <LinkItem item={props} show={show} setShow={setShow} />
       {props.children.length > 0 &&
-        <div className={` ${show ? 'block' : 'hidden'} z-30 py-4 px-2 mt-2 rounded py-1 w-full bg-gray-100 left-0`}>
+        <div className={` ${show ? 'block' : 'hidden'} z-30 py-4 px-2 mt-2 rounded py-1 w-full bg-gray-100`}>
           <div className="">
             {props.children.map((item) => 
               <div key={item.id} className="px-3">
@@ -68,7 +68,7 @@ export function Menu(){
   return(
     <>
       <div onClick={() => setMenuOpen(false)} className={` ${menuOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={`${styled.sideBar} ${menuOpen ? styled.open : styled.close} transition fixed left-0 z-50 bg-white top-0 bottom-0`}>
+      <div className={`${styled.sideBar} ${menuOpen && styled.open } transition fixed z-50 bg-white top-0 bottom-0`}>
         <div className="flex items-center px-6 h-12">
           <span className="font-semibold">Menu</span>
           <button onClick={() => setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
