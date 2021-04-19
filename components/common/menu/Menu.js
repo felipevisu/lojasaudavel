@@ -68,7 +68,7 @@ export function Menu(){
   return(
     <>
       <div onClick={() => setMenuOpen(false)} className={` ${menuOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={`${styled.sideBar} ${menuOpen && styled.open } transition fixed z-50 bg-white top-0 bottom-0`}>
+      <div className={`${styled.sideBar} ${menuOpen && styled.open }`}>
         <div className="flex items-center px-6 h-12">
           <span className="font-semibold">Menu</span>
           <button onClick={() => setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>

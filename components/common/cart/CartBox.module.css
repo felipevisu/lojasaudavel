@@ -1,22 +1,16 @@
 .sideBar{
-    right: 0;
     width: 90%;
     max-width: 400px;
-    transform: translateX(420px)  !important;
     z-index: 100;
+    position: fixed;
+    height: 100vh;
+    background :#fff;
+    top: 0;
+    bottom: 0;
+    transition: all ease 300ms;
+    right: -420px;
 }
 
 .open{
-    transform: translateX(0px) !important;
-}
-
-@media(min-width: 1280px){
-    .close{
-        transform: translateX(560px)
-    }
-
-    .sideBar{
-        transform: translateX(560px);
-        max-width: 540px;
-    }
+    right: 0px;
 }
