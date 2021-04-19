@@ -50,7 +50,7 @@ function MenuItem(props){
       <LinkItem {...props} />
       {props.children.length > 0 &&
         <div className={` ${show ? 'block' : 'hidden'} z-30 py-4 mt-4 absolute w-full bg-gray-100 border-t border-b left-0`}>
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto xl:max-w-screen-lg px-4">
             <div className="flex flex-wrap justify-center">
               {props.children.map((item) => 
                 <div key={item.id} className="px-3">
