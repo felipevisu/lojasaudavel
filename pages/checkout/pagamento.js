@@ -6,7 +6,6 @@ export default function CheckoutShipping() {
     <>
       <Head>
         <title>Loja Saudável - Checkout - Pagamento</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <CheckoutContainer>
         <Payment />

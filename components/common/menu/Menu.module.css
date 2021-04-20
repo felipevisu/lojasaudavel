@@ -1,13 +1,14 @@
 .sideBar{
     width: 90%;
     max-width: 400px;
-    z-index: 100;
-    position: fixed;
     height: 100vh;
-    background :#fff;
+    height: -webkit-fill-available;
+    z-index: 100;
     top: 0;
-    transition: all ease 300ms;
     left: -420px;
+    position: fixed;
+    background :#fff;
+    transition: all ease 300ms;
 }
 
 .open{

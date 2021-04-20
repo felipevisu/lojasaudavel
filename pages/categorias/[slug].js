@@ -11,7 +11,6 @@ export default function Category(props){
     <>
       <Head>
         <title>Loja Saudável - {props.category.name}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ProductList category={props.category} attributes={props.attributes} />
     </>

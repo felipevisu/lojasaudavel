@@ -13,7 +13,6 @@ export function ErrorPage(props){
             <Button  size="lg" value="Retorne a  página inicial" />
           </Link>  
         </div>
-        
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { Auth } from '../components/auth/Modal/Auth'
 import { useCommerce } from '../framework'
+import Head from 'next/head'
 
 export function Login(props){
   const { auth } = useCommerce()
@@ -14,9 +15,14 @@ export function Login(props){
   }
 
   return(
-    <div className="w-96 mx-auto p-6 border rounded my-10">
-      <Auth />
-    </div>
+    <>
+      <Head>
+        <title>Loja Saudável - Login</title>
+      </Head>
+      <div className="w-96 mx-auto p-6 border rounded my-10">
+        <Auth />
+      </div>
+    </>
   )
 }
 

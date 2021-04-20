@@ -82,7 +82,6 @@ export function Recuperar(){
     <>
       <Head>
         <title>Loja Saudável - Recuperar senha</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="px-4 py-10">

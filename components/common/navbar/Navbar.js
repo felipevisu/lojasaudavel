@@ -32,7 +32,7 @@ function LinkItem(props){
   return(
     <>
       <Link href={`${pathname}`} as={`${slug}`}>
-        <a className="font-semibold transition transition-all hover:text-green-500 flex items-center">
+        <a className="font-semibold transition transition-all hover:text-green-500 flex items-center py-1">
           {props.name}
           {props.children.length > 0 && <RiArrowDropDownLine className="text-xl" />}
         </a>
@@ -46,11 +46,11 @@ function MenuItem(props){
   const [show, setShow] = useState(false)
 
   return(
-    <div className="py-4 px-3" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+    <div className="py-3 px-3" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <LinkItem {...props} />
       {props.children.length > 0 &&
-        <div className={` ${show ? 'block' : 'hidden'} z-30 py-4 mt-4 absolute w-full bg-gray-100 border-t border-b left-0`}>
-          <div className="container mx-auto xl:max-w-screen-lg px-4">
+        <div className={` ${show ? 'block' : 'hidden'} z-30 py-3 mt-3 absolute w-full bg-gray-100 border-t border-b left-0`}>
+          <div className="container mx-auto xl:max-w-screen-xl px-4">
             <div className="flex flex-wrap justify-center">
               {props.children.map((item) => 
                 <div key={item.id} className="px-3">

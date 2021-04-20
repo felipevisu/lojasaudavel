@@ -6,22 +6,23 @@ import { FooterMenu } from '../../components/common/footer/FooterMenu'
 export function Page({page}){
 
   return(
-    <div className="container px-4 mx-auto py-10">
+    <>
       <Head>
         <title>Loja Saudável - {page.title}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="grid grid-cols-4">
-        <div>
-          <h3 className="font-semibold mb-3">Menu</h3>
-          <FooterMenu />
-        </div>
-        <div className="col-span-3">
-          <h3 className="text-3xl pb-3 border-b mb-4">{page.title}</h3>
-          <div className="htmlContent" dangerouslySetInnerHTML={{__html: page.content}} />
+      <div className="container px-4 mx-auto py-10">
+        <div className="grid grid-cols-4">
+          <div>
+            <h3 className="font-semibold mb-3">Menu</h3>
+            <FooterMenu />
+          </div>
+          <div className="col-span-3">
+            <h3 className="text-3xl pb-3 border-b mb-4">{page.title}</h3>
+            <div className="htmlContent" dangerouslySetInnerHTML={{__html: page.content}} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

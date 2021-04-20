@@ -7,7 +7,6 @@ export default function CheckoutShipping() {
     <>
       <Head>
         <title>Loja Saudável - Checkout - Finalizado com sucesso!</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container mx-auto max-w-screen-md px-4 py-8 xl:py-14 text-center">
         <h2 className="text-6xl">
@@ -29,7 +28,6 @@ export default function CheckoutShipping() {
               <Button value="Acesse sua página de pedidos" outline />
             </Link>  
           </span>
-          
         </div>
       </div>
     </>

@@ -7,7 +7,6 @@ export default function CheckoutAddress() {
     <>
       <Head>
         <title>Loja Saudável - Checkout - Endereço</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <CheckoutContainer>
         <Address/>
