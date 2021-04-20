@@ -32,17 +32,17 @@ export function ProductDetails({product}){
       </div>
       <div className="tabContent">
         {active === 'description' &&
-          <div className="tab">
+          <div className="tab overflow-auto">
             <div className="htmlContent" dangerouslySetInnerHTML={{__html: product.description}} />
           </div>
         }
         {active === 'extraInfos' &&
-          <div className="tab">
+          <div className="tab overflow-auto">
             <div className="htmlContent" dangerouslySetInnerHTML={{__html: product.extraInfos}} />
           </div>
         }
         {active === 'brand' &&
-          <div className="tab">
+          <div className="tab overflow-auto">
             <div className="htmlContent" dangerouslySetInnerHTML={{__html: product.brand?.description}} />
           </div>
         }
