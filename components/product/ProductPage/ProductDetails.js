@@ -7,7 +7,7 @@ export function ProductDetails({product}){
     return 'brand'
   })
 
-  if(!product.description && product.extraInfos && product.brand?.description){
+  if(!product.description && !product.extraInfos && !product.brand?.description){
     return null
   }
 
