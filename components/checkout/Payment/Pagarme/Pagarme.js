@@ -3,6 +3,7 @@ import { Field, Button } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
 import { useCommerce } from '../../../../framework'
 import { useRouter } from 'next/router'
+import { formatMoney } from '../../../utils'
 
 export function Pagarme(props){
   const { cart } = useCommerce()
@@ -21,8 +22,10 @@ export function Pagarme(props){
   })
 
   const [document, setDocument] = useState("")
+  const [installments, setInstallments] = useState(1)
 
   const [errors, setErrors] = useState({
+    installments: '',
     document: '',
     card_holder_name: '',
     card_number: '',
@@ -50,6 +53,14 @@ export function Pagarme(props){
     })
   }
 
+  const handleInstallments = (e) => {
+    setInstallments(parseInt(e.target.value))
+    setErrors({
+      ...errors,
+      [e.target.name]: ""
+    })
+  }
+
   useEffect(() =>{
     return () => {
       if(finalized){
@@ -69,7 +80,8 @@ export function Pagarme(props){
       const payment = await cart.checkoutPaymentCreate({
         gateway: "pagarme",
         method: "CREDITCARD",
-        token: token
+        token: token,
+        installments: installments
       })
       const errors = payment.data.checkoutPaymentCreate.paymentErrors
       if(errors.length === 0){
@@ -161,6 +173,25 @@ export function Pagarme(props){
               onChange={handleChange}
               placeholder="123"
             />
+          </div>
+          <div className="col-span-2">
+            <label className="block text-gray-500 text-sm font-semibold mb-1" htmlFor="installments">
+              Parcelas
+            </label>
+            <select 
+                id="installments" 
+                name="installments" 
+                value={installments} 
+                onChange={handleInstallments}
+                className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500"
+              >
+              <option value="1">1 x de {formatMoney(cart.cart.totalPrice.gross.amount)}</option>
+              <option value="2">2 x de {formatMoney(cart.cart.totalPrice.gross.amount/2)}</option>
+              <option value="3">3 x de {formatMoney(cart.cart.totalPrice.gross.amount/3)}</option>
+              <option value="4">4 x de {formatMoney(cart.cart.totalPrice.gross.amount/4)}</option>
+              <option value="5">5 x de {formatMoney(cart.cart.totalPrice.gross.amount/5)}</option>
+              <option value="6">6 x de {formatMoney(cart.cart.totalPrice.gross.amount/6)}</option>
+            </select>
           </div>
         </div>
         <Button type="submit" onClick={() => setActive('payment')} value={loading ? 'Carregando...' : 'Concluir pedido'} />
