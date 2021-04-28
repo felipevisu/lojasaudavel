@@ -7,7 +7,9 @@ const SORT_DICT = {
   "name": {field: "NAME", direction: "ASC"},
   "-name": {field: "NAME", direction: "DESC"},
   "date": {field: "DATE", direction: "ASC"},
-  "-date": {field: "DATE", direction: "DESC"}
+  "-date": {field: "DATE", direction: "DESC"},
+  "rank": {field: "RANK", direction: "ASC"},
+  "-rank": {field: "RANK", direction: "DESC"}
 }
 
 function arraysEqual(a, b) {

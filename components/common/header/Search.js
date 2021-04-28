@@ -13,7 +13,7 @@ export function Search(props){
   const handleSubmit = (e) => {
     e.preventDefault()
     if(search){
-      router.push('/produtos?search=' + search)
+      router.push('/produtos?search=' + search + "&sort=-rank")
     }
   }
 

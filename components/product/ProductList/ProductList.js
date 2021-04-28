@@ -20,12 +20,18 @@ export function ProductList({attributes, category}){
       <div className="container mx-auto px-4">
         <Header category={category} total={products?.products?.totalCount || 0} />
         {loading &&
-          <div className="pb-6">
+          <div className="pb-8">
             Carregando...
           </div>
         }
         {products &&
           <>
+            {
+              products.products.edges.length === 0 &&
+              <div className="pb-8">
+                Nenhum produto encontrado.
+              </div>
+            }
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6 mb-6">
               {products.products.edges.map(({node}) =>
                 <ProductCard key={node.id} {...node} />

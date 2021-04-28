@@ -6,17 +6,17 @@ export default function CheckoutShipping() {
   return (
     <>
       <Head>
-        <title>Loja Saudável - Checkout - Finalizado com sucesso!</title>
+        <title>Loja Saudável - Checkout - Concluído com sucesso!</title>
       </Head>
       <div className="container mx-auto max-w-screen-md px-4 py-8 xl:py-14 text-center">
-        <h2 className="text-6xl">
-          <span>Agradecemos</span><br/>
-          <span className="font-bold">o seu pedido!</span>
+        <h2 className="text-5xl">
+          <span>Seu pedido foi</span><br/>
+          <span className="font-bold">concluído com sucesso!</span>
         </h2>
         <div className="py-4">
           <hr/>
         </div>
-        <p className="text-xl mb-4">Enviaremos um email assim que seu pagamento for aprovado.</p>
+        <p className="text-xl mb-4">As informações sobre o pagamento e processo de entrega estarão disponíveis em seu email.</p>
         <div>
           <span className="px-1">
             <Link href="/">
