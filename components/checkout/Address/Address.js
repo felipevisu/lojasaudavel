@@ -4,9 +4,8 @@ import { AddressForm } from './AddressForm'
 import { AddressList } from './AddressList'
 
 export function Address(props){
-  const { auth, cart } = useCommerce()
-
-  const [active, setActive] = useState(auth.user?.addresses.length > 0 ? 'list' : 'form')
+  const { auth } = useCommerce()
+  const [active, setActive] = useState(auth.addresses.length > 0 ? 'list' : 'form')
 
   return (
     <div>

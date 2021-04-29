@@ -76,7 +76,7 @@ export function AddressForm(props){
       <div className="flex items-center  mb-4 justify-between">
         <h3 className="font-bold text-md">Adicionar novo endereço</h3>
         {
-          auth.user.addresses.length > 0 && 
+          auth.addresses.length > 0 && 
           <Button size="sm" onClick={() => props.setActive('list')} value="Voltar para lista" />
         }
       </div>

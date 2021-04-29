@@ -1,306 +1,26 @@
-import { gql } from "@apollo/client";
-import { initializeApollo } from "../lib/apolloClient"
-import Cookies from 'js-cookie'
+import { initializeApollo } from "../../lib/apolloClient"
 import { toast } from 'react-toastify';
-
 import { useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 
-import { addressFragment } from './fragments'
+import {
+  checkoutQuery
+} from './queries'
 
-const checkoutFragment = gql`
-  ${addressFragment}
-  fragment CheckoutFragment on Checkout {
-    id
-    token
-    quantity
-    email
-    voucherCode
-    discount{
-      amount
-    }
-    subtotalPrice{
-      gross{
-        amount
-      }
-    }
-    shippingPrice{
-      gross{
-        amount
-      }
-    }
-    totalPrice{
-      gross{
-        amount
-      }
-    }
-    channel{
-      id
-      slug
-    }
-    shippingAddress{
-      ...AddressFragment
-    }
-    billingAddress{
-      ...AddressFragment
-    }
-    shippingMethod{
-      id
-      name
-      price{
-        amount
-      }
-    }
-    availableShippingMethods{
-      id
-      name
-      minimumDeliveryDays
-      price{
-        amount
-      }
-    }
-    lines{
-      id
-      quantity
-      totalPrice{
-        gross{
-          amount
-        }
-      }
-      variant{
-        id
-        sku
-        name
-        media{
-          id
-          url
-          alt
-        }
-        pricing{
-          price{
-            gross{
-              amount
-            }
-          }
-        }
-        product{
-          name
-          thumbnail {
-            url
-          }
-        }
-      }
-    }
-  }
-`
-
-const checkoutCreateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutCreate($lines: [CheckoutLineInput]!, $channel: String!) {
-    checkoutCreate(input: {lines: $lines, channel: $channel}){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutLinesAddMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutLinesAddMutation($checkoutId: ID!, $lines: [CheckoutLineInput]!) {
-    checkoutLinesAdd(checkoutId: $checkoutId, lines: $lines){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutLinesUpdateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutLinesUpdateMutation($checkoutId: ID!, $lines: [CheckoutLineInput]!) {
-    checkoutLinesUpdate(checkoutId: $checkoutId, lines: $lines){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutLineDeleteMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutLineDeleteMutation($checkoutId: ID!, $lineId: ID!) {
-    checkoutLineDelete(checkoutId: $checkoutId, lineId: $lineId){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutCustomerAttachMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutCustomerAttachMutation($checkoutId: ID!, $customerId: ID!) {
-    checkoutCustomerAttach(checkoutId: $checkoutId, customerId: $customerId){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutShippingAddressUpdateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutShippingAddressUpdate($checkoutId: ID!, $shippingAddress: AddressInput!) {
-    checkoutShippingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutBillingAddressUpdateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutBillingAddressUpdate($checkoutId: ID!, $billingAddress: AddressInput!) {
-    checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $billingAddress){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutShippingMethodUpdateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutShippingMethodUpdate($checkoutId: ID!, $shippingMethodId: ID!) {
-    checkoutShippingMethodUpdate(checkoutId: $checkoutId, shippingMethodId: $shippingMethodId){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutPaymentCreateMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutPaymentCreate($checkoutId: ID!, $input: PaymentInput!) {
-    checkoutPaymentCreate(checkoutId: $checkoutId, input: $input){
-      paymentErrors{
-        code
-        message
-        field
-      }
-      payment{
-        id
-        token
-        gateway
-        installments
-        paymentMethodType
-        total{
-          amount
-        }
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-const checkoutCompleteMutation = gql`
-  mutation CheckoutComplete($checkoutId: ID!, $paymentData: JSONString) {
-    checkoutComplete(checkoutId: $checkoutId, paymentData: $paymentData){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      order{
-        id
-      }
-    }
-  }
-`
-
-const checkout = gql`
-  ${checkoutFragment}
-  query Checkout($token: UUID!) {
-    checkout(token: $token){
-      ...CheckoutFragment
-    }
-  }
-`
-
-const checkoutAddPromoCodeMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutAddPromoCode($checkoutId: ID!, $promoCode: String!) {
-    checkoutAddPromoCode(checkoutId: $checkoutId, promoCode: $promoCode){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
-
-const checkoutRemovePromoCodeMutation = gql`
-  ${checkoutFragment}
-  mutation CheckoutRemovePromoCode($checkoutId: ID!, $promoCode: String!) {
-    checkoutRemovePromoCode(checkoutId: $checkoutId, promoCode: $promoCode){
-      checkoutErrors{
-        code
-        message
-        field
-      }
-      checkout{
-        ...CheckoutFragment
-      }
-    }
-  }
-`
+import {
+  checkoutCreateMutation,
+  checkoutLinesAddMutation,
+  checkoutLinesUpdateMutation,
+  checkoutLineDeleteMutation,
+  checkoutCustomerAttachMutation,
+  checkoutShippingAddressUpdateMutation,
+  checkoutBillingAddressUpdateMutation,
+  checkoutPaymentCreateMutation,
+  checkoutCompleteMutation,
+  checkoutShippingMethodUpdateMutation,
+  checkoutAddPromoCodeMutation,
+  checkoutRemovePromoCodeMutation
+} from './mutations'
 
 export function useCart(){
   const [cart, setCart] = useState(null)
@@ -455,14 +175,6 @@ export function useCart(){
     return response
   };
 
-  const clearCart = () => {
-    setCart(false)
-    localStorage.removeItem("extra_data")
-    localStorage.removeItem("data_payment")
-    Cookies.remove("checkoutId")
-    Cookies.remove("checkoutToken")
-  }
-
   const checkoutShippingMethodUpdate = async (shippingMethodId) => {
     const response = await apolloClient.mutate({
       mutation: checkoutShippingMethodUpdateMutation, 
@@ -497,7 +209,7 @@ export function useCart(){
   }
 
   const getCheckout = async (token) => {
-    const response = await apolloClient.query({query: checkout, variables: {token: token}})
+    const response = await apolloClient.query({query: checkoutQuery, variables: {token: token}})
     if(response.data.checkout){
       setCart(response.data.checkout)
     } else {
@@ -505,6 +217,14 @@ export function useCart(){
       Cookies.remove('checkoutToken')
     }
     setCartLoading(false)
+  }
+
+  const clearCart = () => {
+    setCart(false)
+    localStorage.removeItem("extra_data")
+    localStorage.removeItem("data_payment")
+    Cookies.remove("checkoutId")
+    Cookies.remove("checkoutToken")
   }
 
   useEffect(() => {

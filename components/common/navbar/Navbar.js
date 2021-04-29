@@ -4,19 +4,7 @@ import { useCommerce } from "../../../framework"
 import { RiArrowDropDownLine } from 'react-icons/ri'
 
 function LinkItem(props){
-  const pathname = useMemo(() => {
-    if(props.category){
-      return '/categorias/[slug]'
-    }
-    if(props.collection){
-      return '/colecoes/[slug]'
-    }
-    if(props.page){
-      return '/institucional/[slug]'
-    }
-  }, [props])
-
-  const slug = useMemo(() => {
+  const path = useMemo(() => {
     if(props.category){
       return '/categorias/' + props.category.slug
     }
@@ -31,7 +19,7 @@ function LinkItem(props){
 
   return(
     <>
-      <Link href={`${pathname}`} as={`${slug}`}>
+      <Link href={path}>
         <a className="font-semibold transition transition-all hover:text-green-500 flex items-center py-1">
           {props.name}
           {props.children.length > 0 && <RiArrowDropDownLine className="text-xl" />}

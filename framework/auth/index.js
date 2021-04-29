@@ -1,194 +1,27 @@
 import { useEffect, useState } from "react";
-import { gql } from "@apollo/client";
-import { initializeApollo } from "../lib/apolloClient"
 import { toast } from 'react-toastify';
+import { initializeApollo } from "../../lib/apolloClient"
 
-import { addressFragment } from './fragments'
+import {
+  loginMutation,
+  accountRegisterMutation,
+  requestPasswordResetMutation,
+  passwordChangeMutation,
+  setPasswordMutation,
+  accountAddressCreateMutation,
+  accountAddressUpdateMutation,
+  accountAddressDeleteMutation,
+  accountUpdateMutation
+} from './mutations'
 
-export const userFragment = gql`
-  ${addressFragment}
-  fragment UserFragment on User {
-    id
-    firstName
-    lastName
-    email
-    phone,
-    addresses{
-      ...AddressFragment
-    }
-    defaultShippingAddress{
-      ...AddressFragment
-    }
-    defaultBillingAddress{
-      ...AddressFragment
-    }
-  }
-`;
-
-export const accountErrorsFragment = gql`
-  fragment AccountErrorsFragment on AccountError{
-    field
-    message
-    code
-  }
-`
-
-const loginMutation = gql`
-  ${userFragment}
-  ${accountErrorsFragment}
-  mutation Login($email: String!, $password: String!) {
-    tokenCreate(email: $email, password: $password ){
-      token
-      refreshToken
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const accountRegisterMutation = gql`
-  ${userFragment}
-  ${accountErrorsFragment}
-  mutation AccountRegister($input: AccountRegisterInput!) {
-    accountRegister(input: $input){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const requestPasswordResetMutation = gql`
-  ${accountErrorsFragment}
-  mutation RequestPasswordReset($email: String!, $redirectUrl: String!) {
-    requestPasswordReset(email: $email, redirectUrl: $redirectUrl){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-    }
-  }
-`
-
-const setPasswordMutation = gql`
-  ${userFragment}
-  ${accountErrorsFragment}
-  mutation SetPassword($email: String!, $password: String!, $token: String!) {
-    setPassword(email: $email, password: $password, token: $token){
-      token
-      refreshToken
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const passwordChangeMutation = gql`
-  ${userFragment}
-  ${accountErrorsFragment}
-  mutation PasswordChange($newPassword: String!, $oldPassword: String!) {
-    passwordChange(newPassword: $newPassword, oldPassword: $oldPassword){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const accountUpdateMutation = gql`
-  ${userFragment}
-  ${accountErrorsFragment}
-  mutation AccountUpdate($input: AccountInput!) {
-    accountUpdate(input: $input){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const meQuery = gql`
-  ${userFragment}
-  query User{
-    me{
-      ...UserFragment
-    }
-  }
-`
-
-const accountAddressCreateMutation = gql`
-  ${accountErrorsFragment}
-  ${addressFragment}
-  ${userFragment}
-  mutation AccountAddressCreate($input: AddressInput!) {
-    accountAddressCreate(input: $input){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      address {
-        ...AddressFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const accountAddressUpdateMutation = gql`
-  ${accountErrorsFragment}
-  ${addressFragment}
-  ${userFragment}
-  mutation AccountAddressUpdate($id: ID!, $input: AddressInput!) {
-    accountAddressUpdate(id: $id, input: $input){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      address {
-        ...AddressFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
-const accountAddressDeleteMutation = gql`
-  ${accountErrorsFragment}
-  ${addressFragment}
-  ${userFragment}
-  mutation AccountAddressDelete($id: ID!) {
-    accountAddressDelete(id: $id){
-      accountErrors{
-        ...AccountErrorsFragment
-      }
-      user{
-        ...UserFragment
-      }
-    }
-  }
-`
-
+import {
+  meQuery,
+  userAddressesQuery
+} from './queries'
 
 export function useAuth(){
   const [user, setUser] = useState(null)
+  const [addresses, setAddresses] = useState([])
   const [open, setOpen] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
 
@@ -272,7 +105,7 @@ export function useAuth(){
       variables: {input: input}
     })
     if(response.data.accountAddressCreate.address){
-      setUser(response.data.accountAddressCreate.user)
+      setAddresses(response.data.accountAddressCreate.user.addresses)
     }
     return response
   }
@@ -283,7 +116,7 @@ export function useAuth(){
       variables: {id: id, input: input}
     })
     if(response.data.accountAddressUpdate.address){
-      setUser(response.data.accountAddressUpdate.user)
+      setAddresses(response.data.accountAddressUpdate.user.addresses)
     }
     return response
   }
@@ -294,7 +127,7 @@ export function useAuth(){
       variables: {id: id}
     })
     if(response.data.accountAddressDelete.user){
-      setUser(response.data.accountAddressDelete.user)
+      setAddresses(response.data.accountAddressDelete.user.addresses)
       toast.success("Endereço excluído com sucesso.", {
         position: toast.POSITION.BOTTOM_CENTER
       });
@@ -327,10 +160,18 @@ export function useAuth(){
     setAuthLoading(false)
   }
 
+  const getAddresses = async () => {
+    const response = await apolloClient.query({query: userAddressesQuery})
+    if(response.data.me){
+      setAddresses(response.data.me.addresses)
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     if(token){
       getUser()
+      getAddresses()
     } else {
       setAuthLoading(false)
     }
@@ -338,6 +179,7 @@ export function useAuth(){
 
   return {
     user,
+    addresses,
     open,
     authLoading,
     login,

@@ -33,7 +33,6 @@ export function AddressList(props){
   const { auth, cart } = useCommerce()
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState(null)
-  const addresses = useMemo(() => auth.user.addresses)
 
   const handleChange = (e) => {
     setSelected(e.target.value)
@@ -74,7 +73,7 @@ export function AddressList(props){
             <span className="font-semibold">Adicionar novo</span>
           </div>
         </div>
-        {addresses.map((address, key) =>
+        {auth.addresses.map((address, key) =>
           <AddressItem key={key} handleChange={handleChange} selected={selected} {...address} />
         )}
       </div>

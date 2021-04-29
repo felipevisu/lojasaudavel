@@ -3,14 +3,14 @@ import { IconButton } from '../../ui'
 
 export function AddressList({addresses, setActive, addressDelete, setUpdate}){
   return(
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className={`grid grid-cols-1 ${addresses.length > 0 && 'md:grid-cols-2 xl:grid-cols-3'} gap-4`}>
       <div onClick={() => setActive('create')} className="cursor-pointer hover:bg-gray-50 border rounded p-4 flex items-center justify-center">
           <div>
             <FiPlus className="mx-auto text-3xl" />
             <span className="font-semibold">Adicionar novo</span>
           </div>
       </div>
-      {addresses.map((address, key) =>
+      {addresses && addresses.map((address, key) =>
         <div key={key} value={address.id} className="appearance-none text-left border rounded p-4">
           {address.streetAddress1}, {address.streetAddress2 && address.streetAddress2}<br/>
           {address.cityArea && `${address.cityArea} - ` }{address.city} / {address.countryArea}<br/>

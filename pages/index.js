@@ -3,8 +3,7 @@ import { getAllProducts } from '../framework/products'
 import { getSlideshow } from '../framework/slideshow'
 import { ProductCard } from '../components/product'
 import { Slideshow } from '../components/common/'
-
-import Image from 'next/image'
+import { Banner } from '../components/common'
 
 import 'keen-slider/keen-slider.min.css';
 
@@ -36,7 +35,7 @@ export default function Home({ slideshow, banners, products, granel }) {
           <div className="container mx-auto px-4 mb-6">
             <div className="grid grid-cols-3 gap-4 xl:gap-6">
               {banners.slides.map((banner, key) => 
-                <Image src={banner.image} key={key} width={640} height={320} className="rounded" />
+                <Banner key={key} banner={banner} />
               )}
             </div>
           </div>

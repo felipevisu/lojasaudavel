@@ -1,4 +1,5 @@
 import { ErrorPage } from '../components/common/errorPage'
+import NextErrorComponent from 'next/error';
 
 function Error({ statusCode, hasGetInitialPropsRun, err }) {
 
