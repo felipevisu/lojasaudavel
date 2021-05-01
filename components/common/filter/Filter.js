@@ -57,7 +57,7 @@ export function Filter({attributes}){
   return(
     <>
       <div onClick={() => setFilterOpen(false)} className={` ${filterOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={` ${filterOpen ? styled.open : styled.close} transition fixed h-screen z-50 bg-white top-0 w-80`}>
+      <div className={`${styled.sideBar} ${filterOpen && styled.open }`}>
         <div className="flex items-center bg-gray-200 pl-6 pr-4 h-12">
           <span className="font-semibold">Filtro</span>
           <button onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
