@@ -44,7 +44,7 @@ export function AddressList(props){
     if(!selected && cart.cart.shippingAddress && cart.cart.billingAddress){
       router.push('/checkout/entrega')
     } else {
-      var address = {...addresses.find(addr => addr.id === selected)}
+      var address = {...auth.addresses.find(addr => addr.id === selected)}
       delete address['id']
       delete address['__typename']
       address['country'] = "BR"
