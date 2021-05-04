@@ -151,7 +151,7 @@ export function useAuth(){
 
   const getUser = async () => {
     const response = await apolloClient.query({query: meQuery})
-    if(response.data.me){
+    if(response?.data?.me){
       setUser(response.data.me)
     } else {
       localStorage.removeItem('token')
