@@ -1,4 +1,3 @@
-const withSourceMaps = require('@zeit/next-source-maps');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const {
@@ -9,7 +8,7 @@ const {
   NODE_ENV
 } = process.env;
 
-module.exports = withSourceMaps({
+module.exports = {
   images: {
     domains: ['loja-saudavel.s3.amazonaws.com'],
     path: '/_next/image',
@@ -34,7 +33,6 @@ module.exports = withSourceMaps({
         })
       );
     }
-
     return config;
   }
-})
+}
