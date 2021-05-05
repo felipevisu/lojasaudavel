@@ -10,12 +10,8 @@ export function Recuperar(){
   const { auth } = useCommerce()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [success, setSucess] = useState(false)
-  const [errors, setErrors] = useState({
-    password: '',
-    password_2: ''
-  })
-  const [nonFieldError, setNonFieldError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [errors, setErrors] = useState([])
   const [fields, setFields] = useState({
     password: '',
     password_2: ''
@@ -26,10 +22,7 @@ export function Recuperar(){
       ...fields,
       [e.target.name]: e.target.value
     })
-    setErrors({
-      ...errors,
-      [e.target.name]: ''
-    })
+    setErrors([])
   }
 
   const handleSubmit = async (e) => {
@@ -42,22 +35,17 @@ export function Recuperar(){
       if(fields.password === fields.password_2){
         const response = await auth.setPassword(email, fields.password, token)
         const errors = response.data.setPassword.accountErrors
-        if(errors.lenght === 0){
-          setSucess(true)
-        } else {
-          var new_errors = {}
-          errors.forEach(error => new_errors[error.field] = error.message)
-          setErrors(new_errors)
+        if(errors.length === 0){
+          setSuccess(true)
+        } else { 
+          setErrors([errors.map((error) => error.message)])
         }
       } else {
-        setErrors({
-          ...errors,
-          password: 'As senhas não correspondem'
-        })
+        setErrors(['As senhas não correspondem'])
       }
       setLoading(false)
     } else {
-      setNonFieldError("Não é possível redefinir sua senha, solicite um novo link.")
+      setErrors(["Não é possível redefinir sua senha, solicite um novo link."])
     }
 
   }
@@ -76,52 +64,51 @@ export function Recuperar(){
         </div>
       </div>
     )
-  }
-
-  return(
-    <>
-      <Head>
-        <title>Loja Saudável - Recuperar senha</title>
-      </Head>
-
-      <div className="px-4 py-10">
-        <div className="border rounded p-6 max-w-lg mx-auto">
-          <form onSubmit={handleSubmit} noValidate>
-            <h4 className="text-lg font-semibold">Redefinição de senha</h4>
-            {
-              nonFieldError &&
-              <div className="my-2 text-sm border border-red-200 bg-red-100 px-3 py-2 text-red-800 rounded">
-                {nonFieldError}
+  } else {
+    return(
+      <>
+        <Head>
+          <title>Loja Saudável - Recuperar senha</title>
+        </Head>
+  
+        <div className="px-4 py-10">
+          <div className="border rounded p-6 max-w-lg mx-auto">
+            <form onSubmit={handleSubmit} noValidate>
+              <h4 className="text-lg font-semibold">Redefinição de senha</h4>
+              {errors && errors.map((error, key) => 
+                <div key={key} className="my-2 text-sm border border-red-200 bg-red-100 px-3 py-2 text-red-800 rounded">
+                  {error}
+                </div>
+              )}
+              <div className="py-1">
+                <Field 
+                  value={fields.password}
+                  onChange={handleChange}
+                  id="password" 
+                  name="password" 
+                  type="password" 
+                  placeholder="Nova senha" 
+                />
               </div>
-            }
-            <div className="py-1">
-              <Field 
-                value={fields.password}
-                onChange={handleChange}
-                id="password" 
-                name="password" 
-                type="password" 
-                placeholder="Nova senha" 
-              />
-            </div>
-            <div className="py-1">
-              <Field
-                value={fields.password_2}
-                onChange={handleChange}
-                id="password_2" 
-                name="password_2"
-                type="password" 
-                placeholder="Confimação de senha"
-              />
-            </div>
-            <div className="py-2">
-              <Button type="submit" full value={loading ? 'Carregando...' : 'Enviar'} />
-            </div>
-          </form>
+              <div className="py-1">
+                <Field
+                  value={fields.password_2}
+                  onChange={handleChange}
+                  id="password_2" 
+                  name="password_2"
+                  type="password" 
+                  placeholder="Confimação de senha"
+                />
+              </div>
+              <div className="py-2">
+                <Button type="submit" full value={loading ? 'Carregando...' : 'Enviar'} />
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  }
 }
 
 export default Recuperar

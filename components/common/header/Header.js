@@ -18,8 +18,8 @@ export function Header(){
             </div>
             <div className="w-1/2 lg:w-1/3 text-center lg:text-left">
               <Link href="/">
-                <a>
-                  <img width="200px" height="45px" src="/logo.svg" alt="Loja Saudável"/>
+                <a style={{display: "block", width: "200px"}}>
+                  <img width="200px" height="45px" src="/logo.svg" alt="Loja Saudável" />
                 </a>
               </Link>
             </div>
