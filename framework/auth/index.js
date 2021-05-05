@@ -58,7 +58,7 @@ export function useAuth(){
       mutation: requestPasswordResetMutation, 
       variables: {
         email: email,
-        redirectUrl: "http://localhost:8000/recuperar"
+        redirectUrl: "https://lojasaudavel.com.br/recuperar"
       }
     })
     return response
