@@ -22,6 +22,7 @@ export function Request(){
     e.preventDefault()
     setLoading(true)
     const response = await auth.requestPasswordReset(email)
+    console.log(response)
     const response_errors = response.data.requestPasswordReset.accountErrors
     if(response_errors.length > 0){
       var new_errors = {}
