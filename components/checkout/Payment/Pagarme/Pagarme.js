@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Field, Button } from '../../../ui'
+import { Field, Button, Select } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
 import { useCommerce } from '../../../../framework'
 import { useRouter } from 'next/router'
@@ -150,6 +150,7 @@ export function Pagarme(props){
               error={errors.card_number}
               onChange={handleChange}
               placeholder="4111-1111-1111-1111"
+              mask="9999-9999-9999-9999"
             />
           </div>
           <div className="col-span-1">
@@ -161,6 +162,7 @@ export function Pagarme(props){
               error={errors.card_expiration_date}
               onChange={handleChange}
               placeholder="05/24"
+              mask="99/99"
             />
           </div>
           <div className="col-span-1">
@@ -175,23 +177,23 @@ export function Pagarme(props){
             />
           </div>
           <div className="col-span-2">
-            <label className="block text-gray-500 text-sm font-semibold mb-1" htmlFor="installments">
-              Parcelas
-            </label>
-            <select 
-                id="installments" 
-                name="installments" 
-                value={installments} 
-                onChange={handleInstallments}
-                className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500"
-              >
-              <option value="1">1 x de {formatMoney(cart.cart.totalPrice.gross.amount)}</option>
-              <option value="2">2 x de {formatMoney(cart.cart.totalPrice.gross.amount/2)}</option>
-              <option value="3">3 x de {formatMoney(cart.cart.totalPrice.gross.amount/3)}</option>
-              <option value="4">4 x de {formatMoney(cart.cart.totalPrice.gross.amount/4)}</option>
-              <option value="5">5 x de {formatMoney(cart.cart.totalPrice.gross.amount/5)}</option>
-              <option value="6">6 x de {formatMoney(cart.cart.totalPrice.gross.amount/6)}</option>
-            </select>
+            <Select 
+              label="Parcelas"
+              id="installments" 
+              name="installments" 
+              value={installments} 
+              onChange={handleInstallments}
+              options={
+                [
+                  {value: "1", name: `1 x de ${formatMoney(cart.cart.totalPrice.gross.amount)}`},
+                  {value: "2", name: `2 x de ${formatMoney(cart.cart.totalPrice.gross.amount/2)}`},
+                  {value: "3", name: `3 x de ${formatMoney(cart.cart.totalPrice.gross.amount/3)}`},
+                  {value: "4", name: `4 x de ${formatMoney(cart.cart.totalPrice.gross.amount/4)}`},
+                  {value: "5", name: `5 x de ${formatMoney(cart.cart.totalPrice.gross.amount/5)}`},
+                  {value: "6", name: `6 x de ${formatMoney(cart.cart.totalPrice.gross.amount/6)}`}
+                ]
+              }
+            />
           </div>
         </div>
         <Button type="submit" onClick={() => setActive('payment')} value={loading ? 'Carregando...' : 'Concluir pedido'} />

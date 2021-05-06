@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useCommerce } from '../../../../framework'
 import { useRouter } from 'next/router'
-import { Field, Button } from '../../../ui'
+import { Field, Button, Select } from '../../../ui'
 
 const OPTIONS = [
   {value: "CREDITCARD", name: "Cartão de crédito/débito"},
@@ -56,19 +56,15 @@ export function Lojista(props){
       <form onSubmit={handleSubmit} noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b pb-4">
           <div>
-            <label className="block text-gray-500 text-sm font-semibold mb-1" htmlFor="method">
-              Forma de pagamento
-            </label>
-            <select 
-              id="method" 
-              name="method" 
-              value={method} 
+            <Select
+              label="Forma de pagamento"
+              id="method"
+              name="method"
+              value={method}
               onChange={e => setMethod(e.target.value)}
-              className="appearance-none w-full rounded border-gray-300 focus:ring-0 focus:border-green-500"
-            >
-              <option value="CREDITCARD">Cartão de crédito/débito</option>
-              <option value="MONEY">Dinheiro</option>
-            </select>
+              error={null}
+              options={[{value: "CREDITCARD", name: "Cartão de crédito/débito"}, {value: "MONEY", name: "Dinheiro"}]}
+            />
           </div>
           <div>
             <Field

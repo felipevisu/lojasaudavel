@@ -10,7 +10,7 @@ export function Addresses(){
   const [instance, setInstance] = useState(null)
 
   const setUpdate = (id) => {
-    const address = addresses.find(addr => addr.id === id)
+    const address = auth.addresses.find(addr => addr.id === id)
     setInstance(address)
     setActive('update')
   }

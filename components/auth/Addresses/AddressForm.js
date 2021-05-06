@@ -1,4 +1,4 @@
-import { Field, Button } from '../../ui'
+import { Field, Button, Select } from '../../ui'
 
 export function AddressForm({loading, instance, errors, handleChange, handleSubmit}){
 
@@ -51,14 +51,45 @@ export function AddressForm({loading, instance, errors, handleChange, handleSubm
           />
         </div>
         <div className="col-span-2">
-          <Field 
+          <Select
             label="Estado"
             id="countryArea"
-            name="countryArea" 
-            type="text" 
-            onChange={handleChange}
+            name="countryArea"
             value={instance.countryArea}
+            onChange={handleChange}
             error={errors.countryArea}
+            options={
+              [
+                {value: "", name: "Selecione um estado"},
+                {value: "Acre", name: "Acre"}, 
+                {value: "Alagoas", name: "Alagoas"},
+                {value: "Amapá", name: "Amapá"},
+                {value: "Amazonas", name: "Amazonas"},
+                {value: "Bahia", name: "Bahia"},
+                {value: "Ceará", name: "Ceará"},
+                {value: "Distrito Federal", name: "Distrito Federal"},
+                {value: "Espírito Santo", name: "Espírito Santo"},
+                {value: "Goiás", name: "Goiás"},
+                {value: "Maranhão", name: "Maranhão"},
+                {value: "Mato Grosso", name: "Mato Grosso"},
+                {value: "Mato Grosso do Sul", name: "Mato Grosso do Sul"},
+                {value: "Minas Gerais", name: "Minas Gerais"},
+                {value: "Pará", name: "Pará"},
+                {value: "Paraíba", name: "Paraíba"},
+                {value: "Paraná", name: "Paraná"},
+                {value: "Pernambuco", name: "Pernambuco"},
+                {value: "Piauí", name: "Piauí"},
+                {value: "Rio de Janeiro", name: "Rio de Janeiro"},
+                {value: "Rio Grande do Norte", name: "Rio Grande do Norte"},
+                {value: "Rio Grande do Sul", name: "Rio Grande do Sul"},
+                {value: "Rondônia", name: "Rondônia"},
+                {value: "Roraima", name: "Roraima"},
+                {value: "Santa Catarina", name: "Santa Catarina"},
+                {value: "São Paulo", name: "São Paulo"},
+                {value: "Sergipe", name: "Sergipe"},
+                {value: "Tocantins", name: "Tocantins"}
+              ]
+            }
           />
         </div>
         <div className="col-span-2">
