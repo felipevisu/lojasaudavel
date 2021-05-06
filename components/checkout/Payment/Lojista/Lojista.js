@@ -23,7 +23,7 @@ export function Lojista(props){
 
     if(errors.length === 0){
       const response = await cart.checkoutComplete()
-      if(response.data.checkoutComplete.checkoutErrors){
+      if(response.data.checkoutComplete.checkoutErrors.length > 0){
         setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
         setActive('errors')
       }

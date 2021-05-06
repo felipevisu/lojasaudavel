@@ -78,7 +78,7 @@ export function Pagarme(props){
           type: getDocumentType(document)
         }
         const response = await cart.checkoutComplete(JSON.stringify(extra_data))
-        if(response.data.checkoutComplete.checkoutErrors){
+        if(response.data.checkoutComplete.checkoutErrors.length > 0){
           setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
           setActive('errors')
         }

@@ -26,12 +26,12 @@ export default function Complete() {
         </div>
         <p className="text-xl mb-4">As informações sobre o pagamento e processo de entrega estarão disponíveis em seu email.</p>
         <div>
-          <span className="px-1">
+          <span className="px-1 my-2">
             <Link href="/">
               <Button value="Continue comprando" />
             </Link>
           </span>
-          <span className="px-1">
+          <span className="px-1 my-2">
             <Link href="/pedidos">
               <Button value="Acesse sua página de pedidos" outline />
             </Link>  
