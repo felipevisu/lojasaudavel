@@ -171,6 +171,7 @@ export function useCart(){
       mutation: checkoutCompleteMutation, 
       variables: {checkoutId: cart.id, paymentData: paymentData}
     })
+    console.log(response)
     const order = response.data.checkoutComplete.order
     if(order){
       setFinalized(true)
@@ -243,7 +244,7 @@ export function useCart(){
 
   useEffect(() => {
     if(finalized){
-      router.push('pedido-finalizado')
+      router.push('/pedido-finalizado')
     }
   }, [finalized])
 
