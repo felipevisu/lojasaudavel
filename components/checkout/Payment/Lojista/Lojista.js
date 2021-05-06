@@ -1,53 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useCommerce } from '../../../../framework'
-import { useRouter } from 'next/router'
 import { Field, Button, Select } from '../../../ui'
 
-const OPTIONS = [
-  {value: "CREDITCARD", name: "Cartão de crédito/débito"},
-  {value: "MONEY", name: "Dinheiro"}
-]
 
 export function Lojista(props){
   const { cart } = useCommerce()
-  const router = useRouter()
-  const [finalized, setFinalized] = useState(false)
   const [loading, setLoading] = useState(false)
   const [method, setMethod] = useState("CREDITCARD")
   const [notes, setNotes] = useState("")
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 
-  useEffect(() =>{
-    return () => {
-      if(finalized){
-        cart.clearCart()
-      }
-    }
-  })
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+
     const payment = await cart.checkoutPaymentCreate({
       gateway: "lojista",
       method: method,
     })
     const errors = payment.data.checkoutPaymentCreate.paymentErrors
+
     if(errors.length === 0){
-      const {loading: load, data, errors: errs} = await cart.checkoutComplete()
-      const order = data.checkoutComplete.order
-      if(order){
-        setFinalized(true)
-        router.push('/checkout/finalizado')
-      } else {
-        setPaymentErrors(data.checkoutComplete.checkoutErrors)
+      const response = await cart.checkoutComplete()
+      if(response.data.checkoutComplete.checkoutErrors){
+        setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
         setActive('errors')
       }
     } else {
       setPaymentErrors(errors)
       setActive('errors')
     }
+
     setLoading(false)
   }
 

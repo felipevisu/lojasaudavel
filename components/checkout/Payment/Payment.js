@@ -2,7 +2,6 @@ import { useCommerce } from '../../../framework'
 import { Pagarme } from './Pagarme'
 import { Lojista } from './Lojista'
 import { useMemo, useState } from 'react'
-import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
 import { Voucher } from '../Voucher'
 

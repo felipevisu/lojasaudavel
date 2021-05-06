@@ -1,8 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { Button } from '../../components/ui'
+import { Button } from '../components/ui'
+import { useEffect } from 'react'
+import { useCommerce } from '../framework'
 
-export default function CheckoutShipping() {
+export default function Complete() {
+  const { cart } = useCommerce()
+
+  useEffect(() => {
+    cart.clearCart()
+  }, [])
+
   return (
     <>
       <Head>

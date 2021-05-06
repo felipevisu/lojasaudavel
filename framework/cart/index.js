@@ -2,6 +2,7 @@ import { initializeApollo } from "../../lib/apolloClient"
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 import {
   checkoutQuery
@@ -23,6 +24,8 @@ import {
 } from './mutations'
 
 export function useCart(){
+  const router = useRouter()
+  const [finalized, setFinalized] = useState(false)
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
   const [order, setOrder] = useState(null)
@@ -170,6 +173,7 @@ export function useCart(){
     })
     const order = response.data.checkoutComplete.order
     if(order){
+      setFinalized(true)
       setOrder(order)
     }
     return response
@@ -220,7 +224,8 @@ export function useCart(){
   }
 
   const clearCart = () => {
-    setCart(false)
+    setCart(null)
+    setFinalized(false)
     localStorage.removeItem("extra_data")
     localStorage.removeItem("data_payment")
     Cookies.remove("checkoutId")
@@ -235,6 +240,12 @@ export function useCart(){
       setCartLoading(false)
     }
   }, [])
+
+  useEffect(() => {
+    if(finalized){
+      router.push('pedido-finalizado')
+    }
+  }, [finalized])
 
   return {
     cart,

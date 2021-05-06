@@ -1,28 +1,25 @@
 import { useCommerce } from '../../../framework'
 import { Sumary } from '../Sumary'
 import { Progress } from '../Progress'
-import { Auth } from "../../auth/Modal/Auth"
-import { Empty } from '../Empty'
-import { useMemo } from 'react'
 import { formatMoney } from '../../utils'
+import { useRouter } from 'next/router'
 
 export function CheckoutContainer(props){
+  const router = useRouter()
   const { auth, cart } = useCommerce()
 
   if(auth.authLoading || cart.cartLoading){
     return <div className="container mx-auto px-4 py-10">Carregando...</div>
   }
-  
-  if(!auth.authLoading && auth.user === null){
-    return (
-      <div className="w-96 mx-auto p-6 border rounded my-10">
-        <Auth />
-      </div>
-    )
-  }
 
   if(!cart.cartLoading && (cart.cart === null || cart.cart?.lines?.length === 0)){
-    return <Empty />
+    router.push('/carrinho')
+    return <div className="container mx-auto px-4 py-10">Carregando...</div>
+  }
+  
+  if(!auth.authLoading && auth.user === null){
+    router.push(`/login?next=${router.asPath}`)
+    return <div className="container mx-auto px-4 py-10">Carregando...</div>
   }
   
   return(
@@ -32,10 +29,10 @@ export function CheckoutContainer(props){
           <Progress />
           {props.children}
           {
-            (cart.cart.shippingAddress || cart.cart.shippingMethod) &&
+            (cart.cart?.shippingAddress || cart.cart?.shippingMethod) &&
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t mt-4 pt-8">
               {
-                cart.cart.shippingAddress && 
+                cart.cart.shippingAddress &&
                 <div>
                   <h5 className="font-semibold">Endereço selecionado</h5>
                   {cart.cart.shippingAddress.streetAddress1}, {cart.cart.shippingAddress.streetAddress2 && cart.cart.shippingAddress.streetAddress2}<br/>
@@ -60,6 +57,7 @@ export function CheckoutContainer(props){
       </div>
     </div>
   )
+  
 }
 
 export default CheckoutContainer

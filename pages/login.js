@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { Auth } from '../components/auth/Modal/Auth'
 import { useCommerce } from '../framework'
 import Head from 'next/head'
@@ -7,12 +8,15 @@ export function Login(props){
   const { auth } = useCommerce()
   const router = useRouter()
 
-  if(auth.authLoading || auth.user){
+  useEffect(() => {
     if(auth.user){
-      router.push('/')
+      if(router.query.next){
+        router.push(router.query.next)
+      } else {
+        router.push('/')
+      }
     }
-    return <div className="container mx-auto px-4 py-10">Carregando...</div>
-  }
+  }, [auth.user])
 
   return(
     <>

@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Field, Button, Select } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
 import { useCommerce } from '../../../../framework'
-import { useRouter } from 'next/router'
 import { formatMoney } from '../../../utils'
 
 export function Pagarme(props){
   const { cart } = useCommerce()
-  const router = useRouter()
-  const [finalized, setFinalized] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 
@@ -61,14 +57,6 @@ export function Pagarme(props){
     })
   }
 
-  useEffect(() =>{
-    return () => {
-      if(finalized){
-        cart.clearCart()
-      }
-    }
-  })
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -89,13 +77,9 @@ export function Pagarme(props){
           document: document,
           type: getDocumentType(document)
         }
-        const {loading: load, data, errors: errs} = await cart.checkoutComplete(JSON.stringify(extra_data))
-        const order = data.checkoutComplete.order
-        if(order){
-          setFinalized(true)
-          router.push('/checkout/finalizado')
-        } else {
-          setPaymentErrors(data.checkoutComplete.checkoutErrors)
+        const response = await cart.checkoutComplete(JSON.stringify(extra_data))
+        if(response.data.checkoutComplete.checkoutErrors){
+          setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
           setActive('errors')
         }
       } else {

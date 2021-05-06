@@ -36,6 +36,7 @@ export function useAuth(){
       setUser(response.data.tokenCreate.user)
       localStorage.setItem('token', response.data.tokenCreate.token)
       localStorage.setItem('refreshToken', response.data.tokenCreate.refreshToken)
+      getAddresses()
       setOpen(false)
     }
     return response
