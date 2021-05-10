@@ -1,4 +1,5 @@
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+const withPWA = require('next-pwa')
 
 const {
   NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
@@ -8,10 +9,13 @@ const {
   NODE_ENV
 } = process.env;
 
-module.exports = {
+module.exports = withPWA({
   images: {
     domains: ['loja-saudavel.s3.amazonaws.com'],
     path: '/_next/image',
+  },
+  pwa: {
+    dest: 'public'
   },
   webpack: (config, options) => {
     if (!options.isServer) {
@@ -35,4 +39,4 @@ module.exports = {
     }
     return config;
   }
-}
+})
