@@ -80,7 +80,7 @@ export const checkoutFragment = gql`
         name
         media{
           id
-          url
+          url(size: 300)
           alt
         }
         pricing{
@@ -92,7 +92,7 @@ export const checkoutFragment = gql`
         }
         product{
           name
-          thumbnail {
+          thumbnail(size: 300){
             url
           }
         }
