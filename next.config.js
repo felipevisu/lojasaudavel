@@ -1,15 +1,12 @@
-const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+// This file sets a custom webpack configuration to use your Next.js app
+// with Sentry.
+// https://nextjs.org/docs/api-reference/next.config.js/introduction
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/
+
+const { withSentryConfig } = require('@sentry/nextjs');
 const withPWA = require('next-pwa')
 
-const {
-  NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
-  SENTRY_ORG,
-  SENTRY_PROJECT,
-  SENTRY_AUTH_TOKEN,
-  NODE_ENV
-} = process.env;
-
-module.exports = withPWA({
+const moduleExports = withPWA({
   images: {
     domains: ['loja-saudavel.s3.amazonaws.com'],
     path: '/_next/image',
@@ -17,26 +14,19 @@ module.exports = withPWA({
   pwa: {
     dest: 'public'
   },
-  webpack: (config, options) => {
-    if (!options.isServer) {
-      config.resolve.alias['@sentry/node'] = '@sentry/browser';
-    }
+  productionBrowserSourceMaps: true,
+});
 
-    if (
-      SENTRY_DSN &&
-      SENTRY_ORG &&
-      SENTRY_PROJECT &&
-      SENTRY_AUTH_TOKEN &&
-      NODE_ENV === 'production'
-    ) {
-      config.plugins.push(
-        new SentryWebpackPlugin({
-          include: '.next',
-          ignore: ['node_modules'],
-          urlPrefix: '~/_next',
-        })
-      );
-    }
-    return config;
-  }
-})
+const SentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+};
+
+// Make sure adding Sentry options is the last code to run before exporting, to
+// ensure that your source maps include changes from all other Webpack plugins
+module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);
