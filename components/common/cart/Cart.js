@@ -35,9 +35,9 @@ function Line(props){
         <div className="flex-none">
           {props.variant.media.length > 0
           ? 
-            <Image width={100} height={100} src={props.variant.media[0].url} alt={props.variant.product.name} className="w-14 rounded" />
+            <Image width={60} height={60} src={props.variant.media[0].url} alt={props.variant.product.name} className="w-14 rounded" />
           :
-            <Image width={100} height={100} src={props.variant.product.thumbnail?.url} alt={props.variant.product.name} className="w-14 rounded" />
+            <Image width={60} height={60} src={props.variant.product.thumbnail?.url} alt={props.variant.product.name} className="w-14 rounded" />
           }
         </div>
         <div className="pl-2">

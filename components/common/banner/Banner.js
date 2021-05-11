@@ -19,7 +19,7 @@ export function Banner({ banner }){
   return(
     <Link href={path}>
       <a aria-label={path}>
-        <Image src={banner.image} width={640} height={320} className="rounded-md" />
+        <Image src={banner.image} alt={path} width={640} height={320} className="rounded-md" />
       </a>
     </Link>
   )

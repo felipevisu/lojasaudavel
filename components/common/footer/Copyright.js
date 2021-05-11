@@ -3,7 +3,7 @@ import Image from 'next/image'
 export function Copyright(){
   return(
     <div>
-      <img width="250px" height="80px" src="/logo.svg" alt="Loja Saudável" />
+      <img width="250px" height="80px" src="/logo.svg" alt="Loja Saudável" className="mb-3" />
       <p className="mb-4">
         © Loja Saudável. CNPJ: 38.232.280/0001-36.<br/>
         Desenvolvido por <span className="font-semibold">Visualize Comunicação</span>.
