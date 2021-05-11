@@ -71,7 +71,7 @@ export function Menu(){
       <div className={`${styled.sideBar} ${menuOpen && styled.open }`}>
         <div className="flex items-center px-6 h-12">
           <span className="font-semibold">Menu</span>
-          <button onClick={() => setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
+          <button aria-label="Fechar" onClick={() => setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
         <div className="px-3 absolute bottom-0 top-12 pb-3 overflow-auto w-full">
           <div className="grid grid-cols-2 rounded border mx-3 mb-4 text-center">

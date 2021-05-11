@@ -1,6 +1,7 @@
 export function Button({onClick, value, full=false, outline=false, type="button", size="md", className=""}){
   return(
     <button
+      aria-label={value} 
       type={type}
       onClick={onClick}
       className={`

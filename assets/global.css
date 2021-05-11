@@ -75,3 +75,12 @@ html {
 .breadcrumbsItem:last-child::after{
     display: none;
 }
+
+@media(min-width: 768px) and (max-width: 1024px){
+    .bannersGrid > a:last-child {
+        display: none;
+    }
+    .productGrid > div:last-child {
+        display: none;
+    }
+}

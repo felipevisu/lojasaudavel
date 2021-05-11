@@ -72,6 +72,7 @@ export function ProductPage({product}){
               <div className="mt-2">
                 {product.variants.map((variant) =>
                   <button
+                    aria-label={variant.name}
                     type="button"
                     key={variant.id} 
                     value={variant.id}
@@ -89,6 +90,7 @@ export function ProductPage({product}){
             <h4 className="font-semibold mb-1">Quantidade ({selected.quantityAvailable} {selected.quantityAvailable === 1 ? 'disponível' : 'disponíveis'})</h4>
             <div className="flex">
               <button
+                aria-label="Remover" 
                 type="button"
                 onClick={() => handleQuantity(quantity-1)}
                 className="appearance-none hover:bg-gray-200 focus:outline-none w-12 border-2 border-gray-400 text-center bg-gray-100 text-gray-600"
@@ -105,6 +107,7 @@ export function ProductPage({product}){
                 />
               </div>
               <button
+                aria-label="Adicionar" 
                 type="button"
                 onClick={() => handleQuantity(quantity+1)}
                 className="appearance-none hover:bg-gray-200 focus:outline-none w-12 border-2 border-gray-400 text-center bg-gray-100 text-gray-600"
@@ -116,6 +119,7 @@ export function ProductPage({product}){
 
           <div className="mb-4">
             <button 
+              aria-label="Adicionar" 
               type="button"
               onClick={handleAdd}
               className="appearance-none focus:outline-none hover:bg-green-600 flex items-center bg-green-500 font-semibold text-white rounded px-4 py-2 text-md xl:px-5 xl:py-3 xl:text-xl"

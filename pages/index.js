@@ -20,31 +20,34 @@ export default function Home({ slideshow, banners, products, granel }) {
             <Slideshow slides={slideshow.slides} />
           </div>
         }
+
         <div className="container mx-auto px-4 mb-6">
           <div className="flex mb-4">
             <h3 className="text-xl font-light">Produtos em destaque</h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
+          <div className="productGrid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
             {products.map((product, key) => 
               <ProductCard key={key} {...product} />
             )}
           </div>
         </div>
+
         {
           banners &&
           <div className="container mx-auto px-4 mb-6">
-            <div className="grid grid-cols-3 gap-4 xl:gap-6">
+            <div className="bannersGrid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-6">
               {banners.slides.map((banner, key) => 
                 <Banner key={key} banner={banner} />
               )}
             </div>
           </div>
         }
+
         <div className="container mx-auto px-4">
           <div className="flex mb-4">
             <h3 className="text-xl font-light">Produtos a granel</h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
+          <div className="productGrid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
             {granel.map((product, key) => 
               <ProductCard key={key} {...product} />
             )}

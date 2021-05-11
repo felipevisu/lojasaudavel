@@ -60,7 +60,7 @@ export function Filter({attributes}){
       <div className={`${styled.sideBar} ${filterOpen && styled.open }`}>
         <div className="flex items-center bg-gray-200 pl-6 pr-4 h-12">
           <span className="font-semibold">Filtro</span>
-          <button onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
+          <button aria-label="Fechar" onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
         <div className="px-6 py-3 absolute bottom-0 top-12 overflow-auto w-full">
           {attributes.map((attribute) => 

@@ -52,7 +52,7 @@ export function Voucher(){
           />  
         </div>
         {cart.cart.voucherCode
-          ? <button onClick={handleDelete} type="button" className="appearance-none focus:outline-none h-10 px-6 text-white font-semibold bg-red-500 hover:bg-red-600 rounded">
+          ? <button aria-label="Remover cupom" onClick={handleDelete} type="button" className="appearance-none focus:outline-none h-10 px-6 text-white font-semibold bg-red-500 hover:bg-red-600 rounded">
               {loading ? 'Carregando...' : 'Remover'}
             </button>
           : <Button className="h-10" type="submit" value={loading ? 'Carregando...' : 'Aplicar'} />

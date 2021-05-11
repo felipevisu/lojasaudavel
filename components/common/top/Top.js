@@ -21,12 +21,12 @@ export function Top(props){
               </Link>
             </span>
             <span className="px-2">
-              <a href="https://www.facebook.com/lojasaudavel.com.br" target="_blank" className="flex items-center">
+              <a href="https://www.facebook.com/lojasaudavel.com.br" rel="noopener" target="_blank" className="flex items-center">
                 <FiFacebook className="mr-1" /><span>Facebook</span>
               </a>
             </span>
             <span className="px-2">
-              <a href="https://www.instagram.com/lojasaudavel.com.br/" target="_blank" className="flex items-center">
+              <a href="https://www.instagram.com/lojasaudavel.com.br/" rel="noopener" target="_blank" className="flex items-center">
                 <FiInstagram className="mr-1" /><span>Facebook</span>
               </a>
             </span>

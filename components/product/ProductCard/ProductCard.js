@@ -146,11 +146,11 @@ export function ProductCard(props){
             </div>
           </div>
           
-          <h6 className="font-semibold text-gray-500">{props.category.name}</h6>
-          <h5 className="font-semibold text-md text-black mb-2">{props.name}</h5>
-          <h4 className="font-bold text-green-600 mb-2">
+          <h3 className="font-semibold text-gray-500">{props.category.name}</h3>
+          <h4 className="font-semibold text-md text-black mb-2">{props.name}</h4>
+          <h5 className="font-bold text-green-600 mb-2">
             {formatMoney(selected.pricing.price.gross.amount)}
-          </h4>
+          </h5>
         </a>
       </Link>
       
@@ -164,7 +164,7 @@ export function ProductCard(props){
       }
 
       <div className="flex flex-wrap">
-        <button onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
+        <button aria-label="Comprar" onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
         <Link href={`/produtos/${props.slug}`}>

@@ -27,7 +27,7 @@ export function Search(props){
         placeholder="Pesquisar..." 
         className="w-full h-12 border-gray-200 outline-none focus:ring-0 focus:border-green-500" 
       />
-      <button type="submit" className="appearance-none focus:outline-none h-12 bg-gray-200 hover:bg-gray-300 text-center px-4">
+      <button type="submit" aria-label="Pesquisar" className="appearance-none focus:outline-none h-12 bg-gray-200 hover:bg-gray-300 text-center px-4">
         <HiOutlineSearch />
       </button>
     </form>
