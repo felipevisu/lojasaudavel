@@ -4,7 +4,9 @@
   "background_color": "#38A169",
   "short_name": "Loja Saudável",
   "display": "standalone",
+  "scope": "/",
   "start_url": "/",
+  "splash_pages": null,
   "icons": [
     {
       "src": "/favicon-512.png",
@@ -19,7 +21,8 @@
     {
       "src": "/favicon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "/favicon-144.png",
