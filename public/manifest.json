@@ -1,7 +1,7 @@
 {
   "name": "Loja Saudável - Seu balcão online de produtos naturais",
-  "theme_color": "#ffffff",
-  "background_color": "#38A169",
+  "theme_color": "#38A169",
+  "background_color": "#ffffff",
   "short_name": "Loja Saudável",
   "display": "standalone",
   "scope": "/",
