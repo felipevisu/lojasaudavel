@@ -7,6 +7,9 @@
   "scope": "/",
   "start_url": "/",
   "splash_pages": null,
+  "lang": "pt-BR",
+  "categories": ["fitness", "food", "health", "shopping", "medical"],
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/favicon-512.png",
@@ -43,6 +46,23 @@
       "src": "/favicon-36.png",
       "type": "image/png",
       "sizes": "36x36"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-1.png",
+      "type": "image/png",
+      "sizes": "360x640"
+    },
+    {
+      "src": "/screenshot-2.png",
+      "type": "image/png",
+      "sizes": "360x640"
+    },
+    {
+      "src": "/screenshot-3.png",
+      "type": "image/png",
+      "sizes": "360x640"
     }
   ]
 }
