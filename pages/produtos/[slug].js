@@ -7,10 +7,10 @@ export function Product({product}){
   return(
     <>
       <Head>
-        <title>Loja Saudável - {product.name}</title>
+        <title>Loja Saudável - {product?.name}</title>
       </Head>
       <div className="container mx-auto px-4 pb-8 pt-4 xl:pt-6 xl:max-w-screen-xl">
-        <ProductPage product={product} />
+        {product && <ProductPage product={product} />}
       </div>
     </>
   )
