@@ -55,11 +55,11 @@ export function ProductPage({product}){
 
           <div className="mb-4">
             {priceUndiscounted !== price && 
-              <span className="text-xl md:text-2xl xl:text-3xl text-red-500">
+              <span className="text-xl md:text-xl xl:text-2xl text-red-500 mr-2 line-through">
                 {formatMoney(priceUndiscounted)}
               </span>
             }
-            <span className="text-2xl md:text-3xl xl:text-4xl font-light text-green-600">
+            <span className="text-2xl md:text-3xl xl:text-4xl font-extralight text-green-600">
               {formatMoney(price)}
             </span>
             

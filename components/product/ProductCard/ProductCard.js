@@ -148,9 +148,18 @@ export function ProductCard(props){
           
           <h3 className="font-semibold text-gray-500">{props.category.name}</h3>
           <h4 className="font-semibold text-md text-black mb-2">{props.name}</h4>
-          <h5 className="font-bold text-green-600 mb-2">
-            {formatMoney(selected.pricing.price.gross.amount)}
-          </h5>
+
+          <div className="flex items-center mb-2">
+            {selected.pricing.price.gross.amount !== selected.pricing.priceUndiscounted.gross.amount && 
+              <h5 className="font-bold text-red-500 text-sm line-through mr-2">
+                {formatMoney(selected.pricing.priceUndiscounted.gross.amount)}
+              </h5>              
+            }
+            <h5 className="font-bold text-green-600">
+              {formatMoney(selected.pricing.price.gross.amount)}
+            </h5>
+          </div>
+          
         </a>
       </Link>
       

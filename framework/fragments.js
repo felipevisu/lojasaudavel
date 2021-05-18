@@ -33,6 +33,11 @@ export const ProductFragment = gql`
       id
     }
     pricing{
+      discount{
+        gross{
+          amount
+        }
+      }
       priceRange{
         start{
           gross{
@@ -54,6 +59,11 @@ export const ProductFragment = gql`
         id
       }
       pricing{
+        priceUndiscounted{
+          gross{
+            amount
+          }
+        }
         price{
           gross{
             amount
