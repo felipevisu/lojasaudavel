@@ -27,7 +27,7 @@ export function Top(props){
             </span>
             <span className="px-2">
               <a href="https://www.instagram.com/lojasaudavel.com.br/" rel="noopener" target="_blank" className="flex items-center">
-                <FiInstagram className="mr-1" /><span>Facebook</span>
+                <FiInstagram className="mr-1" /><span>Instagram</span>
               </a>
             </span>
           </div>
