@@ -65,6 +65,7 @@ a {
 
 .breadcrumbs{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .breadcrumbsItem{
@@ -86,6 +87,15 @@ a {
 
 @media(min-width: 768px) and (max-width: 1024px){
     .bannersGrid > a:last-child {
+        display: none;
+    }
+    .productGrid > div:last-child {
+        display: none;
+    }
+}
+
+@media(min-width: 1024px) and (max-width: 1280px){
+    .productGrid > div:nth-last-child(2) {
         display: none;
     }
     .productGrid > div:last-child {
