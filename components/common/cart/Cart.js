@@ -76,6 +76,8 @@ export function Cart(){
   const router = useRouter()
 
   const handleClick = (e) => {
+    e.preventDefault()
+    
     const shippingAddress = cart.cart?.shippingAddress
     const shippingMethod = cart.cart?.shippingMethod
     

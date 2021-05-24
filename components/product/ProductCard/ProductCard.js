@@ -115,6 +115,7 @@ export function ProductCard(props){
   const currentMedia = useMemo(() => props.media.find(media => media.id === selected.media[0]?.id) || props.media[0], [selected])
 
   const handleClick = async (e) => {
+    e.preventDefault()
     const line = {
       variantId: selected.id,
       quantity: 1

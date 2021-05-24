@@ -22,7 +22,8 @@ export function ProductPage({product}){
     }
   }
 
-  const handleAdd = async () => {
+  const handleAdd = async (e) => {
+    e.preventDefault()
     setLoading(true)
     const response = await cart.checkoutLinesAdd([{
       quantity: quantity,
