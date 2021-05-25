@@ -28,6 +28,7 @@ export function useAuth(){
   const apolloClient = initializeApollo();
 
   const login = async (email, password) => {
+    setAuthLoading(true)
     const response = await apolloClient.mutate({
       mutation: loginMutation, 
       variables: {email: email, password: password}
@@ -36,9 +37,10 @@ export function useAuth(){
       setUser(response.data.tokenCreate.user)
       localStorage.setItem('token', response.data.tokenCreate.token)
       localStorage.setItem('refreshToken', response.data.tokenCreate.refreshToken)
-      getAddresses()
+      await getAddresses()
       setOpen(false)
     }
+    setAuthLoading(false)
     return response
   };
 
