@@ -174,7 +174,7 @@ export function ProductCard(props){
       }
 
       <div className="flex flex-wrap">
-        <button aria-label="Comprar" onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
+        <button type="button" aria-label="Comprar" onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
           <FiShoppingCart className="mr-2" /> Comprar
         </button>
         <Link href={`/produtos/${props.slug}`}>

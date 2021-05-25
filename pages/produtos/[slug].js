@@ -2,15 +2,24 @@ import { queryProductList, queryProduct } from '../../framework/products'
 import { initializeApollo } from '../../lib/apolloClient'
 import { ProductPage } from '../../components/product'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 export function Product({product}){
+  const router = useRouter()
+
+  if(router.isFallback){
+    return(
+      <div className="container mx-auto px-4 py-8">Carregando...</div>
+    )
+  }
+
   return(
     <>
       <Head>
-        <title>Loja Saudável - {product?.name}</title>
+        <title>Loja Saudável - {product.name}</title>
       </Head>
       <div className="container mx-auto px-4 pb-8 pt-4 xl:pt-6 xl:max-w-screen-xl">
-        {product && <ProductPage product={product} />}
+        <ProductPage product={product} />
       </div>
     </>
   )
@@ -34,7 +43,7 @@ export async function getStaticPaths() {
     params: { slug: node.slug },
   }))
 
-  return { paths, fallback: 'blocking'}
+  return { paths, fallback: true }
 }
 
 export async function getStaticProps(context) {
