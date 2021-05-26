@@ -66,6 +66,15 @@ export const checkoutFragment = gql`
         amount
       }
     }
+    availablePaymentGateways{
+      id
+      name
+      currencies
+      config{
+        field
+        value
+      }
+    }
     lines{
       id
       quantity

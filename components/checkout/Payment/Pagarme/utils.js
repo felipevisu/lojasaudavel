@@ -48,10 +48,10 @@ export function getDocumentType(document){
 	}
 }
 
-export async function generateToken(card){
+export async function generateToken(card, encryption_key){
 	const cardData = generateCardData(card)
 
-	return pagarme.client.connect({ encryption_key: process.env.NEXT_PUBLIC_PAGARME_EK})
+	return pagarme.client.connect({ encryption_key: encryption_key})
 		.then(client => client.security.encrypt(cardData))
 		.then(card_hash => card_hash)
 }

@@ -4,6 +4,13 @@ import { validateCard, validateDocument, generateToken, getDocumentType } from '
 import { useCommerce } from '../../../../framework'
 import { formatMoney } from '../../../utils'
 
+function getEncryptionKey(config){
+  const element = config.find(conf => conf.field === "encryption_key")
+  if(element)
+    return element.value
+  return null
+}
+
 export function Pagarme(props){
   const { cart } = useCommerce()
   const [loading, setLoading] = useState(false)
@@ -64,7 +71,7 @@ export function Pagarme(props){
     const document_errors = await validateDocument(document)
 
     if(card_errors.length === 0 && document_errors.length === 0){
-      const token = await generateToken(card)
+      const token = await generateToken(card, getEncryptionKey(props.config))
       const payment = await cart.checkoutPaymentCreate({
         gateway: "pagarme",
         method: "CREDITCARD",
@@ -203,11 +210,13 @@ export function Pagarme(props){
             - Você também pode pagar em dinheiro ou na maquininha de cartão no ato da entrega/retirada.
           </p>
         </div>
-        <div className="mt-3">
-          <Button onClick={() => setActive('payment')} value="Tentar novamente" />
-          <span className="pl-2">
+        <div className="mt-3 md:flex md:flex-wrap">
+          <div>
+            <Button onClick={() => setActive('payment')} value="Tentar novamente" />  
+          </div>
+          <div className="mt-2 md:mt-0 md:ml-2">
             <Button outline onClick={() => {props.changeMethod('lojista'), setActive('payment')}} value="Pagar na entrega/retirada" />
-          </span>
+          </div>
         </div>
       </div>
     )
