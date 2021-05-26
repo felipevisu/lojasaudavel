@@ -38,6 +38,19 @@ class MyDocument extends Document {
               `,
             }}
           />
+          <script 
+            dangerouslySetInnerHTML={{
+              __html: `
+              window._mfq = window._mfq || [];
+              (function() {
+                var mf = document.createElement("script");
+                mf.type = "text/javascript"; mf.defer = true;
+                mf.src = "//cdn.mouseflow.com/projects/f091220d-4693-4adb-a338-89752d2227b3.js";
+                document.getElementsByTagName("head")[0].appendChild(mf);
+              })();
+              `
+            }}
+          />
           <noscript>
             <img
               height="1"
