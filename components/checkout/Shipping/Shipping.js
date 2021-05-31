@@ -10,12 +10,18 @@ export function Shipping(props){
   const { cart } = useCommerce()
   const [selected, setSelected] = useState(cart.cart.shippingMethod?.id)
   const [loading, setLoading] = useState(false)
+  const [shippingLoading, setShippingLoading] = useState(true)
   const [errors, setErrors] = useState([])
 
   const handleChange = (e) => {
     setSelected(e.target.value)
     setErrors([])
   }
+
+  useEffect(async () => {
+    await cart.getCheckout(Cookies.get("checkoutToken"), true)
+    setShippingLoading(false)
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -37,6 +43,15 @@ export function Shipping(props){
   if(address === null){
     router.push('/checkout/endereco')
     return null
+  }
+
+  if(shippingLoading){
+    return(
+      <div>
+        Calculando métodos de entrega...<br/>
+        Por favor aguarde alguns segundos.
+      </div>
+    )
   }
   
   return (
