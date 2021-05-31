@@ -171,7 +171,6 @@ export function useCart(){
       mutation: checkoutCompleteMutation, 
       variables: {checkoutId: cart.id, paymentData: paymentData}
     })
-    console.log(response)
     const order = response.data.checkoutComplete.order
     if(order){
       setFinalized(true)
@@ -213,8 +212,12 @@ export function useCart(){
     return response
   }
 
-  const getCheckout = async (token) => {
-    const response = await apolloClient.query({query: checkoutQuery, variables: {token: token}})
+  const getCheckout = async (token, fetchExternalContent=false) => {
+    const response = await apolloClient.query({query: checkoutQuery, variables: {
+      token: token,
+      fetchExternalContent: fetchExternalContent
+    }})
+    console.log(response)
     if(response.data.checkout){
       setCart(response.data.checkout)
     } else {
@@ -253,6 +256,7 @@ export function useCart(){
     order,
     open,
     cartLoading,
+    getCheckout,
     setOpen,
     setCart,
     checkoutCreate,

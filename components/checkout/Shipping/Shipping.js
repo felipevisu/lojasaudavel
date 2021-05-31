@@ -1,8 +1,9 @@
 import { useCommerce } from '../../../framework'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
 import { Button } from '../../ui'
+import Cookies from 'js-cookie'
 
 export function Shipping(props){
   const router = useRouter()
@@ -25,7 +26,7 @@ export function Shipping(props){
         router.push('/checkout/pagamento')
       } else {
         setLoading(false)
-      } 
+      }
     } else {
       setErrors([{field: "", message: "Selecione uma das opções"}])
     }
@@ -37,7 +38,7 @@ export function Shipping(props){
     router.push('/checkout/endereco')
     return null
   }
-
+  
   return (
     <form method="post" onSubmit={handleSubmit} noValidate>
       <div className="mb-4">
