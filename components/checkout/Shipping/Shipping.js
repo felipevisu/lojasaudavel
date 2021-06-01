@@ -4,13 +4,14 @@ import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
 import { Button } from '../../ui'
 import Cookies from 'js-cookie'
+import { checkoutShippingMethodsQuery } from '../../../framework/cart/queries'
+import { useQuery } from '@apollo/client'
 
 export function Shipping(props){
   const router = useRouter()
   const { cart } = useCommerce()
   const [selected, setSelected] = useState(cart.cart.shippingMethod?.id)
-  const [loading, setLoading] = useState(false)
-  const [shippingLoading, setShippingLoading] = useState(true)
+  const [submitLoading, setSubmitLoading] = useState(false)
   const [errors, setErrors] = useState([])
 
   const handleChange = (e) => {
@@ -18,20 +19,28 @@ export function Shipping(props){
     setErrors([])
   }
 
-  useEffect(async () => {
-    await cart.getCheckout(Cookies.get("checkoutToken"), true)
-    setShippingLoading(false)
-  }, [])
+  const { loading, data: shippingMethods, refetch } = useQuery(checkoutShippingMethodsQuery, {
+    variables: {
+      token: Cookies.get("checkoutToken"),
+      fetchExternalContent: true
+    },
+    fetchPolicy: "no-cache",
+    nextFetchPolicy: "no-cache"
+  });
+
+  useEffect(() => {
+    refetch()
+  }, [cart.cart.lines])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if(selected){
-      setLoading(true)
+      setSubmitLoading(true)
       const response = await cart.checkoutShippingMethodUpdate(selected)
       if(response.data.checkoutShippingMethodUpdate.checkout){
         router.push('/checkout/pagamento')
       } else {
-        setLoading(false)
+        setSubmitLoading(false)
       }
     } else {
       setErrors([{field: "", message: "Selecione uma das opções"}])
@@ -45,7 +54,7 @@ export function Shipping(props){
     return null
   }
 
-  if(shippingLoading){
+  if(loading){
     return(
       <div>
         Calculando métodos de entrega...<br/>
@@ -67,7 +76,7 @@ export function Shipping(props){
       }
       <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b pb-4">
-          {cart.cart.availableShippingMethods.map((method, key) => 
+          {shippingMethods.checkout.availableShippingMethods.map((method, key) => 
             <label
               key={key}
               htmlFor={method.id}
@@ -89,7 +98,7 @@ export function Shipping(props){
             </label>
           )}  
         </div>
-        <Button type="submit" value={loading ? 'Carregando...' : 'Prosseguir com o pagamento'} />
+        <Button type="submit" value={submitLoading ? 'Carregando...' : 'Prosseguir com o pagamento'} />
       </div>
     </form>
   )

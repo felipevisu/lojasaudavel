@@ -5,7 +5,8 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
-  checkoutQuery
+  checkoutQuery,
+  checkoutShippingMethodsQuery
 } from './queries'
 
 import {
@@ -217,7 +218,6 @@ export function useCart(){
       token: token,
       fetchExternalContent: fetchExternalContent
     }})
-    console.log(response)
     if(response.data.checkout){
       setCart(response.data.checkout)
     } else {

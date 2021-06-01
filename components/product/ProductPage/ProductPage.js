@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Media from './Media'
 import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi' 

@@ -15,6 +15,19 @@ export const addressFragment = gql`
   }
 `
 
+export const checkoutShippingMethodsFragment = gql`
+  fragment CheckoutShippingMethodsFragment on Checkout {
+    availableShippingMethods{
+      id
+      name
+      minimumDeliveryDays
+      price{
+        amount
+      }
+    }
+  }
+`
+
 export const checkoutFragment = gql`
   ${addressFragment}
   fragment CheckoutFragment on Checkout {
@@ -54,14 +67,6 @@ export const checkoutFragment = gql`
     shippingMethod{
       id
       name
-      price{
-        amount
-      }
-    }
-    availableShippingMethods{
-      id
-      name
-      minimumDeliveryDays
       price{
         amount
       }
