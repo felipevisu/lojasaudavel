@@ -6,6 +6,19 @@ import { Button } from '../../ui'
 import Cookies from 'js-cookie'
 import { checkoutShippingMethodsQuery } from '../../../framework/cart/queries'
 import { useQuery } from '@apollo/client'
+import { VscLoading } from 'react-icons/vsc'
+
+export function Loading(){
+  return(
+    <div className="rounded p-4 text-center">
+      <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />
+      <div className="mt-2">
+        Estamos buscando opções de entrega para seu pedido.<br/>
+        Aguarde alguns segundos...  
+      </div>
+    </div>
+  )
+}
 
 export function Shipping(props){
   const router = useRouter()
@@ -55,12 +68,7 @@ export function Shipping(props){
   }
 
   if(loading){
-    return(
-      <div>
-        Calculando métodos de entrega...<br/>
-        Por favor aguarde alguns segundos.
-      </div>
-    )
+    return <Loading />
   }
   
   return (
@@ -98,7 +106,7 @@ export function Shipping(props){
             </label>
           )}  
         </div>
-        <Button type="submit" value={submitLoading ? 'Carregando...' : 'Prosseguir com o pagamento'} />
+        <Button type="submit" value={submitLoading ? "Carregando..." : 'Prosseguir com o pagamento'} />
       </div>
     </form>
   )
