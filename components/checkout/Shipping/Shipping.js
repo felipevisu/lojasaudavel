@@ -106,7 +106,17 @@ export function Shipping(props){
             </label>
           )}  
         </div>
-        <Button type="submit" value={submitLoading ? "Carregando..." : 'Prosseguir com o pagamento'} />
+        <Button type="submit" value={
+          <span className="flex items-center">
+            {submitLoading
+              ? <>
+                  <VscLoading className="animate-spin" />
+                  <span className="ml-2">Carregando...</span>
+                </>
+              : <span className="ml-2">Prosseguir com o pagamento</span>
+            }
+          </span>
+        }/>
       </div>
     </form>
   )

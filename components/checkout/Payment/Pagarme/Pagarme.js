@@ -3,6 +3,7 @@ import { Field, Button, Select } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
 import { useCommerce } from '../../../../framework'
 import { formatMoney } from '../../../utils'
+import { VscLoading } from 'react-icons/vsc'
 
 function getEncryptionKey(config){
   const element = config.find(conf => conf.field === "encryption_key")
@@ -14,6 +15,7 @@ function getEncryptionKey(config){
 export function Pagarme(props){
   const { cart } = useCommerce()
   const [loading, setLoading] = useState(false)
+  const [loadingStep2, setLoadingStep2] = useState(false)
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 
@@ -84,11 +86,20 @@ export function Pagarme(props){
           document: document,
           type: getDocumentType(document)
         }
-        const response = await cart.checkoutComplete(JSON.stringify(extra_data))
-        if(response.data.checkoutComplete.checkoutErrors.length > 0){
-          setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
-          setActive('errors')
-        }
+
+        setLoadingStep2(true)
+        cart.checkoutComplete(JSON.stringify(extra_data))
+          .then((response) => {
+            if(response.data.checkoutComplete.checkoutErrors.length > 0){
+              setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
+              setActive('errors')
+              setLoadingStep2(false)
+            }
+          })
+          .catch(() => {
+            setLoadingStep2(false)
+          })        
+        
       } else {
         setPaymentErrors(errors)
         setActive('errors')
@@ -104,6 +115,18 @@ export function Pagarme(props){
     }
 
     setLoading(false)
+  }
+
+  if(loadingStep2){
+    return(
+      <div className="rounded p-4 text-center">
+        <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />
+        <div className="mt-2 text-xl">
+          Estamos processando seu pagamento.<br/>
+          Aguarde alguns segundos...  
+        </div>
+      </div>
+    )
   }
 
   if(active === 'payment'){

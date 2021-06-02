@@ -5,6 +5,8 @@ import { Paginator } from '../../common'
 import { Header } from '../Header'
 import { Filter } from '../../common'
 import { useQuery } from '@apollo/client';
+import { Loading } from '../../common/loading'
+
 
 export function ProductList({attributes, category}){
   const filter = useFilter({category: category})
@@ -20,9 +22,7 @@ export function ProductList({attributes, category}){
       <div className="container mx-auto px-4">
         <Header category={category} total={products?.products?.totalCount || 0} />
         {loading &&
-          <div className="pb-8">
-            Carregando...
-          </div>
+          <Loading content={<div className="text-xl">Carregando...</div>} />
         }
         {products &&
           <>

@@ -3,6 +3,7 @@ import { useCommerce } from '../../../framework'
 import { FiPlus } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { Button } from '../../ui'
+import { VscLoading } from 'react-icons/vsc'
 
 function AddressItem(props){
   return(
@@ -77,7 +78,17 @@ export function AddressList(props){
           <AddressItem key={key} handleChange={handleChange} selected={selected} {...address} />
         )}
       </div>
-      <Button type="submit" value={loading ? 'Carregando...' : 'Prosseguir com o frete'} />
+      <Button type="submit" value={
+        <span className="flex items-center">
+          {loading
+            ? <>
+                <VscLoading className="animate-spin" />
+                <span className="ml-2">Carregando...</span>
+              </>
+            : <span className="ml-2">Prosseguir com o frete</span>
+          }
+        </span>
+      }/>
     </form>
   )
 }

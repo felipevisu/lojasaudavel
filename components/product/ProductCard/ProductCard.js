@@ -5,6 +5,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { useCommerce } from "../../../framework"
 import Link from 'next/link'
+import { VscLoading } from 'react-icons/vsc'
 
 function ProductOptions({selected, onChange, variants}) {
 
@@ -107,6 +108,7 @@ function ProductOptions({selected, onChange, variants}) {
 export function ProductCard(props){
   const { cart } = useCommerce()
   const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0] || props.variants[0])
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (value) => {
     setSelected(props.variants.find(variant => variant.id == value))
@@ -115,6 +117,7 @@ export function ProductCard(props){
   const currentMedia = useMemo(() => props.media.find(media => media.id === selected.media[0]?.id) || props.media[0], [selected])
 
   const handleClick = async (e) => {
+    setLoading(true)
     e.preventDefault()
     const line = {
       variantId: selected.id,
@@ -124,6 +127,7 @@ export function ProductCard(props){
     if(response.data.checkoutLinesAdd?.checkout || response.data.checkoutCreate?.checkout){
       cart.setOpen(true)
     }
+    setLoading(false)
   }
 
   return(
@@ -175,7 +179,11 @@ export function ProductCard(props){
 
       <div className="flex flex-wrap">
         <button type="button" aria-label="Comprar" onClick={handleClick} className="appearance-none focus:outline-none mr-1 flex items-center  font-semibold bg-gray-200 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-300">
-          <FiShoppingCart className="mr-2" /> Comprar
+          {loading 
+            ? <VscLoading className="animate-spin" />
+            : <FiShoppingCart />
+          }
+          <span className="ml-2">Comprar</span>
         </button>
         <Link href={`/produtos/${props.slug}`}>
           <a className="flex border items-center font-semibold bg-gray-100 text-sm px-3 h-8 rounded-md text-gray-700 hover:bg-gray-200">

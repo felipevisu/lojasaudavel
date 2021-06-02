@@ -5,6 +5,7 @@ import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi'
 import { useCommerce } from '../../../framework'
 import ProductDetails from './ProductDetails'
 import Breadcrumbs from './Breadcrumbs'
+import { VscLoading } from 'react-icons/vsc'
 
 export function ProductPage({product}){
   const { cart } = useCommerce()
@@ -126,12 +127,10 @@ export function ProductPage({product}){
               className="appearance-none focus:outline-none hover:bg-green-600 flex items-center bg-green-500 font-semibold text-white rounded px-4 py-2 text-md xl:px-5 xl:py-3 xl:text-xl"
             >
               {loading
-                ? "Carregando..."
-                : <>
-                    <span className="mr-2"><FiShoppingCart /></span>
-                    <span>Adicionar ao carrinho</span>
-                  </>
+                ? <VscLoading className="animate-spin" />
+                : <FiShoppingCart />
               }
+              <span className="ml-2">Adicionar ao carrinho</span>
             </button>
           </div>
 

@@ -3,23 +3,24 @@ import { Sumary } from '../Sumary'
 import { Progress } from '../Progress'
 import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
+import { Loading } from '../../common/loading'
 
 export function CheckoutContainer(props){
   const router = useRouter()
   const { auth, cart } = useCommerce()
 
   if(auth.authLoading || cart.cartLoading){
-    return <div className="container mx-auto px-4 py-10">Carregando...</div>
+    return <Loading content={<div className="text-xl">Carregando...</div>} />
   }
 
   if(!cart.cartLoading && (cart.cart === null || cart.cart?.lines?.length === 0)){
     router.push('/carrinho')
-    return <div className="container mx-auto px-4 py-10">Carregando...</div>
+    return <Loading content={<div className="text-xl">Carregando...</div>} />
   }
   
   if(!auth.authLoading && auth.user === null){
     router.push(`/login?next=${router.asPath}`)
-    return <div className="container mx-auto px-4 py-10">Carregando...</div>
+    return <Loading content={<div className="text-xl">Carregando...</div>} />
   }
   
   return(

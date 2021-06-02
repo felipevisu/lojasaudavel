@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useCommerce } from '../../../../framework'
 import { Field, Button, Select } from '../../../ui'
-
+import { VscLoading } from 'react-icons/vsc'
 
 export function Lojista(props){
   const { cart } = useCommerce()
@@ -35,6 +35,18 @@ export function Lojista(props){
     setLoading(false)
   }
 
+  if(loading){
+    return(
+      <div className="rounded p-4 text-center">
+        <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />
+        <div className="mt-2 text-xl">
+          Estamos processando seu pagamento.<br/>
+          Aguarde alguns segundos...  
+        </div>
+      </div>
+    )
+  }
+
   if(active === 'payment'){
     return(
       <form onSubmit={handleSubmit} noValidate>
@@ -62,7 +74,7 @@ export function Lojista(props){
             />
           </div>
         </div>
-        <Button type="submit" value={loading ? 'Carregando...' : 'Concluir pedido' } />
+        <Button type="submit" value="Concluir pedido" />
       </form>
     )
   }

@@ -7,6 +7,7 @@ import useCart from '../../../framework/cart'
 
 export function Payment(props){
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
   const { cart } = useCart()
   const [selected, setSelected] = useState('pagarme')
 
@@ -38,33 +39,35 @@ export function Payment(props){
     <div>
       <h3 className="font-bold text-xl mb-3">Pagamento</h3>
 
-      <Voucher />
-
-      <span className="font-semibold mb-2 text-gray-500 block">Forma de pagamento</span>
-      <div className="border-b pb-3 mb-3 lg:flex">
-        {lojista &&
-          <label className="flex items-center mr-3 py-1">
-            <input className="text-green-500 mr-1" type="radio" checked={selected === "pagarme"} name="place" value="pagarme" onChange={handleChange} />
-            <span>Pagar agora no site</span>
-          </label>
-        }
-        {pagarme &&
-          <label className="flex items-center py-1">
-            <input className="text-green-500 mr-1" type="radio" checked={selected === "lojista"} name="place" value="lojista" onChange={handleChange} />
-            <span>Pagar na entrega/retirada</span>
-          </label>
-        }
-
-      </div>
+      {!loading &&
+        <>
+          <Voucher />
+          <span className="font-semibold mb-2 text-gray-500 block">Forma de pagamento</span>
+          <div className="border-b pb-3 mb-3 lg:flex">
+            {lojista &&
+              <label className="flex items-center mr-3 py-1">
+                <input className="text-green-500 mr-1" type="radio" checked={selected === "pagarme"} name="place" value="pagarme" onChange={handleChange} />
+                <span>Pagar agora no site</span>
+              </label>
+            }
+            {pagarme &&
+              <label className="flex items-center py-1">
+                <input className="text-green-500 mr-1" type="radio" checked={selected === "lojista"} name="place" value="lojista" onChange={handleChange} />
+                <span>Pagar na entrega/retirada</span>
+              </label>
+            }
+          </div>
+        </>
+      }
 
       {lojista &&
         <div className={`${selected === 'lojista' ? 'block' : 'hidden'}`}>
-          <Lojista />
+          <Lojista setTopLoading={setLoading} />
         </div>
       }
       {pagarme &&
         <div className={`${selected === 'pagarme' ? 'block' : 'hidden'}`}>
-          <Pagarme changeMethod={changeMethod} config={pagarme.config} />
+          <Pagarme setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />
         </div>
       }
     </div>
