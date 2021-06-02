@@ -5,7 +5,6 @@ import { VscLoading } from 'react-icons/vsc'
 
 export function Lojista(props){
   const { cart } = useCommerce()
-  const [loading, setLoading] = useState(false)
   const [method, setMethod] = useState("CREDITCARD")
   const [notes, setNotes] = useState("")
   const [active, setActive] = useState('payment')
@@ -13,29 +12,38 @@ export function Lojista(props){
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+    props.setTopLoading(true)
 
-    const payment = await cart.checkoutPaymentCreate({
+    cart.checkoutPaymentCreate({
       gateway: "lojista",
       method: method,
     })
-    const errors = payment.data.checkoutPaymentCreate.paymentErrors
-
-    if(errors.length === 0){
-      const response = await cart.checkoutComplete()
-      if(response.data.checkoutComplete.checkoutErrors.length > 0){
-        setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
+      .then((response) => {
+        if(response.data.checkoutPaymentCreate.paymentErrors.length === 0){
+          cart.checkoutComplete()
+            .then((response) => {
+              if(response.data.checkoutComplete.checkoutErrors.length > 0){
+                setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
+                setActive('errors')
+              }
+            })
+            .catch((error) => {
+              setActive('errors')
+              props.setTopLoading(false)
+            })
+        } else {
+          setPaymentErrors(errors)
+          setActive('errors')
+          props.setTopLoading(false)
+        }
+      })
+      .catch((error) => {
         setActive('errors')
-      }
-    } else {
-      setPaymentErrors(errors)
-      setActive('errors')
-    }
-
-    setLoading(false)
+        props.setTopLoading(false)
+      })
   }
 
-  if(loading){
+  if(props.topLoading){
     return(
       <div className="rounded p-4 text-center">
         <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />

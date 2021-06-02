@@ -1,12 +1,13 @@
 import { useCommerce } from '../../../framework'
 import Menu from '../Menu'
 import { Auth } from "../Modal/Auth"
+import { Loading } from '../../common/loading'
 
 export function Container(props){
   const { auth } = useCommerce()
 
   if(auth.authLoading){
-    return <div className="container mx-auto px-4 py-4 lg:py-10">Carregando...</div>
+    return <Loading />
   }
 
   if(!auth.authLoading && auth.user === null){

@@ -21,9 +21,7 @@ export function ProductList({attributes, category}){
 
       <div className="container mx-auto px-4">
         <Header category={category} total={products?.products?.totalCount || 0} />
-        {loading &&
-          <Loading content={<div className="text-xl">Carregando...</div>} />
-        }
+        {loading && <Loading />}
         {products &&
           <>
             {
