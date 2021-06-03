@@ -37,10 +37,9 @@ export function Payment(props){
 
   return(
     <div>
-      <h3 className="font-bold text-xl mb-3">Pagamento</h3>
-
       {!loading &&
         <>
+          <h3 className="font-bold text-xl mb-3">Pagamento</h3>
           <Voucher />
           <span className="font-semibold mb-2 text-gray-500 block">Forma de pagamento</span>
           <div className="border-b pb-3 mb-3 lg:flex">
@@ -62,12 +61,12 @@ export function Payment(props){
 
       {lojista &&
         <div className={`${selected === 'lojista' ? 'block' : 'hidden'}`}>
-          <Lojista setTopLoading={setLoading} />
+          <Lojista topLoading={loading} setTopLoading={setLoading} />
         </div>
       }
       {pagarme &&
         <div className={`${selected === 'pagarme' ? 'block' : 'hidden'}`}>
-          <Pagarme setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />
+          <Pagarme topLoading={loading} setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />
         </div>
       }
     </div>

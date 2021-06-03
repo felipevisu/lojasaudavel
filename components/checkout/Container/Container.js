@@ -10,17 +10,17 @@ export function CheckoutContainer(props){
   const { auth, cart } = useCommerce()
 
   if(auth.authLoading || cart.cartLoading){
-    return <Loading content={<div className="text-xl">Carregando...</div>} />
+    return <Loading />
   }
 
   if(!cart.cartLoading && (cart.cart === null || cart.cart?.lines?.length === 0)){
     router.push('/carrinho')
-    return <Loading content={<div className="text-xl">Carregando...</div>} />
+    return <Loading />
   }
   
   if(!auth.authLoading && auth.user === null){
     router.push(`/login?next=${router.asPath}`)
-    return <Loading content={<div className="text-xl">Carregando...</div>} />
+    return <Loading />
   }
   
   return(

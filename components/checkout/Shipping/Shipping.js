@@ -10,9 +10,9 @@ import { VscLoading } from 'react-icons/vsc'
 
 export function Loading(){
   return(
-    <div className="rounded p-4 text-center">
+    <div className="p-4 text-center">
       <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />
-      <div className="mt-2">
+      <div className="mt-2 text-xl">
         Estamos buscando opções de entrega para seu pedido.<br/>
         Aguarde alguns segundos...  
       </div>

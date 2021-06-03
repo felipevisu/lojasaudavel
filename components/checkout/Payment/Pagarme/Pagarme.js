@@ -14,8 +14,6 @@ function getEncryptionKey(config){
 
 export function Pagarme(props){
   const { cart } = useCommerce()
-  const [loading, setLoading] = useState(false)
-  const [loadingStep2, setLoadingStep2] = useState(false)
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 
@@ -68,42 +66,48 @@ export function Pagarme(props){
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+
     const card_errors = await validateCard(card)
     const document_errors = await validateDocument(document)
 
     if(card_errors.length === 0 && document_errors.length === 0){
+      props.setTopLoading(true)
       const token = await generateToken(card, getEncryptionKey(props.config))
-      const payment = await cart.checkoutPaymentCreate({
+      cart.checkoutPaymentCreate({
         gateway: "pagarme",
         method: "CREDITCARD",
         token: token,
         installments: installments
       })
-      const errors = payment.data.checkoutPaymentCreate.paymentErrors
-      if(errors.length === 0){
-        const extra_data = {
-          document: document,
-          type: getDocumentType(document)
-        }
-
-        setLoadingStep2(true)
-        cart.checkoutComplete(JSON.stringify(extra_data))
-          .then((response) => {
-            if(response.data.checkoutComplete.checkoutErrors.length > 0){
-              setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
-              setActive('errors')
-              setLoadingStep2(false)
+        .then((response) => { 
+          if(response.data.checkoutPaymentCreate.paymentErrors.length === 0){
+            const extra_data = {
+              document: document,
+              type: getDocumentType(document)
             }
-          })
-          .catch(() => {
-            setLoadingStep2(false)
-          })        
-        
-      } else {
-        setPaymentErrors(errors)
-        setActive('errors')
-      }
+            cart.checkoutComplete(JSON.stringify(extra_data))
+              .then((response) => {
+                if(response.data.checkoutComplete.checkoutErrors.length > 0){
+                  setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
+                  setActive('errors')
+                  props.setTopLoading(false)
+                }
+              })
+              .catch(() => {
+                setActive('errors')
+                props.setTopLoading(false)
+              }) 
+          } else {
+            setPaymentErrors(response.data.checkoutPaymentCreate.paymentErrors)
+            setActive('errors')
+            props.setTopLoading(false)
+          }
+        })
+        .catch((error) => {
+          setActive('errors')
+          props.setTopLoading(false)
+        })
+    
     } else {
       var new_errors = {}
       card_errors.forEach(error => new_errors[error.field] = error.value)
@@ -112,14 +116,13 @@ export function Pagarme(props){
         ...errors,
         ...new_errors
       })
+      props.setTopLoading(false)
     }
-
-    setLoading(false)
   }
 
-  if(loadingStep2){
+  if(props.topLoading){
     return(
-      <div className="rounded p-4 text-center">
+      <div className="p-4 text-center">
         <VscLoading className="mx-auto text-4xl animate-spin text-green-500" />
         <div className="mt-2 text-xl">
           Estamos processando seu pagamento.<br/>
@@ -210,7 +213,7 @@ export function Pagarme(props){
             />
           </div>
         </div>
-        <Button type="submit" onClick={() => setActive('payment')} value={loading ? 'Carregando...' : 'Concluir pedido'} />
+        <Button type="submit" onClick={() => setActive('payment')} value="Concluir pedido" />
       </form>
     )
   }
