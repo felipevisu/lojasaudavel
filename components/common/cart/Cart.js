@@ -5,28 +5,39 @@ import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import styled from './CartBox.module.css'
+import { useState } from 'react'
+import { VscLoading } from 'react-icons/vsc'
 
 function Line(props){
   const { cart } = useCommerce()
+  const [loadingAdd, setLoadingAdd] = useState(false)
+  const [loadingUpdate, setLoadingUpdate] = useState(false)
+  const [loadingDelete, setLoadingDelete] = useState(false)
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
+    setLoadingAdd(true)
     const line = {
       variantId: props.variant.id,
       quantity: 1
     }
-    cart.checkoutLinesAdd([line])
+    await cart.checkoutLinesAdd([line])
+    setLoadingAdd(false)
   }
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
+    setLoadingUpdate(true)
     const line = {
       variantId: props.variant.id,
       quantity: props.quantity - 1
     }
-    cart.checkoutLinesUpdate([line])
+    await cart.checkoutLinesUpdate([line])
+    setLoadingUpdate(false)
   }
 
-  const handleRemove = (e) => {
-    cart.checkoutLineDelete(props.id)
+  const handleRemove = async (e) => {
+    setLoadingDelete(true)
+    await cart.checkoutLineDelete(props.id)
+    setLoadingDelete(false)
   }
 
   return(
@@ -53,13 +64,22 @@ function Line(props){
       <div className="flex items-center bg-gray-100 rounded px-1">
         <div className="flex-1">
           <button aria-label="Remover" className="appearance-none focus:outline-none hover:text-green-500 px-2 py-2" onClick={handleUpdate}>
-            <FiMinus />
+            {loadingUpdate
+              ? <VscLoading className="animate-spin" />
+              : <FiMinus />
+            }
           </button>
           <button aria-label="Adicionar" className="appearance-none focus:outline-none hover:text-green-500 px-2 py-2" onClick={handleAdd}>
-            <FiPlus />
+            {loadingAdd
+              ? <VscLoading className="animate-spin" />
+              : <FiPlus />
+            }
           </button>
           <button aria-label="Excluir" className="appearance-none focus:outline-none hover:text-green-500 px-2 py-2" onClick={handleRemove}>
-            <FiTrash2 />
+            {loadingDelete
+              ? <VscLoading className="animate-spin" />
+              : <FiTrash2 />
+            }
           </button>
         </div>
         <div className="text-sm font-semibold text-gray-600 px-2">
