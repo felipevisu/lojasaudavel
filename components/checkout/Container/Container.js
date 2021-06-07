@@ -46,7 +46,7 @@ export function CheckoutContainer(props){
                 <div>
                   <h5 className="font-semibold col-span-2">Entrega selecionada</h5>
                   Serviço: {cart.cart.shippingMethod.name}<br/>
-                  Preço: {formatMoney(cart.cart.shippingMethod.price.amount)}
+                  Prazo: {formatMoney(cart.cart.shippingMethod.minimumDeliveryDays)} {cart.cart.shippingMethod.minimumDeliveryDays > 1 ? "dias úteis" : "dia útil"}
                 </div> 
               }
             </div>

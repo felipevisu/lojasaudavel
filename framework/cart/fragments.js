@@ -67,6 +67,7 @@ export const checkoutFragment = gql`
     shippingMethod{
       id
       name
+      minimumDeliveryDays
       price{
         amount
       }
