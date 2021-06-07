@@ -101,7 +101,7 @@ export function Shipping(props){
               />
               <div>
                 {method.name}<br/>
-                Prazo: {method.minimumDeliveryDays} {method.minimumDeliveryDays > 1 ? "dias úteis" : "dia útil"}
+                Prazo: {method.minimumDeliveryDays} {method.minimumDeliveryDays > 1 ? "dias úteis" : "dia útil"}<br/>
                 Preço: {formatMoney(method.price.amount)}
               </div>
             </label>
