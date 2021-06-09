@@ -1,18 +1,12 @@
 const { withSentryConfig } = require('@sentry/nextjs');
-const withPWA = require('next-pwa')
-const runtimeCaching = require('next-pwa/cache')
 
-const moduleExports = withPWA({
+const moduleExports = {
   images: {
     domains: ['loja-saudavel.s3.amazonaws.com'],
     path: '/_next/image',
   },
-  pwa: {
-    dest: 'public',
-    runtimeCaching,
-  },
   productionBrowserSourceMaps: true,
-});
+};
 
 const SentryWebpackPluginOptions = {};
 
