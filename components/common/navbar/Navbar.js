@@ -5,16 +5,16 @@ import { RiArrowDropDownLine } from 'react-icons/ri'
 
 function LinkItem(props){
   const path = useMemo(() => {
-    if(props.category){
-      return '/categorias/' + props.category.slug
+    switch(props){
+      case props.category:
+        return '/categorias/' + props.category.slug
+      case props.collection:
+        return '/colecoes/' + props.collection.slug
+      case props.page:
+        return '/institucional/' + props.page.slug
+      default:
+        return "#"
     }
-    if(props.collection){
-      return '/colecoes/' + props.collection.slug
-    }
-    if(props.page){
-      return '/institucional/' + props.page.slug
-    }
-    return '#'
   }, [props])
 
   return(

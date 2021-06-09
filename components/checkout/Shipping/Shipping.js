@@ -37,8 +37,7 @@ export function Shipping(props){
       token: Cookies.get("checkoutToken"),
       fetchExternalContent: true
     },
-    fetchPolicy: "no-cache",
-    nextFetchPolicy: "no-cache"
+    fetchPolicy: "no-cache"
   });
 
   useEffect(() => {
@@ -60,9 +59,7 @@ export function Shipping(props){
     }
   }
 
-  const address = useMemo(() => cart.cart.shippingAddress, [cart.cart.shippingAddress])
-
-  if(address === null){
+  if(cart.cart.shippingAddress === null){
     router.push('/checkout/endereco')
     return null
   }

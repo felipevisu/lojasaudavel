@@ -5,8 +5,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
-  checkoutQuery,
-  checkoutShippingMethodsQuery
+  checkoutQuery
 } from './queries'
 
 import {
@@ -24,9 +23,9 @@ import {
   checkoutRemovePromoCodeMutation
 } from './mutations'
 
+
 export function useCart(){
   const router = useRouter()
-  const [finalized, setFinalized] = useState(false)
   const [cart, setCart] = useState(null)
   const [open, setOpen] = useState(false)
   const [order, setOrder] = useState(null)
@@ -53,7 +52,6 @@ export function useCart(){
         });
       });
     }
-    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -74,7 +72,6 @@ export function useCart(){
           });
         });
       }
-      localStorage.removeItem('data_payment')
       return response
     } else {
       return checkoutCreate(lines)
@@ -84,7 +81,7 @@ export function useCart(){
   const checkoutLinesUpdate = async (lines) => {
     const response = await apolloClient.mutate({
       mutation: checkoutLinesUpdateMutation, 
-      variables: {checkoutId: cart.id, lines: lines}
+      variables: {checkoutId: cart.id, lines: lines},
     })
     const checkout = response.data.checkoutLinesUpdate.checkout
     if(checkout){
@@ -97,7 +94,6 @@ export function useCart(){
         });
       });
     }
-    localStorage.removeItem('data_payment')
     return response
   };
 
@@ -117,7 +113,6 @@ export function useCart(){
         });
       });
     }
-    localStorage.removeItem('data_payment')
   };
 
   const checkoutCustomerAttach = async (customerId) => {
@@ -161,9 +156,6 @@ export function useCart(){
     if(response.data.checkoutPaymentCreate.checkout){
       setCart(response.data.checkoutPaymentCreate.checkout)
     }
-    if(response.data.checkoutPaymentCreate.payment){
-      localStorage.setItem("data_payment", JSON.stringify(response.data.checkoutPaymentCreate.payment));
-    }
     return response
   };
 
@@ -174,8 +166,8 @@ export function useCart(){
     })
     const order = response.data.checkoutComplete.order
     if(order){
-      setFinalized(true)
       setOrder(order)
+      router.push('/pedido-finalizado')
     }
     return response
   };
@@ -224,32 +216,22 @@ export function useCart(){
       Cookies.remove('checkoutId')
       Cookies.remove('checkoutToken')
     }
-    setCartLoading(false)
   }
 
   const clearCart = () => {
     setCart(null)
-    setFinalized(false)
-    localStorage.removeItem("extra_data")
-    localStorage.removeItem("data_payment")
     Cookies.remove("checkoutId")
     Cookies.remove("checkoutToken")
   }
 
-  useEffect(() => {
+  useEffect(async () => {
+    setCartLoading(true)
     const token = Cookies.get('checkoutToken')
     if(token){
-      getCheckout(token)
-    } else {
-      setCartLoading(false)
+      await getCheckout(token)
     }
+    setCartLoading(false)
   }, [])
-
-  useEffect(() => {
-    if(finalized){
-      router.push('/pedido-finalizado')
-    }
-  }, [finalized])
 
   return {
     cart,

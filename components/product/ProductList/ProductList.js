@@ -11,8 +11,8 @@ import { Loading } from '../../common/loading'
 export function ProductList({attributes, category}){
   const filter = useFilter({category: category})
 
-  const { loading, error, data: products } = useQuery(queryProducts, {
-    variables: filter.variables
+  const { loading, data: products } = useQuery(queryProducts, {
+    variables: filter.variables, fetchPolicy
   });
 
   return(

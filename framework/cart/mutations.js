@@ -164,6 +164,12 @@ export const checkoutCompleteMutation = gql`
       }
       order{
         id
+        number
+        paymentBillet{
+          url
+          barcode
+          expirationDate
+        }
       }
     }
   }

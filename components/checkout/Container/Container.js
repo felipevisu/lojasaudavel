@@ -1,7 +1,6 @@
 import { useCommerce } from '../../../framework'
 import { Sumary } from '../Sumary'
 import { Progress } from '../Progress'
-import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
 import { Loading } from '../../common/loading'
 
@@ -30,7 +29,7 @@ export function CheckoutContainer(props){
           <Progress />
           {props.children}
           {
-            (cart.cart?.shippingAddress || cart.cart?.shippingMethod) &&
+            (cart.cart.shippingAddress || cart.cart.shippingMethod) &&
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t mt-4 pt-8">
               {
                 cart.cart.shippingAddress &&

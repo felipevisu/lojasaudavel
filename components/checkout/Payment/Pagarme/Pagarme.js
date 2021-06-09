@@ -28,7 +28,6 @@ export function Pagarme(props){
   const [installments, setInstallments] = useState(1)
 
   const [errors, setErrors] = useState({
-    installments: '',
     document: '',
     card_holder_name: '',
     card_number: '',

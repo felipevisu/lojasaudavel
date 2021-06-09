@@ -48,8 +48,8 @@ export const CommerceProvider = ({ children }) => {
       cart,
       menu,
       menuOpen,
-      setMenuOpen,
       filterOpen,
+      setMenuOpen,
       setFilterOpen,
       logout
     }}>
