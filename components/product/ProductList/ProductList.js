@@ -12,7 +12,7 @@ export function ProductList({attributes, category}){
   const filter = useFilter({category: category})
 
   const { loading, data: products } = useQuery(queryProducts, {
-    variables: filter.variables, fetchPolicy
+    variables: filter.variables
   });
 
   return(
