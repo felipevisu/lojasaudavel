@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { useCommerce } from '../../../../framework'
 import { Field, Button, Select } from '../../../ui'
 import { VscLoading } from 'react-icons/vsc'
+import { useRouter } from 'next/router'
 
 export function Lojista(props){
+  const router = useRouter()
+
   const { cart } = useCommerce()
   const [method, setMethod] = useState("CREDITCARD")
   const [notes, setNotes] = useState("")
@@ -25,6 +28,8 @@ export function Lojista(props){
               if(response.data.checkoutComplete.checkoutErrors.length > 0){
                 setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
                 setActive('errors')
+              } else {
+                router.push('/pedido-finalizado')
               }
             })
             .catch((error) => {

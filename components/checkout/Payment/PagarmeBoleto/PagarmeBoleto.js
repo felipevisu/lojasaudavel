@@ -3,8 +3,11 @@ import { Field, Button } from '../../../ui'
 import { validateDocument, getDocumentType } from '../Pagarme/utils'
 import { useCommerce } from '../../../../framework'
 import { VscLoading } from 'react-icons/vsc'
+import { useRouter } from 'next/router'
 
 export function PagarmeBoleto(props){
+  const router = useRouter()
+
   const { cart } = useCommerce()
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
@@ -46,6 +49,8 @@ export function PagarmeBoleto(props){
                   setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
                   setActive('errors')
                   props.setTopLoading(false)
+                } else {
+                  router.push('/pedido-finalizado')
                 }
               })
               .catch(() => {

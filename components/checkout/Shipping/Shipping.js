@@ -34,8 +34,7 @@ export function Shipping(props){
 
   const { loading, data: shippingMethods, refetch } = useQuery(checkoutShippingMethodsQuery, {
     variables: {
-      token: Cookies.get("checkoutToken"),
-      fetchExternalContent: true
+      token: Cookies.get("checkoutToken")
     },
     fetchPolicy: "no-cache"
   });

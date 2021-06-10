@@ -3,8 +3,8 @@ import { checkoutFragment, checkoutShippingMethodsFragment } from './fragments'
 
 export const checkoutShippingMethodsQuery = gql`
   ${checkoutShippingMethodsFragment}
-  query Checkout($token: UUID!, $fetchExternalContent: Boolean) {
-    checkout(token: $token, fetchExternalContent: $fetchExternalContent){
+  query Checkout($token: UUID!) {
+    checkout(token: $token){
       ...CheckoutShippingMethodsFragment
     }
   }
@@ -12,8 +12,8 @@ export const checkoutShippingMethodsQuery = gql`
 
 export const checkoutQuery = gql`
   ${checkoutFragment}
-  query Checkout($token: UUID!, $fetchExternalContent: Boolean) {
-    checkout(token: $token, fetchExternalContent: $fetchExternalContent){
+  query Checkout($token: UUID!) {
+    checkout(token: $token){
       ...CheckoutFragment
     }
   }

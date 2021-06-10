@@ -25,10 +25,9 @@ export default function Complete() {
           <span>Seu pedido (#{cart?.order?.number}) foi</span><br/>
           <span className="font-bold">concluído com sucesso!</span>
         </h2>
-        <hr className="my-3" />
-        <p className="text-xl">As informações sobre o pagamento e processo de entrega estarão disponíveis em seu email.</p>
+        <p className="text-xl my-4 px-3">As informações sobre o pagamento e processo de entrega estarão disponíveis em seu email.</p>
         {cart?.order?.paymentBillet && 
-          <div className="text-center bg-gray-100 border border-gray-200 rounded p-4 my-4">
+          <div className="text-center bg-gray-100 border border-gray-200 rounded p-4 mb-4">
             <div className="mb-2 flex justify-center">
               <Barcode width={2} value={cart.order.paymentBillet.barcode} />
             </div>

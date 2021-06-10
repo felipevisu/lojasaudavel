@@ -4,6 +4,7 @@ import { validateCard, validateDocument, generateToken, getDocumentType } from '
 import { useCommerce } from '../../../../framework'
 import { formatMoney } from '../../../utils'
 import { VscLoading } from 'react-icons/vsc'
+import { useRouter } from 'next/router'
 
 function getEncryptionKey(config){
   const element = config.find(conf => conf.field === "encryption_key")
@@ -13,6 +14,8 @@ function getEncryptionKey(config){
 }
 
 export function Pagarme(props){
+  const router = useRouter()
+
   const { cart } = useCommerce()
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
@@ -90,6 +93,8 @@ export function Pagarme(props){
                   setPaymentErrors(response.data.checkoutComplete.checkoutErrors)
                   setActive('errors')
                   props.setTopLoading(false)
+                } else {
+                  router.push('/pedido-finalizado')
                 }
               })
               .catch(() => {
@@ -221,7 +226,7 @@ export function Pagarme(props){
     return(
       <div>
         <h3 className="text-2xl font-bold">Ooops!</h3>
-        <h4 className="text-xl font-semibold mb-2">Alguma coisa deu errado com seu pagamento. =(</h4>
+        <h4 className="text-xl font-semibold mb-2">Seu pagamento não foi aprovado. =(</h4>
         {paymentErrors.map((error, key) => 
           <div key={key} className="bg-red-100 text-red-800 border border-red-200 rounded px-4 py-2 mt-2">
             {error.message}
