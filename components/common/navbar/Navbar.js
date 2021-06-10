@@ -3,23 +3,23 @@ import { useMemo, useState } from "react"
 import { useCommerce } from "../../../framework"
 import { RiArrowDropDownLine } from 'react-icons/ri'
 
-function LinkItem(props){
-  const path = useMemo(() => {
-    switch(props){
-      case props.category:
-        return '/categorias/' + props.category.slug
-      case props.collection:
-        return '/colecoes/' + props.collection.slug
-      case props.page:
-        return '/institucional/' + props.page.slug
-      default:
-        return "#"
-    }
-  }, [props])
+function getPath(props){
+  if(props.category){
+    return '/categorias/' + props.category.slug
+  }
+  if(props.collection){
+    return '/colecoes/' + props.collection.slug
+  }
+  if(props.page){
+    return '/institucional/' + props.page.slug
+  }
+  return '#'
+}
 
+function LinkItem(props){
   return(
     <>
-      <Link href={path}>
+      <Link href={getPath(props)}>
         <a className="font-semibold transition transition-all hover:text-green-500 flex items-center py-1">
           {props.name}
           {props.children.length > 0 && <RiArrowDropDownLine className="text-xl" />}
