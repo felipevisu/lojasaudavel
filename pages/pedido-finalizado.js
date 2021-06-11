@@ -29,7 +29,7 @@ export default function Complete() {
         {cart?.order?.paymentBillet && 
           <div className="text-center bg-gray-100 border border-gray-200 rounded p-4 mb-4">
             <div className="mb-2 flex justify-center">
-              <Barcode width={2} value={cart.order.paymentBillet.barcode} />
+              <Barcode width={2} background="#F3F4F6" value={cart.order.paymentBillet.barcode} />
             </div>
             <a href={cart.order.paymentBillet.url} target="_blank">
               <button className="
