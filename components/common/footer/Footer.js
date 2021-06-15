@@ -14,7 +14,7 @@ export function Footer(props){
             <UserMenu />
           </div>
           <div className="col-span-5 md:col-span-3 xl:col-span-2">
-            <h5 className="font-bold">Informações</h5>
+            <h5 className="font-bold  mb-4">Informações</h5>
             <FooterMenu />
           </div>
           <div className="col-span-10 md:col-span-4 xl:col-span-3">

@@ -116,20 +116,12 @@ export function PagarmeBoleto(props){
     return(
       <div>
         <h3 className="text-2xl font-bold">Ooops!</h3>
-        <h4 className="text-xl font-semibold mb-2">Alguma coisa deu errado com seu pagamento. =(</h4>
+        <h4 className="text-xl font-semibold mb-2">Seu pagamento não foi aprovado. =(</h4>
         {paymentErrors.map((error, key) => 
           <div key={key} className="bg-red-100 text-red-800 border border-red-200 rounded px-4 py-2 mt-2">
             {error.message}
           </div>
         )}
-        <div className="mt-3">
-          <h5 className="font-semibold">Dicas</h5>
-          <p className="text-sm">
-            - Verifique se seu banco utiliza cartões virtuais para compras online;<br/>
-            - Realizar várias tentativas seguidas pode barrar seu pagamento no sistema antifraude;<br/>
-            - Você também pode pagar em dinheiro ou na maquininha de cartão no ato da entrega/retirada.
-          </p>
-        </div>
         <div className="mt-3 md:flex md:flex-wrap">
           <div>
             <Button onClick={() => setActive('payment')} value="Tentar novamente" />  

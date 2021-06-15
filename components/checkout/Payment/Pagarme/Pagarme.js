@@ -237,7 +237,7 @@ export function Pagarme(props){
           <p className="text-sm">
             - Verifique se seu banco utiliza cartões virtuais para compras online;<br/>
             - Realizar várias tentativas seguidas pode barrar seu pagamento no sistema antifraude;<br/>
-            - Você também pode pagar em dinheiro ou na maquininha de cartão no ato da entrega/retirada.
+            - Verifique se existem outras opções de pagamento disponíveis para seu pedido.
           </p>
         </div>
         <div className="mt-3 md:flex md:flex-wrap">
