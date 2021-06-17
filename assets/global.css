@@ -84,6 +84,16 @@ a {
     display: none;
 }
 
+.cancel-form{
+    height: 810px;
+}
+
+@media(min-width: 1280px){
+    .cancel-form{
+        height: 732px;
+    }
+}
+
 @media(min-width: 768px) and (max-width: 1024px){
     .bannersGrid > a:last-child {
         display: none;
