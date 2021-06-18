@@ -8,7 +8,7 @@ export function Cancel(props){
         <title>Loja Saudável - Atendimento ao cliente</title>
       </Head>
       <Container>
-        <iframe className="cancel-form" src='https://lojasaudavel.desk360.com.br/final/external/atendimentoaocliente?template=1' frameborder='0' width='100%'></iframe>
+        <iframe className="suport-form" src='https://lojasaudavel.desk360.com.br/final/external/atendimentoaocliente?template=1' frameborder='0' width='100%'></iframe>
       </Container>
     </>
   )

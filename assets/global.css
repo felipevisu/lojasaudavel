@@ -94,6 +94,16 @@ a {
     }
 }
 
+.suport-form{
+    height: 730px;
+}
+
+@media(min-width: 1280px){
+    .suport-form{
+        height: 650px;
+    }
+}
+
 @media(min-width: 768px) and (max-width: 1024px){
     .bannersGrid > a:last-child {
         display: none;

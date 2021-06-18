@@ -2,6 +2,14 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { FiChevronDown } from  'react-icons/fi'
 
+const MENU = [
+  {link: "/atendimento", name: "Atendimento"},
+  {link: "/cancelamento", name: "Cancelamento"},
+  {link: "/enderecos", name: "Endereços"},
+  {link: "/pedidos", name: "Meus pedidos"},
+  {link: "/conta", name: "Minha conta"}
+]
+
 export function Container(props){
   const [open, setOpen] = useState(false)
 
@@ -19,33 +27,14 @@ export function Container(props){
           <FiChevronDown className="mx-auto" /> 
         </button>
       </div>
-
       <div className={open ? "block mt-3" : "hidden"}>
-        <div className="my-1 text-lg">
-          <Link href="/conta">
-            <a>Minha conta</a>
-          </Link>
-        </div>
-        <div className="my-1 text-lg">
-          <Link href="/pedidos">
-            <a>Pedidos</a>
-          </Link>
-        </div>
-        <div className="my-1 text-lg">
-          <Link href="/enderecos">
-            <a>Endereços</a>
-          </Link>
-        </div>
-        <div className="my-1 text-lg">
-          <Link href="/atendimento">
-            <a>Atendimento</a>
-          </Link>
-        </div>
-        <div className="my-1 text-lg">
-          <Link href="/cancelamento">
-            <a>Cancelamento</a>
-          </Link>
-        </div>
+        {MENU.map((item, key) =>
+          <div key={key} className="my-1 text-lg">
+            <Link href={item.link}>
+              <a>{item.name}</a>
+            </Link>
+          </div>
+        )}  
       </div>
     </div>
   )

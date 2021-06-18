@@ -30,18 +30,7 @@ export const CommerceProvider = ({ children }) => {
       }
     }
   }, [auth.user, cart.cart])
-
-  useEffect(() => {
-    const body = document.body;
-    if(filterOpen || cart.open){
-      body.style.position = 'fixed';
-      body.style.width = '100vw';
-    } else {
-      body.style.position = '';
-      body.style.width = '100vw';
-    }
-  }, [filterOpen, cart.open])
-
+  
   return (
     <CommerceContext.Provider value={{
       auth,

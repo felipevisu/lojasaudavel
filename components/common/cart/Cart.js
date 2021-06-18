@@ -7,6 +7,7 @@ import Image from 'next/image'
 import styled from './CartBox.module.css'
 import { useState } from 'react'
 import { VscLoading } from 'react-icons/vsc'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 function Line(props){
   const { cart } = useCommerce()
@@ -41,8 +42,8 @@ function Line(props){
   }
 
   return(
-    <div className="border-t pt-3 mb-3">
-      <div className="flex mb-3">
+    <div className="border-t py-3 px-3">
+      <div className="flex mb-1">
         <div className="flex-none">
           {props.variant.media.length > 0
           ? 
@@ -122,12 +123,14 @@ export function Cart(){
           <span className="font-semibold">Carrinho</span>
           <button aria-label="Fechar" onClick={() => cart.setOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
-        <div className="px-6 absolute bottom-32 top-12 pb-3 overflow-auto w-full">
-          {cart.cart &&
-            cart.cart?.lines.map((line, key) =>
-              <Line key={key} {...line} />
-            )
-          }
+        <div className="absolute bottom-32 top-12">
+          <PerfectScrollbar style={{height: "100%"}}>
+            {cart.cart &&
+              cart.cart?.lines.map((line, key) =>
+                <Line key={key} {...line} />
+              )
+            }
+          </PerfectScrollbar>
         </div>
         <div className=" bg-gray-200 p-6 absolute bottom-0 w-full h-32">
             <div className="mb-2 text-xl text-gray-600">
