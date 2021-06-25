@@ -244,9 +244,11 @@ export function Pagarme(props){
           <div>
             <Button onClick={() => setActive('payment')} value="Tentar novamente" />  
           </div>
-          <div className="mt-2 md:mt-0 md:ml-2">
-            <Button outline onClick={() => {props.changeMethod('lojista'), setActive('payment')}} value="Pagar na entrega/retirada" />
-          </div>
+          {props.lojista &&
+            <div className="mt-2 md:mt-0 md:ml-2">
+              <Button outline onClick={() => {props.changeMethod('lojista'), setActive('payment')}} value="Pagar na entrega/retirada" />
+            </div>
+          }
         </div>
       </div>
     )

@@ -37,10 +37,12 @@ export function Payment(props){
           <Voucher />
           <span className="font-semibold mb-2 text-gray-500 block">Forma de pagamento</span>
           <div className="border-b pb-3 mb-3">
-            <label className="flex items-center mr-3 py-1">
-              <input className="text-green-500 mr-1" type="radio" checked={selected === "pagarme"} name="place" value="pagarme" onChange={handleChange} />
-              <span>Pagamento online (cartão de crédito)</span>
-            </label>
+            {pagarme &&
+              <label className="flex items-center mr-3 py-1">
+                <input className="text-green-500 mr-1" type="radio" checked={selected === "pagarme"} name="place" value="pagarme" onChange={handleChange} />
+                <span>Pagamento online (cartão de crédito)</span>
+              </label>
+            }
             {pagarmeBillet &&
               <label className="flex items-center mr-3 py-1">
                 <input className="text-green-500 mr-1" type="radio" checked={selected === "pagarmeBillet"} name="place" value="pagarmeBillet" onChange={handleChange} />
@@ -57,9 +59,11 @@ export function Payment(props){
         </>
       }
 
-      <div className={`${selected === 'pagarme' ? 'block' : 'hidden'}`}>
-        <Pagarme topLoading={loading} setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />
-      </div>
+      {pagarme &&
+        <div className={`${selected === 'pagarme' ? 'block' : 'hidden'}`}>
+          <Pagarme topLoading={loading} lojista={lojista} setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />
+        </div>
+      }
       {pagarmeBillet &&
         <div className={`${selected === 'pagarmeBillet' ? 'block' : 'hidden'}`}>
           <PagarmeBoleto topLoading={loading} setTopLoading={setLoading} changeMethod={changeMethod} config={pagarme.config} />

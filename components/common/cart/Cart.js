@@ -123,7 +123,7 @@ export function Cart(){
           <span className="font-semibold">Carrinho</span>
           <button aria-label="Fechar" onClick={() => cart.setOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
-        <div className="absolute bottom-32 top-12">
+        <div className="absolute bottom-32 top-12 w-full">
           <PerfectScrollbar style={{height: "100%"}}>
             {cart.cart &&
               cart.cart?.lines.map((line, key) =>
