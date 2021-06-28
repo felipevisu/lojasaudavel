@@ -1,8 +1,8 @@
 {
   "name": "Loja Saudável - Seu balcão online de produtos naturais",
+  "short_name": "Loja Saudável",
   "theme_color": "#38A169",
   "background_color": "#ffffff",
-  "short_name": "Loja Saudável",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
@@ -38,14 +38,14 @@
       "sizes": "96x96"
     },
     {
-      "src": "/favicon-48.png",
+      "src": "/favicon-32.png",
       "type": "image/png",
-      "sizes": "48x48"
+      "sizes": "32x32"
     },
     {
-      "src": "/favicon-36.png",
+      "src": "/favicon-16.png",
       "type": "image/png",
-      "sizes": "36x36"
+      "sizes": "16x16"
     }
   ],
   "screenshots": [

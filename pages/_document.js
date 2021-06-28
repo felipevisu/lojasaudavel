@@ -8,6 +8,43 @@ class MyDocument extends Document {
     return (
       <Html lang="pt-br">
         <Head>
+          <link rel="preload" href="/fonts/avenir/AvenirNextLTPro-Regular.woff2" as="font" crossOrigin="" />
+          <link rel="preload" href="/fonts/avenir/AvenirNextLTPro-Demi.woff2" as="font" crossOrigin="" />
+          <link rel="preload" href="/fonts/avenir/AvenirNextLTPro-Bold.woff2" as="font" crossOrigin="" />
+
+          <meta name='application-name' content='Loja Saudável' />
+          <meta name='apple-mobile-web-app-capable' content='yes' />
+          <meta name='apple-mobile-web-app-status-bar-style' content='default' />
+          <meta name='apple-mobile-web-app-title' content='Loja Saudável' />
+          <meta
+            name="description" content="Loja Saudável - Sua nova loja online de alimentos saudáveis. 
+            Suplementos, alimentos diet, light, sem lactose, sem glútem, para diabéticos, atletas e 
+            todos que buscam uma vida mais saudável." 
+          />
+          <meta name='format-detection' content='telephone=no' />
+          <meta name='mobile-web-app-capable' content='yes' />
+          <meta name='msapplication-config' content='/static/icons/browserconfig.xml' />
+          <meta name='msapplication-TileColor' content='#38A169' />
+          <meta name='msapplication-tap-highlight' content='no' />
+          <meta name='theme-color' content='#FFFFFF' />
+
+          <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32.png' />
+          <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16.png' />
+          <link rel='manifest' href='/static/manifest.json' />
+          <link rel='shortcut icon' href='/favicon.ico' />
+
+          <meta property='og:type' content='website' />
+          <meta property='og:title' content='Loja Saudável' />
+          <meta 
+            property='og:description' 
+            content="Loja Saudável - Sua nova loja online de alimentos saudáveis. 
+            Suplementos, alimentos diet, light, sem lactose, sem glútem, para diabéticos, atletas e 
+            todos que buscam uma vida mais saudável." 
+          />
+          <meta property='og:site_name' content='Loja Saudável' />
+          <meta property='og:url' content='https://lojasaudavel.com.br' />
+          <meta property='og:image' content='https://lojasaudavel.com.br/apple-touch-icon.png' />
+
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
           <script
             dangerouslySetInnerHTML={{
