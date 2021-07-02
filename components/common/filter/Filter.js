@@ -51,15 +51,15 @@ function Attribute(props){
 }
 
 export function Filter({attributes}){
-  const { filterOpen, setFilterOpen } = useSite()
+  const filter = useFilter()
 
   return(
     <>
-      <div onClick={() => setFilterOpen(false)} className={` ${filterOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={`${styled.sideBar} ${filterOpen && styled.open }`}>
+      <div onClick={() => filter.setFilterOpen(false)} className={` ${filter.filterOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
+      <div className={`${styled.sideBar} ${filter.filterOpen && styled.open }`}>
         <div className="flex items-center bg-gray-200 pl-6 pr-4 h-12">
           <span className="font-semibold">Filtro</span>
-          <button aria-label="Fechar" onClick={() => setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
+          <button aria-label="Fechar" onClick={() => filter.setFilterOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
         <div className="px-6 py-3 absolute bottom-0 top-12 overflow-auto w-full">
           {attributes.map((attribute) => 

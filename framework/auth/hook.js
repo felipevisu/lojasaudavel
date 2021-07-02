@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useContext, useEffect } from "react";
 import { toast } from 'react-toastify';
 import { initializeApollo } from "../../lib/apolloClient"
@@ -176,6 +177,15 @@ export function useAuth(){
     }
   }
 
+  const initialize = async () => {
+    const token = localStorage.getItem('token')
+    if(token){
+      await getUser()
+      await getAddresses()
+    }
+    setLoading(false)
+  }
+
   return {
     user,
     setUser,
@@ -183,6 +193,7 @@ export function useAuth(){
     open,
     setOpen,
     loading,
+    initialize,
     login,
     accountRegister,
     accountUpdate,

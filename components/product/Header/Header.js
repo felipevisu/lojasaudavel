@@ -37,7 +37,7 @@ export function Header({category, total}){
   return(
     <div className="relative flex w-full items-center border my-6">
       <div>
-        <button aria-label="Filtro" onClick={() => setFilterOpen(true)} className="focus:outline-none px-4 py-2 flex items-center border-r hover:bg-gray-200">
+        <button aria-label="Filtro" onClick={() => filter.setFilterOpen(true)} className="focus:outline-none px-4 py-2 flex items-center border-r hover:bg-gray-200">
           <HiOutlineAdjustments className="mr-1" />
           <span>Filtro</span>
         </button>

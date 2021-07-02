@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
+import { SiteContext } from '.';
 
 const SORT_DICT = {
   "price": {field: "PRICE", direction: "ASC"},
@@ -24,7 +25,7 @@ function arraysEqual(a, b) {
 }
 
 export function useFilter(initial=null){
-  const [filterOpen, setFilterOpen] = useState(false)
+  const {filterOpen, setFilterOpen} = useContext(SiteContext)
   const router = useRouter()
 
   const [categories, setCategories] = useState(() => {
@@ -154,9 +155,9 @@ export function useFilter(initial=null){
   }), [categories, navigator, attributes, sort, search])
 
   return {
-    filterOpen,
-    variables,
+    filterOpen, 
     setFilterOpen,
+    variables,
     setFilter,
   }
 }

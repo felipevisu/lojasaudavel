@@ -227,12 +227,21 @@ export function useCart(){
     Cookies.remove("checkoutToken")
   }
 
+  const initialize = async () => {
+    const token = Cookies.get('checkoutToken')
+    if(token){
+      await getCheckout(token)
+    }
+    setLoading(false)
+  }
+
   return {
     cart,
     order,
     open,
     loading,
     setOpen,
+    initialize,
     getCheckout,
     checkoutCreate,
     checkoutLinesAdd,

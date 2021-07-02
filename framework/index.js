@@ -6,12 +6,15 @@ export const SiteContext = createContext({});
 export const SiteProvider = ({ children }) => {
   const menu = useMenu()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [filterOpen, setFilterOpen] = useState(false)
 
   return (
     <SiteContext.Provider value={{
       menu,
       menuOpen,
-      setMenuOpen
+      setMenuOpen,
+      filterOpen,
+      setFilterOpen,
     }}>
       {children}
     </SiteContext.Provider>
