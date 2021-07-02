@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
 import { HiOutlineAdjustments, HiSortAscending } from 'react-icons/hi'
-import { useCommerce } from '../../../framework';
 import { useFilter } from '../../../framework/filter';
 
 const SORT_FIELDS = [
@@ -15,7 +14,6 @@ const SORT_FIELDS = [
 export function Header({category, total}){
   const sorter = useRef()
   const filter = useFilter()
-  const { filterOpen, setFilterOpen } = useCommerce()
   const [dropdown, setDropdown] = useState(false)
 
   useEffect(() => {

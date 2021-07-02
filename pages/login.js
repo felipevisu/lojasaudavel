@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Auth } from '../components/auth/Modal/Auth'
-import { useCommerce } from '../framework'
+import { useAuth } from '../framework/auth'
 import Head from 'next/head'
 
 export function Login(props){
-  const { auth } = useCommerce()
+  const auth = useAuth()
   const router = useRouter()
 
   useEffect(() => {

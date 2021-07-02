@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { Button } from '../../ui'
 import { useEffect } from 'react'
-import { useCommerce } from '../../../framework/'
 import { Billet } from './Billet'
+import { useCart } from '../../../framework/cart'
 
 export function Finalized(){
-  const { cart } = useCommerce()
+  const cart = useCart()
 
   useEffect(() => {
     if(cart.order){

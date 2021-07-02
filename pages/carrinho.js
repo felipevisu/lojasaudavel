@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi'
 import { Empty } from '../components/checkout/Empty'
-import { useCommerce } from '../framework'
 import { formatMoney } from '../components/utils'
 import { useRouter } from 'next/router'
+import { useCart } from '../framework/cart'
 
 function Line(props){
-  const { cart } = useCommerce()
+  const cart = useCart()
 
   const handleAdd = (e) => {
     const line = {
@@ -70,7 +70,7 @@ function Line(props){
 }
 
 export function Cart(props){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const router = useRouter()
 
   if(cart.cart === null || cart.cart?.lines?.length === 0){

@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { Container } from '../components/auth/Container'
 import { Addresses } from '../components/auth/Addresses'
 
-
 export function Enderecos(props){
   return (
     <>

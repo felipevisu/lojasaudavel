@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { useCommerce } from '../../../framework'
+import { useAuth } from "../../../framework/auth"
 import { Field, Button } from '../../ui'
 
 export function Login(){
   const [fields, setFields] = useState({email: '', password: ''})
   const [errors, setErrors] = useState({email: '', password: ''})
   const [loading, setLoading] = useState(false)
-  const { auth } = useCommerce()
+  const auth = useAuth()
 
   const handleChange = (e) => {
     setFields({

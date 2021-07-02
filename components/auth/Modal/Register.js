@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { useCommerce } from '../../../framework'
+import { useAuth } from "../../../framework/auth"
 import { Field, Button } from '../../ui'
 
 export function Register(){
-  const { auth } = useCommerce()
+  const auth = useAuth()
   const [loading, setLoading] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState('')
   const [fields, setFields] = useState({

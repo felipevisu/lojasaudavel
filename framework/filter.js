@@ -24,6 +24,7 @@ function arraysEqual(a, b) {
 }
 
 export function useFilter(initial=null){
+  const [filterOpen, setFilterOpen] = useState(false)
   const router = useRouter()
 
   const [categories, setCategories] = useState(() => {
@@ -153,7 +154,9 @@ export function useFilter(initial=null){
   }), [categories, navigator, attributes, sort, search])
 
   return {
+    filterOpen,
+    variables,
+    setFilterOpen,
     setFilter,
-    variables
   }
 }

@@ -7,9 +7,12 @@ import '../assets/global.css'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { ToastContainer } from 'react-toastify';
-import { CommerceProvider } from '../framework'
 import { Layout } from '../components/common'
 import { useApollo } from "../lib/apolloClient";
+
+import { SiteProvider } from '../framework'
+import { AuthProvider, useAuth } from '../framework/auth'
+import { CartProvider } from '../framework/cart'
 
 function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
@@ -50,12 +53,16 @@ function App({ Component, pageProps }) {
         <meta name='theme-color' content='#FFFFFF' />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <CommerceProvider>
-          <Layout> 
-            <ToastContainer />         
-            <Component {...pageProps} />
-          </Layout>
-        </CommerceProvider>
+        <SiteProvider>
+          <AuthProvider>
+            <CartProvider>
+              <Layout> 
+                <ToastContainer />         
+                <Component {...pageProps} />
+              </Layout>
+            </CartProvider>
+          </AuthProvider>
+        </SiteProvider>
       </ApolloProvider>
     </>
   )

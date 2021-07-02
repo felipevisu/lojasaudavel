@@ -1,11 +1,12 @@
 import { IoMdClose } from 'react-icons/io'
-import { useCommerce } from '../../../framework'
 import styled from './Menu.module.css'
 import { useState, useMemo, useEffect } from 'react'
 import Link from "next/link"
 import { RiArrowDropDownLine } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 import { FiUser, FiPackage, FiLogOut } from "react-icons/fi"
+import { useAuth } from '../../../framework/auth'
+import { useSite } from '../../../framework'
 
 function LinkItem(props){
   const slug = useMemo(() => {
@@ -56,22 +57,23 @@ function MenuItem(props){
 }
 
 export function Menu(){
-  const { auth, menu, menuOpen, setMenuOpen } = useCommerce()
+  const auth = useAuth()
   const router = useRouter()
+  const site = useSite()
 
   useEffect(() => {
-    if(menuOpen){
+    if(site.menuOpen){
       setMenuOpen(false)
     }
   }, [router])
 
   return(
     <>
-      <div onClick={() => setMenuOpen(false)} className={` ${menuOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
-      <div className={`${styled.sideBar} ${menuOpen && styled.open }`}>
+      <div onClick={() => setMenuOpen(false)} className={` ${site.menuOpen ? 'block' : 'hidden'} fixed top-0 left-0 w-full h-full bg-black z-40 opacity-50 `} />
+      <div className={`${styled.sideBar} ${site.menuOpen && styled.open }`}>
         <div className="flex items-center px-6 h-12">
           <span className="font-semibold">Menu</span>
-          <button aria-label="Fechar" onClick={() => setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
+          <button aria-label="Fechar" onClick={() => site.setMenuOpen(false)} className="focus:outline-none ml-auto mr-0"><IoMdClose /></button>
         </div>
         <div className="px-3 absolute bottom-0 top-12 pb-3 overflow-auto w-full">
           <div className="grid grid-cols-2 rounded border mx-3 mb-4 text-center">
@@ -104,7 +106,7 @@ export function Menu(){
               </div>
             </Link>
           </div>
-          {menu?.items.map((item) => <MenuItem key={item.id} {...item} />)}
+          {site.menu?.items.map((item) => <MenuItem key={item.id} {...item} />)}
         </div>
       </div>
     </>

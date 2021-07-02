@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Field, Button, Select } from '../../../ui'
 import { validateCard, validateDocument, generateToken, getDocumentType } from './utils'
-import { useCommerce } from '../../../../framework'
 import { formatMoney } from '../../../utils'
 import { VscLoading } from 'react-icons/vsc'
 import { useRouter } from 'next/router'
+import { useCart } from '../../../../framework/cart'
 
 function getEncryptionKey(config){
   const element = config.find(conf => conf.field === "encryption_key")
@@ -16,7 +16,7 @@ function getEncryptionKey(config){
 export function Pagarme(props){
   const router = useRouter()
 
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 

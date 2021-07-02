@@ -1,9 +1,8 @@
-import { useContextSelector } from 'use-context-selector'
 import { initializeApollo } from "../../lib/apolloClient"
 import { toast } from 'react-toastify';
-import { useState, useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import Cookies from 'js-cookie'
-import { CommerceContext } from '../context';
+import { CartContext } from "./context";
 
 import {
   checkoutQuery
@@ -26,10 +25,16 @@ import {
 
 
 export function useCart(){
-  const cart = useContextSelector(CommerceContext, commerce => commerce.cart);
-  const handleCart = useContextSelector(CommerceContext, commerce => commerce.handleCart);
-  const loading = useContextSelector(CommerceContext, commerce => commerce.cartLoading);
-  const handleLoading = useContextSelector(CommerceContext, commerce => commerce.handleCartLoading);
+  const {
+    cart,
+    loading,
+    open,
+    order,
+    setCart,
+    setLoading,
+    setOpen,
+    setOrder,
+   } = useContext(CartContext)
 
   const apolloClient = initializeApollo();
 
@@ -41,7 +46,7 @@ export function useCart(){
     })
     const checkout = response.data.checkoutCreate.checkout
     if(checkout){
-      handleCart(checkout)
+      setCart(checkout)
       Cookies.set('checkoutId', checkout.id, { expires: 7 })
       Cookies.set('checkoutToken', checkout.token, { expires: 7 })
     } else {
@@ -63,7 +68,7 @@ export function useCart(){
       })
       const checkout = response.data.checkoutLinesAdd.checkout
       if(checkout){
-        handleCart(checkout)
+        setCart(checkout)
       } else {
         const errors = response.data.checkoutLinesAdd.checkoutErrors
         errors.forEach(element => {
@@ -85,7 +90,7 @@ export function useCart(){
     })
     const checkout = response.data.checkoutLinesUpdate.checkout
     if(checkout){
-      handleCart(checkout)
+      setCart(checkout)
     } else {
       const errors = response.data.checkoutLinesUpdate.checkoutErrors
       errors.forEach(element => {
@@ -104,7 +109,7 @@ export function useCart(){
     })
     const checkout = response.data.checkoutLineDelete.checkout
     if(checkout){
-      handleCart(checkout)
+      setCart(checkout)
     } else {
       const errors = response.data.checkoutLineDelete.checkoutErrors
       errors.forEach(element => {
@@ -122,7 +127,7 @@ export function useCart(){
     })
     const checkout = response.data.checkoutCustomerAttach.checkout
     if(checkout){
-      handleCart(checkout)
+      setCart(checkout)
     }
   };
 
@@ -132,7 +137,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, shippingAddress: shippingAddress}
     })
     if(response.data.checkoutShippingAddressUpdate.checkout){
-      handleCart(response.data.checkoutShippingAddressUpdate.checkout)
+      setCart(response.data.checkoutShippingAddressUpdate.checkout)
     }
     return response
   };
@@ -143,7 +148,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, billingAddress: billingAddress}
     })
     if(response.data.checkoutBillingAddressUpdate.checkout){
-      handleCart(response.data.checkoutBillingAddressUpdate.checkout)
+      setCart(response.data.checkoutBillingAddressUpdate.checkout)
     }
     return response
   };
@@ -154,7 +159,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, input: input}
     })
     if(response.data.checkoutPaymentCreate.checkout){
-      handleCart(response.data.checkoutPaymentCreate.checkout)
+      setCart(response.data.checkoutPaymentCreate.checkout)
     }
     return response
   };
@@ -165,6 +170,9 @@ export function useCart(){
       variables: {checkoutId: cart.id, paymentData: paymentData}
     })
     const order = response.data.checkoutComplete.order
+    if(order){
+      setOrder(order)
+    }
     return response
   };
 
@@ -174,7 +182,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, shippingMethodId: shippingMethodId}
     })
     if(response.data.checkoutShippingMethodUpdate.checkout){
-      handleCart(response.data.checkoutShippingMethodUpdate.checkout)
+      setCart(response.data.checkoutShippingMethodUpdate.checkout)
     }
     return response
   };
@@ -185,7 +193,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, promoCode: promoCode}
     })
     if(response.data.checkoutAddPromoCode.checkout){
-      handleCart(response.data.checkoutAddPromoCode.checkout)
+      setCart(response.data.checkoutAddPromoCode.checkout)
     }
     return response
   }
@@ -196,7 +204,7 @@ export function useCart(){
       variables: {checkoutId: cart.id, promoCode: promoCode}
     })
     if(response.data.checkoutRemovePromoCode.checkout){
-      handleCart(response.data.checkoutRemovePromoCode.checkout)
+      setCart(response.data.checkoutRemovePromoCode.checkout)
     }
     return response
   }
@@ -206,7 +214,7 @@ export function useCart(){
       token: token
     }})
     if(response.data.checkout){
-      handleCart(response.data.checkout)
+      setCart(response.data.checkout)
     } else {
       Cookies.remove('checkoutId')
       Cookies.remove('checkoutToken')
@@ -214,26 +222,18 @@ export function useCart(){
   }
 
   const clearCart = () => {
-    handleCart(null)
+    setCart(null)
     Cookies.remove("checkoutId")
     Cookies.remove("checkoutToken")
   }
 
-  useEffect(async () => {
-    handleCartLoading(true)
-    const token = Cookies.get('checkoutToken')
-    if(token){
-      await getCheckout(token)
-    }
-    handleCartLoading(false)
-  }, [])
-
   return {
     cart,
+    order,
+    open,
     loading,
-    getCheckout,
     setOpen,
-    handleCart,
+    getCheckout,
     checkoutCreate,
     checkoutLinesAdd,
     checkoutLinesUpdate,

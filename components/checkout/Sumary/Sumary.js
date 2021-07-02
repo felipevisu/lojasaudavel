@@ -1,4 +1,4 @@
-import { useCommerce } from '../../../framework'
+import { useCart } from '../../../framework/cart'
 import { formatMoney } from '../../utils'
 
 function Line(props){
@@ -25,7 +25,7 @@ function Line(props){
 }
 
 export function Sumary(props){
-  const { cart } = useCommerce()
+  const cart = useCart()
 
   return(
     <div className="bg-gray-100 p-6 rounded border">

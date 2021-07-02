@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react'
 import Media from './Media'
 import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi' 
-import { useCommerce } from '../../../framework'
 import ProductDetails from './ProductDetails'
 import Breadcrumbs from './Breadcrumbs'
 import { VscLoading } from 'react-icons/vsc'
+import { useCart } from '../../../framework/cart'
 
 export function ProductPage({product}){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState(product.variants.filter((vari) => vari.quantityAvailable > 0)[0] || product.variants[0])
   const [quantity, setQuantity] = useState(1)

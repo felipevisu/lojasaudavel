@@ -1,23 +1,25 @@
-import { useCommerce } from '../../../framework'
 import { Sumary } from '../Sumary'
 import { Progress } from '../Progress'
 import { useRouter } from 'next/router'
 import { Loading } from '../../common/loading'
+import { useAuth } from '../../../framework/auth'
+import { useCart } from '../../../framework/cart'
 
 export function CheckoutContainer(props){
   const router = useRouter()
-  const { auth, cart } = useCommerce()
+  const auth = useAuth()
+  const cart = useCart()
 
-  if(auth.authLoading || cart.cartLoading){
+  if(auth.loading || cart.loading){
     return <Loading />
   }
 
-  if(!cart.cartLoading && (cart.cart === null || cart.cart?.lines?.length === 0)){
+  if(!cart.loading && (cart.cart === null || cart.cart?.lines?.length === 0)){
     router.push('/carrinho')
     return <Loading />
   }
   
-  if(!auth.authLoading && auth.user === null){
+  if(!auth.loading && auth.user === null){
     router.push(`/login?next=${router.asPath}`)
     return <Loading />
   }

@@ -4,12 +4,12 @@ import { Lojista } from './Lojista'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Voucher } from '../Voucher'
-import { useCommerce } from '../../../framework'
+import { useCart } from '../../../framework/cart'
 
 export function Payment(props){
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [selected, setSelected] = useState('pagarme')
 
   const handleChange = (e) => {

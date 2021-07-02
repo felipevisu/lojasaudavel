@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react'
-import { useCommerce } from '../../../framework'
+import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { Button } from '../../ui'
 import { VscLoading } from 'react-icons/vsc'
+import { useAuth } from '../../../framework/auth'
+import { useCart } from '../../../framework/cart'
 
 function AddressItem(props){
   return(
@@ -31,7 +32,8 @@ function AddressItem(props){
 
 export function AddressList(props){
   const router = useRouter()
-  const { auth, cart } = useCommerce()
+  const auth = useAuth()
+  const cart = useCart()
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState(null)
 

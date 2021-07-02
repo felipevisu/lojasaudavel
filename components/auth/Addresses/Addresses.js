@@ -1,11 +1,11 @@
-import { useCommerce } from "../../../framework"
 import AddressList from './AddressList'
 import AddressCreate from './AddressCreate'
 import AddressUpdate from './AddressUpdate'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useAuth } from "../../../framework/auth"
 
 export function Addresses(){
-  const { auth } = useCommerce()
+  const auth = useAuth()
   const [active, setActive] = useState('list')
   const [instance, setInstance] = useState(null)
 

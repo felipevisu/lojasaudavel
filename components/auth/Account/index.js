@@ -1,9 +1,9 @@
-import { useCommerce } from '../../../framework'
+import { useAuth } from '../../../framework/auth'
 import ChangeAccount from './ChangeAccount'
 import ChangePassword from './ChangePassword'
 
 export default function Account(props){
-  const { auth } = useCommerce()
+  const auth = useAuth()
 
   return(
     <div>

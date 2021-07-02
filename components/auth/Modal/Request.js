@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react"
-import { useCommerce } from '../../../framework'
+import { useState } from "react"
+import { useAuth } from "../../../framework/auth"
 import { Field, Button } from '../../ui'
 
 export function Request(){
@@ -8,7 +8,7 @@ export function Request(){
   const [loading, setLoading] = useState(false)
   const [success, setSucess] = useState(false)
 
-  const { auth } = useCommerce()
+  const auth = useAuth()
 
   const handleChange = (e) => {
     setEmail(e.target.value)

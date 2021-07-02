@@ -1,5 +1,4 @@
 import { IoMdClose } from 'react-icons/io'
-import { useCommerce } from '../../../framework'
 import { formatMoney } from '../../utils'
 import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi'
 import { useRouter } from 'next/router'
@@ -8,9 +7,10 @@ import styled from './CartBox.module.css'
 import { useState } from 'react'
 import { VscLoading } from 'react-icons/vsc'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { useCart } from '../../../framework/cart'
 
 function Line(props){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [loadingAdd, setLoadingAdd] = useState(false)
   const [loadingUpdate, setLoadingUpdate] = useState(false)
   const [loadingDelete, setLoadingDelete] = useState(false)
@@ -93,7 +93,7 @@ function Line(props){
 }
 
 export function Cart(){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const router = useRouter()
 
   const handleClick = (e) => {

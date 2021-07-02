@@ -1,16 +1,16 @@
-import { useCommerce } from '../../../framework'
 import Menu from '../Menu'
 import { Auth } from "../Modal/Auth"
 import { Loading } from '../../common/loading'
+import { useAuth } from '../../../framework/auth'
 
 export function Container(props){
-  const { auth } = useCommerce()
+  const auth = useAuth()
 
-  if(auth.authLoading){
+  if(auth.loading){
     return <Loading />
   }
 
-  if(!auth.authLoading && auth.user === null){
+  if(!auth.loading && auth.user === null){
     return (
       <div className="w-96 mx-auto p-6 border rounded my-10">
         <Auth />
@@ -18,7 +18,7 @@ export function Container(props){
     )
   }
     
-  if(!auth.authLoading && auth.user !== null){
+  if(!auth.loading && auth.user !== null){
     return(
       <div className="container mx-auto px-4 py-4 lg:py-10">
         <div className="grid grid-cols-8 gap-6 xl:gap-12">

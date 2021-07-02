@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Field, Button } from '../../../ui'
 import { validateDocument, getDocumentType } from '../Pagarme/utils'
-import { useCommerce } from '../../../../framework'
 import { VscLoading } from 'react-icons/vsc'
 import { useRouter } from 'next/router'
+import { useCart } from '../../../../framework/cart'
 
 export function PagarmeBoleto(props){
   const router = useRouter()
 
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [active, setActive] = useState('payment')
   const [paymentErrors, setPaymentErrors] = useState([])
 

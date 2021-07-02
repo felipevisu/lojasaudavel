@@ -3,9 +3,9 @@ import { formatMoney } from '../../utils'
 import { FiShoppingCart, FiEye } from 'react-icons/fi'
 import { Listbox, Transition } from '@headlessui/react'
 import Image from 'next/image'
-import { useCommerce } from "../../../framework"
 import Link from 'next/link'
 import { VscLoading } from 'react-icons/vsc'
+import { useCart } from "../../../framework/cart"
 
 function ProductOptions({selected, onChange, variants}) {
 
@@ -106,7 +106,7 @@ function ProductOptions({selected, onChange, variants}) {
 }
 
 export function ProductCard(props){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [selected, setSelected] = useState(props.variants.filter(variant => variant.quantityAvailable > 0)[0] || props.variants[0])
   const [loading, setLoading] = useState(false)
 

@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { useCommerce } from '../../../framework'
+import { useAuth } from '../../../framework/auth'
 import { AddressForm } from './AddressForm'
 import { AddressList } from './AddressList'
 
 export function Address(props){
-  const { auth } = useCommerce()
+  const auth = useAuth()
   const [active, setActive] = useState(auth.addresses.length > 0 ? 'list' : 'form')
 
   return (

@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { useMemo, useState } from "react"
-import { useCommerce } from "../../../framework"
+import { useState } from "react"
 import { RiArrowDropDownLine } from 'react-icons/ri'
+import { useSite } from "../../../framework"
 
 function getPath(props){
   if(props.category){
@@ -54,9 +54,9 @@ function MenuItem(props){
 }
 
 export function Navbar(){
-  const { menu } = useCommerce()
+  const site = useSite()
 
-  if(!menu){
+  if(!site.menu){
     return null
   }
 
@@ -64,7 +64,7 @@ export function Navbar(){
     <div className="relative border-b border-t hidden lg:block">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center">
-          {menu.items.map((item) => <MenuItem key={item.id} {...item} />)}
+          {site.menu?.items.map((item) => <MenuItem key={item.id} {...item} />)}
         </div>
       </div>
     </div>

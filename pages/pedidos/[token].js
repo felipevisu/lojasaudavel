@@ -3,14 +3,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { orderByTokenQuery } from '../../framework/orders'
-import { formatMoney, formatDate } from '../../components/utils'
-import { useCommerce } from '../../framework';
+import { formatMoney } from '../../components/utils'
+import { useAuth } from '../../framework/auth';
 import Link from 'next/link';
 
 export function Pedidos(props){
   const router = useRouter()
-  const { auth } = useCommerce()
-  const { loading, error, data } = useQuery(orderByTokenQuery, {
+  const auth = useAuth()
+  const { loading, data } = useQuery(orderByTokenQuery, {
     variables: {
       token: router.query.token
     }

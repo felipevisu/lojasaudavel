@@ -45,7 +45,7 @@ export async function getMenu(slug){
   return response
 }
 
-export function useTopMenu(){
+export function useMenu(){
   const [menu, setMenu] = useState(null)
 
   useEffect(() => {
@@ -59,4 +59,4 @@ export function useTopMenu(){
   return menu
 } 
 
-export default useTopMenu
+export default useMenu

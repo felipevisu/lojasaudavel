@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { toast } from 'react-toastify';
 import { initializeApollo } from "../../lib/apolloClient"
+import { AuthContext } from "./context";
 
 import {
   loginMutation,
@@ -20,15 +21,21 @@ import {
 } from './queries'
 
 export function useAuth(){
-  const [user, setUser] = useState(null)
-  const [addresses, setAddresses] = useState([])
-  const [open, setOpen] = useState(false)
-  const [authLoading, setAuthLoading] = useState(true)
+  const {
+    user, 
+    setUser, 
+    addresses, 
+    setAddresses,
+    open,
+    setOpen,
+    loading,
+    setLoading,
+   } = useContext(AuthContext)
 
   const apolloClient = initializeApollo();
 
   const login = async (email, password) => {
-    setAuthLoading(true)
+    setLoading(true)
     const response = await apolloClient.mutate({
       mutation: loginMutation, 
       variables: {email: email, password: password}
@@ -40,7 +47,7 @@ export function useAuth(){
       await getAddresses()
       setOpen(false)
     }
-    setAuthLoading(false)
+    setLoading(false)
     return response
   };
 
@@ -160,7 +167,6 @@ export function useAuth(){
       localStorage.removeItem('token')
       localStorage.removeItem('refreshToken')
     }
-    setAuthLoading(false)
   }
 
   const getAddresses = async () => {
@@ -170,21 +176,13 @@ export function useAuth(){
     }
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if(token){
-      getUser()
-      getAddresses()
-    } else {
-      setAuthLoading(false)
-    }
-  }, [])
-
   return {
     user,
+    setUser,
     addresses,
     open,
-    authLoading,
+    setOpen,
+    loading,
     login,
     accountRegister,
     accountUpdate,
@@ -194,9 +192,7 @@ export function useAuth(){
     accountAddressDelete,
     passwordChange,
     getUser,
-    setUser,
     setPassword,
-    setOpen
   }
 }
 

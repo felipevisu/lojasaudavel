@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Field, Button } from '../../ui'
-import { useCommerce } from '../../../framework'
+import { useCart } from '../../../framework/cart'
 import { formatMoney } from '../../utils'
 
 export function Voucher(){
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [code, setCode] = useState(cart.cart.voucherCode || "")
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState([])

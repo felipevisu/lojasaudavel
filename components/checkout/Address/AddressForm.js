@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react'
-import { useCommerce } from '../../../framework'
+import { useAuth } from '../../../framework/auth';
+import { useCart } from '../../../framework/cart';
 import { Field, Button, Select } from '../../ui'
 
 const initialAddress = {
@@ -23,7 +24,9 @@ function getErrors(errors){
 
 export function AddressForm(props){
   const router = useRouter()
-  const { auth, cart } = useCommerce()
+  const auth = useAuth()
+  const cart = useCart()
+  
   const [fields, setFields] = useState(initialAddress)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)

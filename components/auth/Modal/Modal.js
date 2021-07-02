@@ -1,10 +1,10 @@
-import { useCommerce } from '../../../framework'
 import { FiX } from 'react-icons/fi'
 import { Auth } from './Auth'
+import { useAuth } from '../../../framework/auth'
 
 
 export function Modal(props){
-  const { auth } = useCommerce()
+  const auth = useAuth()
 
   return (
     <div className={` ${auth.open ? 'block' : 'hidden'} fixed z-50 inset-0 overflow-y-auto`} aria-labelledby="modal-title" role="dialog" aria-modal="true">

@@ -1,12 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FiShoppingCart, FiUser, FiMenu, FiLogOut } from "react-icons/fi"
-import { useCommerce } from '../../../framework'
+import { useAuth } from '../../../framework/auth'
+import { useCart } from '../../../framework/cart'
 import { Search } from "./Search"
 
 export function Header(){
 
-  const { auth, cart, logout, setMenuOpen } = useCommerce()
+  const auth = useAuth()
+  const cart = useCart()
 
   return (
     <>

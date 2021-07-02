@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { useCommerce } from '../../../framework'
 import { useFilter } from "../../../framework/filter"
 import { IoMdClose } from 'react-icons/io'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -52,7 +51,7 @@ function Attribute(props){
 }
 
 export function Filter({attributes}){
-  const { filterOpen, setFilterOpen } = useCommerce()
+  const { filterOpen, setFilterOpen } = useSite()
 
   return(
     <>

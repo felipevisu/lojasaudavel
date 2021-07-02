@@ -1,5 +1,4 @@
-import { useCommerce } from '../../../framework'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { formatMoney } from '../../utils'
 import { useRouter } from 'next/router'
 import { Button } from '../../ui'
@@ -7,6 +6,7 @@ import Cookies from 'js-cookie'
 import { checkoutShippingMethodsQuery } from '../../../framework/cart/queries'
 import { useQuery } from '@apollo/client'
 import { VscLoading } from 'react-icons/vsc'
+import { useCart } from '../../../framework/cart'
 
 export function Loading(){
   return(
@@ -22,7 +22,7 @@ export function Loading(){
 
 export function Shipping(props){
   const router = useRouter()
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [selected, setSelected] = useState(cart.cart.shippingMethod?.id)
   const [submitLoading, setSubmitLoading] = useState(false)
   const [errors, setErrors] = useState([])

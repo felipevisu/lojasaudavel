@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { useCommerce } from '../../../../framework'
 import { Field, Button, Select } from '../../../ui'
 import { VscLoading } from 'react-icons/vsc'
 import { useRouter } from 'next/router'
+import { useCart } from '../../../../framework/cart'
 
 export function Lojista(props){
   const router = useRouter()
 
-  const { cart } = useCommerce()
+  const cart = useCart()
   const [method, setMethod] = useState("CREDITCARD")
   const [notes, setNotes] = useState("")
   const [active, setActive] = useState('payment')
