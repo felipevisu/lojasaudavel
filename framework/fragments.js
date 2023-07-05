@@ -1,0 +1,166 @@
+import { gql } from "@apollo/client";
+
+export const addressFragment = gql`
+fragment AddressFragment on Address {
+  id
+  streetAddress1
+  streetAddress2
+  cityArea
+  city
+  countryArea
+  postalCode
+  country{
+    code
+  }
+}
+`
+
+export const ProductFragment = gql`
+  fragment ProductFragment on Product{
+    id
+    name
+    slug
+    category{
+      name
+    }
+    media{
+      id
+      url(size: 300)
+    }
+    productType{
+      hasVariants
+    }
+    defaultVariant{
+      id
+    }
+    pricing{
+      discount{
+        gross{
+          amount
+        }
+      }
+      priceRange{
+        start{
+          gross{
+            amount
+          }
+        }
+        stop{
+          gross{
+            amount
+          }
+        }
+      }
+    }
+    variants{
+      id
+      name
+      quantityAvailable
+      media{
+        id
+      }
+      pricing{
+        priceUndiscounted{
+          gross{
+            amount
+          }
+        }
+        price{
+          gross{
+            amount
+          }
+        }
+      }
+    }
+  }
+`
+
+export const ProductDetailFragment = gql`
+  fragment ProductDetailFragment on Product{
+    id
+    name
+    slug
+    description
+    extraInfos
+    category{
+      name
+      slug
+      parent{
+        name
+        slug
+      }
+    }
+    brand{
+      name
+      slug
+      description
+    }
+    attributes{
+      attribute{
+        name
+      }
+      values{
+        name
+      }
+    }
+    productType{
+      hasVariants
+    }
+    pricing{
+      priceRange{
+        start{
+          gross{
+            amount
+          }
+        }
+        stop{
+          gross{
+            amount
+          }
+        }
+      }
+      priceRangeUndiscounted{
+        start{
+          gross{
+            amount
+          }
+        }
+        stop{
+          gross{
+            amount
+          }
+        }
+      }
+    }
+    defaultVariant{
+      id
+      sku
+    }
+    variants{
+      id
+      sku
+      name
+      quantityAvailable
+      media{
+        id
+      }
+      pricing{
+        price{
+          gross{
+            amount
+          }
+        }
+        priceUndiscounted{
+          gross{
+            amount
+          }
+        }
+      }
+    }
+    media{
+      id
+      alt
+      url
+    }
+  }
+`

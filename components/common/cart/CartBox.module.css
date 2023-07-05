@@ -1,0 +1,16 @@
+.sideBar{
+    width: 90%;
+    max-width: 400px;
+    height: 100vh;
+    height: -webkit-fill-available;
+    z-index: 100;
+    bottom: 0;
+    right: -420px;
+    position: fixed;
+    background :#fff;
+    transition: all ease 300ms;
+}
+
+.open{
+    right: 0px;
+}

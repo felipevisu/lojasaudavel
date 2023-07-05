@@ -1,0 +1,123 @@
+html {
+    overflow-x: hidden;
+    height: -webkit-fill-available;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.htmlContent p{
+    margin-bottom: 16px;
+}
+
+.htmlContent h3{
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.htmlContent ul,
+.htmlContent ol{
+    margin-bottom: 16px;
+}
+
+.htmlContent table{
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+
+.htmlContent td{
+    padding: 3px 6px;
+}
+
+.htmlContent table, 
+.htmlContent th, 
+.htmlContent td{
+    border: 1px solid #e5e7eb;
+}
+
+.htmlContent table p{
+    margin: 0 !important;
+}
+
+.tabMenu{
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    margin-top: 32px;
+}
+
+.tabItem{
+    cursor: pointer;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+.tabItem.active{
+    border-bottom: 3px solid #10b981;
+}
+
+.breadcrumbs{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.breadcrumbsItem{
+    margin-right: 8px;
+}
+
+.breadcrumbsItem a:hover{
+    color: #10b981;
+}
+
+.breadcrumbsItem:after{
+    content: '/';
+    padding-left: 12px;
+}
+
+.breadcrumbsItem:last-child::after{
+    display: none;
+}
+
+.cancel-form{
+    height: 810px;
+}
+
+@media(min-width: 1280px){
+    .cancel-form{
+        height: 732px;
+    }
+}
+
+.suport-form{
+    height: 730px;
+}
+
+@media(min-width: 1280px){
+    .suport-form{
+        height: 650px;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 1024px){
+    .bannersGrid > a:last-child {
+        display: none;
+    }
+    .productGrid > div:last-child {
+        display: none;
+    }
+}
+
+@media(min-width: 1024px) and (max-width: 1280px){
+    .productGrid > div:nth-last-child(2) {
+        display: none;
+    }
+    .productGrid > div:last-child {
+        display: none;
+    }
+}
